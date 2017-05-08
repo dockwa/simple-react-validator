@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple React Validator Example</title>
+
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="dist/simple-react-validator.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    var ReviewForm = React.createClass({
+
+      getInitialState: function() {
+        return ({
+          review: ''
+        })
+      },
+
+      componentWillMount: function() {
+        this.validator = new SimpleReactValidator();
+      },
+
+      submitReview: function() {
+        this.validator.displayErrors();
+        if(this.validator.allValid()){
+          alert('You submitted the form and stuff!');
+        }
+      },
+
+      setReview: function(event) {
+        this.setState({review: event.target.value})
+      },
+
+      render: function() {
+        return (
+          <div className="container card mt-3">
+            <div className="card-block">
+              <h3>Write a Review</h3>
+              <hr />
+              <div className="form-group">
+                <label>Your review</label>
+                <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
+                {this.validator.message('review', this.state.review, 'required|min:20')}
+              </div>
+              <button className="btn btn-primary" onClick={this.submitReview}>Submit</button>
+            </div>
+          </div>
+        );
+      }
+
+    });
+
+    ReactDOM.render(<ReviewForm />, document.getElementById('root'));
+  </script>
+</html>

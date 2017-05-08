@@ -69,8 +69,8 @@ class SimpleReactValidator{
   }
 
   _getOptions(type){
-    parts = type.split(':')[0];
-    return parts.length > 1 ? parts.split(',') : [];
+    var parts = type.split(':');
+    return parts.length > 1 ? parts[1].split(',') : [];
   }
 
   _valueOrEmptyString(value){

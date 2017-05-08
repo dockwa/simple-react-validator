@@ -130,8 +130,8 @@ var SimpleReactValidator = function () {
   }, {
     key: '_getOptions',
     value: function _getOptions(type) {
-      parts = type.split(':')[0];
-      return parts.length > 1 ? parts.split(',') : [];
+      var parts = type.split(':');
+      return parts.length > 1 ? parts[1].split(',') : [];
     }
   }, {
     key: '_valueOrEmptyString',
@@ -152,5 +152,5 @@ var SimpleReactValidator = function () {
 
   return SimpleReactValidator;
 }();
-return Simple_react_validator;
+return SimpleReactValidator;
 }));
