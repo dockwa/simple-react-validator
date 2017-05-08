@@ -21,7 +21,7 @@ var SimpleReactValidator = function () {
     _classCallCheck(this, SimpleReactValidator);
 
     this.fields = [];
-    this.showErrors = false;
+    this.showMessages = false;
     this.rules = {
       'accepted': { message: 'The :attribute must be accepted.', rule: function rule(val) {
           return val === true;
@@ -44,8 +44,10 @@ var SimpleReactValidator = function () {
       'email': { message: 'The :attribute must be a valid email address.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         } },
-      'in': { message: 'The selected :attribute is invalid.', rule: function rule(val, options) {
+      'in': { message: 'The selected :attribute must be :values.', rule: function rule(val, options) {
           return options.indexOf(val) > -1;
+        }, messageReplace: function messageReplace(message, options) {
+          return message.replace(':values', _this._toSentence(options));
         } },
       'integer': { message: 'The :attribute must be an integer.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+$/);
@@ -60,8 +62,10 @@ var SimpleReactValidator = function () {
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':min', options[0]);
         } },
-      'not_in': { message: 'The selected :attribute is invalid.', rule: function rule(val, options) {
+      'not_in': { message: 'The selected :attribute must not be :values.', rule: function rule(val, options) {
           return options.indexOf(val) === -1;
+        }, messageReplace: function messageReplace(message, options) {
+          return message.replace(':values', _this._toSentence(options));
         } },
       'numeric': { message: 'The :attribute must be a number.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+.?\d*$/);
@@ -72,17 +76,16 @@ var SimpleReactValidator = function () {
       'required': { message: 'The :attribute field is required.', rule: function rule(val) {
           return _this._testRegex(val, /.+/);
         } },
-      // 'same'           : {message: 'The :attribute and :other must match.', rule: (val, options) => val == options, messageReplace: (message, options) => message.replace(':min', options[0]) },
       'url': { message: 'The :attribute must be a url.', rule: function rule(val) {
-          return _this._testRegex(val, /^(http[s]?:\/\/)?([A-Z0-9-]+.)?([A-Z0-9-]+.)([A-Z0-9-]+)$/);
+          return _this._testRegex(val, /^(http[s]?:\/\/)?([A-Z0-9-]+.)?([A-Z0-9-]+.)([A-Z0-9-]+)$/i);
         } }
     };
   }
 
   _createClass(SimpleReactValidator, [{
-    key: 'displayErrors',
-    value: function displayErrors(boolean) {
-      this.showErrors = boolean || true;
+    key: 'displayMessages',
+    value: function displayMessages(boolean) {
+      this.showMessages = boolean || true;
     }
 
     // return true if all fields cleared, false if there is a validation error
@@ -102,9 +105,12 @@ var SimpleReactValidator = function () {
 
   }, {
     key: 'customMessage',
-    value: function customMessage(message, customClass) {
+    value: function customMessage(key, message, customClass) {
       if (message) {
+        this.fields[key] = false;
         return this._reactErrorElement(message, customClass);
+      } else {
+        this.fields[key] = true;
       }
     }
   }, {
@@ -121,7 +127,7 @@ var SimpleReactValidator = function () {
         // test if the value passes validation
         if (this.rules[rule].rule(value, options) === false) {
           this.fields[field] = false;
-          if (this.showErrors === true) {
+          if (this.showMessages === true) {
             message = this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
             if (options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
               return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
@@ -150,6 +156,11 @@ var SimpleReactValidator = function () {
     key: '_valueOrEmptyString',
     value: function _valueOrEmptyString(value) {
       return typeof value === 'undefined' || value === null ? '' : value;
+    }
+  }, {
+    key: '_toSentence',
+    value: function _toSentence(arr) {
+      return arr.slice(0, -2).join(', ') + (arr.slice(0, -2).length ? ', ' : '') + arr.slice(-2).join(arr.length > 2 ? ', or ' : ' or ');
     }
   }, {
     key: '_reactErrorElement',

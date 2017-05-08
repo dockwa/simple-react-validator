@@ -1,32 +1,29 @@
 class SimpleReactValidator{
   constructor(){
     this.fields = [];
-    this.showErrors = false;
+    this.showMessages = false;
     this.rules = {
-      'accepted'       : {message: 'The :attribute must be accepted.', rule: (val) => val === true },
-      'alpha'          : {message: 'The :attribute may only contain letters.', rule: (val) => this._testRegex(val,/^[A-Z]*$/i) },
-      'alpha_num'      : {message: 'The :attribute may only contain letters and numbers.', rule: (val) => this._testRegex(val,/^[A-Z0-9]*$/i) },
+      'accepted'       : {message: 'The :attribute must be accepted.',                              rule: (val) => val === true },
+      'alpha'          : {message: 'The :attribute may only contain letters.',                      rule: (val) => this._testRegex(val,/^[A-Z]*$/i) },
+      'alpha_num'      : {message: 'The :attribute may only contain letters and numbers.',          rule: (val) => this._testRegex(val,/^[A-Z0-9]*$/i) },
       'alpha_num_dash' : {message: 'The :attribute may only contain letters, numbers, and dashes.', rule: (val) => this._testRegex(val,/^[A-Z0-9_-]*$/i) },
-      'card_exp'       : {message: 'The :attribute must be a valid expiration date.', rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/) },
-      'card_num'       : {message: 'The :attribute must be a valid credit card number.', rule: (val) => this._testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/) },
-      'email'          : {message: 'The :attribute must be a valid email address.', rule: (val) => this._testRegex(val,/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i) },
-      'in'             : {message: 'The selected :attribute is invalid.', rule: (val, options) => options.indexOf(val) > -1 },
-      'integer'        : {message: 'The :attribute must be an integer.', rule: (val) => this._testRegex(val,/^\d+$/)},
-      'max'            : {message: 'The :attribute may not be greater than :max characters.', rule: (val, options) => val.length <= options[0], messageReplace: (message, options) => message.replace(':max', options[0]) },
-      'min'            : {message: 'The :attribute must be at least :min characters.', rule: (val, options) => val.length >= options[0], messageReplace: (message, options) => message.replace(':min', options[0]) },
-      'not_in'         : {message: 'The selected :attribute is invalid.', rule: (val, options) => options.indexOf(val) === -1 },
-      'numeric'        : {message: 'The :attribute must be a number.', rule: (val) => this._testRegex(val,/^\d+.?\d*$/)},
-      'phone'          : {message: 'The :attribute must be a valid phone number.', rule: (val) => this._testRegex(val,/(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/)},
-      'required'       : {message: 'The :attribute field is required.', rule: (val) => this._testRegex(val,/.+/) },
-      // 'same'           : {message: 'The :attribute and :other must match.', rule: (val, options) => val == options, messageReplace: (message, options) => message.replace(':min', options[0]) },
-      'url'            : {message: 'The :attribute must be a url.', rule: (val) => this._testRegex(val,/^(http[s]?:\/\/)?([A-Z0-9-]+.)?([A-Z0-9-]+.)([A-Z0-9-]+)$/) },
-      // 'required_if'     : {message: 'The :attribute field is required when :other is :value.', rule: (val, options) => options.indexOf(val) > -1 },
-      // 'required_unless' : {message: 'The :attribute field is required unless :other is in :values.', rule: (val, options) => options.indexOf(val) > -1 },
+      'card_exp'       : {message: 'The :attribute must be a valid expiration date.',               rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/) },
+      'card_num'       : {message: 'The :attribute must be a valid credit card number.',            rule: (val) => this._testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/) },
+      'email'          : {message: 'The :attribute must be a valid email address.',                 rule: (val) => this._testRegex(val,/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i) },
+      'in'             : {message: 'The selected :attribute must be :values.',                      rule: (val, options) => options.indexOf(val) > -1, messageReplace: (message, options) => message.replace(':values', this._toSentence(options)) },
+      'integer'        : {message: 'The :attribute must be an integer.',                            rule: (val) => this._testRegex(val,/^\d+$/)},
+      'max'            : {message: 'The :attribute may not be greater than :max characters.',       rule: (val, options) => val.length <= options[0], messageReplace: (message, options) => message.replace(':max', options[0]) },
+      'min'            : {message: 'The :attribute must be at least :min characters.',              rule: (val, options) => val.length >= options[0], messageReplace: (message, options) => message.replace(':min', options[0]) },
+      'not_in'         : {message: 'The selected :attribute must not be :values.',                  rule: (val, options) => options.indexOf(val) === -1, messageReplace: (message, options) => message.replace(':values', this._toSentence(options)) },
+      'numeric'        : {message: 'The :attribute must be a number.',                              rule: (val) => this._testRegex(val,/^\d+.?\d*$/)},
+      'phone'          : {message: 'The :attribute must be a valid phone number.',                  rule: (val) => this._testRegex(val,/(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/)},
+      'required'       : {message: 'The :attribute field is required.',                             rule: (val) => this._testRegex(val,/.+/) },
+      'url'            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(http[s]?:\/\/)?([A-Z0-9-]+.)?([A-Z0-9-]+.)([A-Z0-9-]+)$/i) },
     };
   }
 
-  displayErrors(boolean){
-    this.showErrors = boolean || true;
+  displayMessages(boolean){
+    this.showMessages = boolean || true;
   }
 
   // return true if all fields cleared, false if there is a validation error
@@ -40,9 +37,12 @@ class SimpleReactValidator{
   }
 
   // if a message is present, show an error message
-  customMessage(message, customClass){
+  customMessage(key, message, customClass){
     if( message ){
+      this.fields[key] = false;
       return this._reactErrorElement(message, customClass);
+    } else {
+      this.fields[key] = true;
     }
   }
 
@@ -58,7 +58,7 @@ class SimpleReactValidator{
       // test if the value passes validation
       if(this.rules[rule].rule(value, options) === false){
         this.fields[field] = false;
-        if(this.showErrors === true){
+        if(this.showMessages === true){
           message = this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
           if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
             return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
@@ -82,6 +82,12 @@ class SimpleReactValidator{
 
   _valueOrEmptyString(value){
     return typeof value === 'undefined' || value === null ? '' : value;
+  }
+
+  _toSentence(arr){
+    return arr.slice(0, -2).join(', ') +
+    (arr.slice(0, -2).length ? ', ' : '') +
+    arr.slice(-2).join(arr.length > 2 ? ', or ' : ' or ');
   }
 
   _reactErrorElement(message, customClass){

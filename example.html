@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <style>
       .validation-message{
-        color: red;
+        color: #e64040;
       }
     </style>
   </head>
@@ -31,7 +31,7 @@
       },
 
       submitForm: function() {
-        this.validator.displayErrors();
+        this.validator.displayMessages();
         this.forceUpdate();
         if( this.validator.allValid() ){
           alert('You submitted the form and stuff!');
@@ -52,7 +52,7 @@
 
       render: function() {
         return (
-          <div className="container card mt-3">
+          <div className="container card my-4">
             <div className="card-block">
               <h3>Example Form</h3>
               <small className="text-muted">hit submit to view messages</small>
@@ -129,7 +129,7 @@
               <div className="form-group">
                 <label>not_in</label>
                 <input className="form-control" name="not_in" value={this.state.not_in} onChange={this.setStateFromInput} />
-                {this.validator.message('not_in', this.state.not_in, 'required|not_in:stu,stuart,stuman')}
+                {this.validator.message('not_in', this.state.not_in, 'required|not_in:stu,stuart')}
               </div>
 
               <div className="form-group">
