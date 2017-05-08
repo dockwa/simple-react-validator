@@ -35,11 +35,11 @@ var SimpleReactValidator = function () {
       'alpha_num_dash': { message: 'The :attribute may only contain letters, numbers, and dashes.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9_-]*$/i);
         } },
-      'card_expiration': { message: 'The :attribute must be a valid expiration date.', rule: function rule(val) {
-          return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/);
+      'card_exp': { message: 'The :attribute must be a valid expiration date.', rule: function rule(val) {
+          return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/);
         } },
-      'card_number': { message: 'The :attribute must be a valid credit card number.', rule: function rule(val) {
-          return _this._testRegex(val, /^\d{4}\s{1}\d{4,6}\s{1}\d{4,5}\s?\d{0,8}$/);
+      'card_num': { message: 'The :attribute must be a valid credit card number.', rule: function rule(val) {
+          return _this._testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/);
         } },
       'email': { message: 'The :attribute must be a valid email address.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
@@ -121,7 +121,7 @@ var SimpleReactValidator = function () {
         if (this.rules[rule].rule(value, options) === false) {
           this.fields[field] = false;
           if (this.showErrors === true) {
-            message = this.rules[rule].message.replace(':attribute', field);
+            message = this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
             if (options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
               return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
             } else {

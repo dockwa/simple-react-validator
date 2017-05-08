@@ -20,11 +20,12 @@
     <div id="root"></div>
   </body>
   <script type="text/babel">
-    var ReviewForm = React.createClass({
+    var ExampleForm = React.createClass({
 
       getInitialState: function() {
         return ({
-          review: ''
+          review: '',
+          email:  ''
         })
       },
 
@@ -32,7 +33,7 @@
         this.validator = new SimpleReactValidator();
       },
 
-      submitReview: function() {
+      submitForm: function() {
         this.validator.displayErrors();
         this.forceUpdate();
         if( this.validator.allValid() ){
@@ -40,8 +41,10 @@
         }
       },
 
-      setReview: function(event) {
-        this.setState({review: event.target.value});
+      setStateFromInput: function(event) {
+        var obj = {};
+        obj[event.target.name] = event.target.value;
+        this.setState(obj);
       },
 
       render: function() {
@@ -51,11 +54,26 @@
               <h3>Write a Review</h3>
               <hr />
               <div className="form-group">
-                <label>Your review</label>
-                <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
-                {this.validator.message('review', this.state.review, 'required|in:stu,jack,lyss')}
+                <label>Email</label>
+                <input className="form-control" name="email" value={this.state.email} onChange={this.setStateFromInput} />
+                {this.validator.message('email', this.state.email, 'required|email')}
               </div>
-              <button className="btn btn-primary" onClick={this.submitReview}>Submit</button>
+              <div className="form-group">
+                <label>Card Number</label>
+                <input className="form-control" name="card" value={this.state.card} onChange={this.setStateFromInput} />
+                {this.validator.message('card', this.state.card, 'required|card_num')}
+              </div>
+              <div className="form-group">
+                <label>Card Expiration</label>
+                <input className="form-control" name="card_exp" value={this.state.card_exp} onChange={this.setStateFromInput} />
+                {this.validator.message('card_expiration', this.state.card_exp, 'required|card_exp')}
+              </div>
+              <div className="form-group">
+                <label>Your review</label>
+                <textarea className="form-control" name="review" value={this.state.review} onChange={this.setStateFromInput} />
+                {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
+              </div>
+              <button className="btn btn-primary" onClick={this.submitForm}>Submit</button>
             </div>
           </div>
         );
@@ -63,6 +81,6 @@
 
     });
 
-    ReactDOM.render(<ReviewForm />, document.getElementById('root'));
+    ReactDOM.render(<ExampleForm />, document.getElementById('root'));
   </script>
 </html>
