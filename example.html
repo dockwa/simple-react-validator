@@ -23,10 +23,7 @@
     var ExampleForm = React.createClass({
 
       getInitialState: function() {
-        return ({
-          review: '',
-          email:  ''
-        })
+        return {};
       },
 
       componentWillMount: function() {
@@ -47,32 +44,112 @@
         this.setState(obj);
       },
 
+      setStateFromCheckbox: function(event) {
+        var obj = {};
+        obj[event.target.name] = event.target.checked;
+        this.setState(obj);
+      },
+
       render: function() {
         return (
           <div className="container card mt-3">
             <div className="card-block">
-              <h3>Write a Review</h3>
+              <h3>Example Form</h3>
+              <small className="text-muted">hit submit to view messages</small>
               <hr />
+
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input type="checkbox" name="accepted" className="form-check-input" checked={this.state.accepted} onChange={this.setStateFromCheckbox} />
+                  <span>accepted</span>
+                </label>
+                {this.validator.message('checkbox', this.state.accepted, 'accepted')}
+              </div>
+
               <div className="form-group">
-                <label>Email</label>
+                <label>alpha</label>
+                <input className="form-control" name="alpha" value={this.state.alpha} onChange={this.setStateFromInput} />
+                {this.validator.message('alpha', this.state.alpha, 'required|alpha')}
+              </div>
+
+              <div className="form-group">
+                <label>alpha_num</label>
+                <input className="form-control" name="alpha_num" value={this.state.alpha_num} onChange={this.setStateFromInput} />
+                {this.validator.message('alpha_num', this.state.alpha_num, 'required|alpha_num')}
+              </div>
+
+              <div className="form-group">
+                <label>alpha_num_dash</label>
+                <input className="form-control" name="alpha_num_dash" value={this.state.alpha_num_dash} onChange={this.setStateFromInput} />
+                {this.validator.message('alpha_num_dash', this.state.alpha_num_dash, 'required|alpha_num_dash')}
+              </div>
+
+              <div className="form-group">
+                <label>card_exp</label>
+                <input className="form-control" name="card_exp" value={this.state.card_exp} onChange={this.setStateFromInput} />
+                {this.validator.message('card_exp', this.state.card_exp, 'required|card_exp')}
+              </div>
+
+              <div className="form-group">
+                <label>card_num</label>
+                <input className="form-control" name="card_num" value={this.state.card_num} onChange={this.setStateFromInput} />
+                {this.validator.message('card_num', this.state.card_num, 'required|card_num')}
+              </div>
+
+              <div className="form-group">
+                <label>email</label>
                 <input className="form-control" name="email" value={this.state.email} onChange={this.setStateFromInput} />
                 {this.validator.message('email', this.state.email, 'required|email')}
               </div>
+
               <div className="form-group">
-                <label>Card Number</label>
-                <input className="form-control" name="card" value={this.state.card} onChange={this.setStateFromInput} />
-                {this.validator.message('card', this.state.card, 'required|card_num')}
+                <label>in</label>
+                <input className="form-control" name="in" value={this.state.in} onChange={this.setStateFromInput} />
+                {this.validator.message('in', this.state.in, 'required|in:stu,stuart,stuman')}
               </div>
+
               <div className="form-group">
-                <label>Card Expiration</label>
-                <input className="form-control" name="card_exp" value={this.state.card_exp} onChange={this.setStateFromInput} />
-                {this.validator.message('card_expiration', this.state.card_exp, 'required|card_exp')}
+                <label>integer</label>
+                <input className="form-control" name="integer" value={this.state.integer} onChange={this.setStateFromInput} />
+                {this.validator.message('integer', this.state.integer, 'required|integer')}
               </div>
+
               <div className="form-group">
-                <label>Your review</label>
-                <textarea className="form-control" name="review" value={this.state.review} onChange={this.setStateFromInput} />
-                {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
+                <label>max</label>
+                <input className="form-control" name="max" value={this.state.max} onChange={this.setStateFromInput} />
+                {this.validator.message('max', this.state.max, 'required|max:20')}
               </div>
+
+              <div className="form-group">
+                <label>min</label>
+                <input className="form-control" name="min" value={this.state.min} onChange={this.setStateFromInput} />
+                {this.validator.message('min', this.state.min, 'required|min:20')}
+              </div>
+
+              <div className="form-group">
+                <label>not_in</label>
+                <input className="form-control" name="not_in" value={this.state.not_in} onChange={this.setStateFromInput} />
+                {this.validator.message('not_in', this.state.not_in, 'required|not_in:stu,stuart,stuman')}
+              </div>
+
+              <div className="form-group">
+                <label>numeric</label>
+                <input className="form-control" name="numeric" value={this.state.numeric} onChange={this.setStateFromInput} />
+                {this.validator.message('numeric', this.state.numeric, 'required|numeric:20')}
+              </div>
+
+              <div className="form-group">
+                <label>phone</label>
+                <input className="form-control" name="phone" value={this.state.phone} onChange={this.setStateFromInput} />
+                {this.validator.message('phone', this.state.phone, 'required|phone')}
+              </div>
+
+              <div className="form-group">
+                <label>required</label>
+                <input className="form-control" name="required" value={this.state.required} onChange={this.setStateFromInput} />
+                {this.validator.message('required', this.state.required, 'required')}
+              </div>
+
               <button className="btn btn-primary" onClick={this.submitForm}>Submit</button>
             </div>
           </div>

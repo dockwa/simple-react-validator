@@ -24,7 +24,7 @@ var SimpleReactValidator = function () {
     this.showErrors = false;
     this.rules = {
       'accepted': { message: 'The :attribute must be accepted.', rule: function rule(val) {
-          return val;
+          return val === true;
         } },
       'alpha': { message: 'The :attribute may only contain letters.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z]*$/i);
@@ -66,14 +66,15 @@ var SimpleReactValidator = function () {
       'numeric': { message: 'The :attribute must be a number.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+.?\d*$/);
         } },
+      'phone': { message: 'The :attribute must be a valid phone number.', rule: function rule(val) {
+          return _this._testRegex(val, /(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/);
+        } },
       'required': { message: 'The :attribute field is required.', rule: function rule(val) {
           return _this._testRegex(val, /.+/);
         } },
-      'same': { message: 'The :attribute and :other must match.', rule: function rule(val) {
-          return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/);
-        } },
+      // 'same'           : {message: 'The :attribute and :other must match.', rule: (val, options) => val == options, messageReplace: (message, options) => message.replace(':min', options[0]) },
       'url': { message: 'The :attribute must be a url.', rule: function rule(val) {
-          return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/);
+          return _this._testRegex(val, /^(http[s]?:\/\/)?([A-Z0-9-]+.)?([A-Z0-9-]+.)([A-Z0-9-]+)$/);
         } }
     };
   }

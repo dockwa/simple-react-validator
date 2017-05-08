@@ -3,7 +3,7 @@ class SimpleReactValidator{
     this.fields = [];
     this.showErrors = false;
     this.rules = {
-      'accepted'       : {message: 'The :attribute must be accepted.', rule: (val) => val },
+      'accepted'       : {message: 'The :attribute must be accepted.', rule: (val) => val === true },
       'alpha'          : {message: 'The :attribute may only contain letters.', rule: (val) => this._testRegex(val,/^[A-Z]*$/i) },
       'alpha_num'      : {message: 'The :attribute may only contain letters and numbers.', rule: (val) => this._testRegex(val,/^[A-Z0-9]*$/i) },
       'alpha_num_dash' : {message: 'The :attribute may only contain letters, numbers, and dashes.', rule: (val) => this._testRegex(val,/^[A-Z0-9_-]*$/i) },
@@ -16,9 +16,10 @@ class SimpleReactValidator{
       'min'            : {message: 'The :attribute must be at least :min characters.', rule: (val, options) => val.length >= options[0], messageReplace: (message, options) => message.replace(':min', options[0]) },
       'not_in'         : {message: 'The selected :attribute is invalid.', rule: (val, options) => options.indexOf(val) === -1 },
       'numeric'        : {message: 'The :attribute must be a number.', rule: (val) => this._testRegex(val,/^\d+.?\d*$/)},
+      'phone'          : {message: 'The :attribute must be a valid phone number.', rule: (val) => this._testRegex(val,/(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/)},
       'required'       : {message: 'The :attribute field is required.', rule: (val) => this._testRegex(val,/.+/) },
-      'same'           : {message: 'The :attribute and :other must match.', rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/) },
-      'url'            : {message: 'The :attribute must be a url.', rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/) },
+      // 'same'           : {message: 'The :attribute and :other must match.', rule: (val, options) => val == options, messageReplace: (message, options) => message.replace(':min', options[0]) },
+      'url'            : {message: 'The :attribute must be a url.', rule: (val) => this._testRegex(val,/^(http[s]?:\/\/)?([A-Z0-9-]+.)?([A-Z0-9-]+.)([A-Z0-9-]+)$/) },
       // 'required_if'     : {message: 'The :attribute field is required when :other is :value.', rule: (val, options) => options.indexOf(val) > -1 },
       // 'required_unless' : {message: 'The :attribute field is required unless :other is in :values.', rule: (val, options) => options.indexOf(val) > -1 },
     };
