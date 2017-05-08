@@ -77,7 +77,7 @@ var SimpleReactValidator = function () {
           return _this._testRegex(val, /.+/);
         } },
       'url': { message: 'The :attribute must be a url.', rule: function rule(val) {
-          return _this._testRegex(val, /^(http[s]?:\/\/)?([A-Z0-9-]+.)?([A-Z0-9-]+.)([A-Z0-9-]+)$/i);
+          return _this._testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         } }
     };
   }
