@@ -53,7 +53,7 @@
               <div className="form-group">
                 <label>Your review</label>
                 <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
-                {this.validator.message('review', this.state.review, 'required|min:20')}
+                {this.validator.message('review', this.state.review, 'required|in:stu,jack,lyss')}
               </div>
               <button className="btn btn-primary" onClick={this.submitReview}>Submit</button>
             </div>

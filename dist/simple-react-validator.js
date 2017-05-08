@@ -23,45 +23,59 @@ var SimpleReactValidator = function () {
     this.fields = [];
     this.showErrors = false;
     this.rules = {
-      'required': { message: 'This field is required', rule: function rule(val) {
+      'required': { message: 'The :attribute field is required.', rule: function rule(val) {
           return _this._testRegex(val, /.+/);
         } },
-      'true': { message: 'You must check the check box', rule: function rule(val) {
-          return val === true;
+      'accepted': { message: 'The :attribute must be accepted.', rule: function rule(val) {
+          return val;
         } },
-      'email': { message: 'Please enter a valid email address', rule: function rule(val) {
+      'email': { message: 'The :attribute must be a valid email address.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         } },
-      'number': { message: 'Please enter a number', rule: function rule(val) {
+      'integer': { message: 'The :attribute must be an integer.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+$/);
         } },
-      'float': { message: 'Please enter a number', rule: function rule(val) {
+      'numeric': { message: 'The :attribute must be a number.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+.?\d*$/);
         } },
-      'alpha_num': { message: 'Please enter only letters or numbers', rule: function rule(val) {
+      'alpha': { message: 'The :attribute may only contain letters.', rule: function rule(val) {
+          return _this._testRegex(val, /^[A-Z]*$/i);
+        } },
+      'alpha_num': { message: 'The :attribute may only contain letters and numbers.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9]*$/i);
         } },
-      'alpha_num_under': { message: 'Please enter only letters or numbers', rule: function rule(val) {
-          return _this._testRegex(val, /^[A-Z0-9_]*$/i);
+      'alpha_num_dash': { message: 'The :attribute may only contain letters, numbers, and dashes.', rule: function rule(val) {
+          return _this._testRegex(val, /^[A-Z0-9_-]*$/i);
         } },
-      'same': { message: 'Please enter a valid expiration date', rule: function rule(val) {
+      'in': { message: 'The selected :attribute is invalid.', rule: function rule(val, options) {
+          return options.indexOf(val) > -1;
+        } },
+      'not_in': { message: 'The selected :attribute is invalid.', rule: function rule(val, options) {
+          return options.indexOf(val) === -1;
+        } },
+      // 'required_if'     : {message: 'The :attribute field is required when :other is :value.', rule: (val, options) => options.indexOf(val) > -1 },
+      // 'required_unless' : {message: 'The :attribute field is required unless :other is in :values.', rule: (val, options) => options.indexOf(val) > -1 },
+      'same': { message: 'The :attribute and :other must match.', rule: function rule(val) {
           return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/);
         } },
-      'card_expiration': { message: 'Please enter a valid expiration date', rule: function rule(val) {
+      'url': { message: 'The :attribute must be a url.', rule: function rule(val) {
           return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/);
         } },
-      'card_number': { message: 'Please enter a valid credit card number', rule: function rule(val) {
+      'card_expiration': { message: 'The :attribute must be a valid expiration date.', rule: function rule(val) {
+          return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/);
+        } },
+      'card_number': { message: 'The :attribute must be a valid credit card number.', rule: function rule(val) {
           return _this._testRegex(val, /^\d{4}\s{1}\d{4,6}\s{1}\d{4,5}\s?\d{0,8}$/);
         } },
-      'min': { message: 'Please enter :MIN: or more characters', rule: function rule(val, options) {
+      'min': { message: 'The :attribute must be at least :min characters.', rule: function rule(val, options) {
           return val.length >= options[0];
         }, messageReplace: function messageReplace(message, options) {
-          return message.replace(':MIN:', options[0]);
+          return message.replace(':min', options[0]);
         } },
-      'max': { message: 'Please enter no more than :MAX: characters', rule: function rule(val, options) {
+      'max': { message: 'The :attribute may not be greater than :max characters.', rule: function rule(val, options) {
           return val.length <= options[0];
         }, messageReplace: function messageReplace(message, options) {
-          return message.replace(':MAX:', options[0]);
+          return message.replace(':max', options[0]);
         } }
     };
   }
@@ -99,8 +113,7 @@ var SimpleReactValidator = function () {
     value: function message(field, value, testString, customClass) {
       this.fields[field] = true;
       var tests = testString.split('|');
-      var rule;
-      var options;
+      var rule, options, message;
       for (var i = 0; i < tests.length; i++) {
         // if the validation does not pass the test
         value = this._valueOrEmptyString(value);
@@ -110,10 +123,11 @@ var SimpleReactValidator = function () {
         if (this.rules[rule].rule(value, options) === false) {
           this.fields[field] = false;
           if (this.showErrors === true) {
+            message = this.rules[rule].message.replace(':attribute', field);
             if (options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
-              return this._reactErrorElement(this.rules[rule].messageReplace(this.rules[rule].message, options));
+              return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
             } else {
-              return this._reactErrorElement(this.rules[rule].message, customClass);
+              return this._reactErrorElement(message, customClass);
             }
           }
         }
