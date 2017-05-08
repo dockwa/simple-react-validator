@@ -56,12 +56,12 @@ var SimpleReactValidator = function () {
       'min': { message: 'Please enter :MIN: or more characters', rule: function rule(val, options) {
           return val.length >= options[0];
         }, messageReplace: function messageReplace(message, options) {
-          return message.replace(':MIN:', args[0]);
+          return message.replace(':MIN:', options[0]);
         } },
       'max': { message: 'Please enter no more than :MAX: characters', rule: function rule(val, options) {
           return val.length <= options[0];
         }, messageReplace: function messageReplace(message, options) {
-          return message.replace(':MAX:', args[0]);
+          return message.replace(':MAX:', options[0]);
         } }
     };
   }
@@ -110,7 +110,7 @@ var SimpleReactValidator = function () {
         if (this.rules[rule].rule(value, options) === false) {
           this.fields[field] = false;
           if (this.showErrors === true) {
-            if (options.length > 1 && this.rules[rule].hasOwnProperty('messageReplace')) {
+            if (options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
               return this._reactErrorElement(this.rules[rule].messageReplace(this.rules[rule].message, options));
             } else {
               return this._reactErrorElement(this.rules[rule].message, customClass);
@@ -141,7 +141,7 @@ var SimpleReactValidator = function () {
   }, {
     key: '_reactErrorElement',
     value: function _reactErrorElement(message, customClass) {
-      return React.createElement('div', { className: customClass || 'error-message' }, message);
+      return React.createElement('div', { className: customClass || 'validation-message' }, message);
     }
   }, {
     key: '_testRegex',

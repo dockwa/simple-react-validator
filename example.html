@@ -9,7 +9,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <script src="dist/simple-react-validator.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <style>
+      .validation-message{
+        color: red;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
@@ -29,13 +34,14 @@
 
       submitReview: function() {
         this.validator.displayErrors();
-        if(this.validator.allValid()){
+        this.forceUpdate();
+        if( this.validator.allValid() ){
           alert('You submitted the form and stuff!');
         }
       },
 
       setReview: function(event) {
-        this.setState({review: event.target.value})
+        this.setState({review: event.target.value});
       },
 
       render: function() {

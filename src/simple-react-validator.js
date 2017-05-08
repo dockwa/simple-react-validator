@@ -13,8 +13,8 @@ class SimpleReactValidator{
       'same'             : {message: 'Please enter a valid expiration date', rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/) },
       'card_expiration'  : {message: 'Please enter a valid expiration date', rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?\d{2}$/) },
       'card_number'      : {message: 'Please enter a valid credit card number', rule: (val) => this._testRegex(val,/^\d{4}\s{1}\d{4,6}\s{1}\d{4,5}\s?\d{0,8}$/) },
-      'min'              : {message: 'Please enter :MIN: or more characters', rule: (val, options) => val.length >= options[0], messageReplace: (message, options) => message.replace(':MIN:', args[0]) },
-      'max'              : {message: 'Please enter no more than :MAX: characters', rule: (val, options) => val.length <= options[0], messageReplace: (message, options) => message.replace(':MAX:', args[0]) },
+      'min'              : {message: 'Please enter :MIN: or more characters', rule: (val, options) => val.length >= options[0], messageReplace: (message, options) => message.replace(':MIN:', options[0]) },
+      'max'              : {message: 'Please enter no more than :MAX: characters', rule: (val, options) => val.length <= options[0], messageReplace: (message, options) => message.replace(':MAX:', options[0]) },
     };
   }
 
@@ -53,7 +53,7 @@ class SimpleReactValidator{
       if(this.rules[rule].rule(value, options) === false){
         this.fields[field] = false;
         if(this.showErrors === true){
-          if(options.length > 1 && this.rules[rule].hasOwnProperty('messageReplace')){
+          if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
             return this._reactErrorElement(this.rules[rule].messageReplace(this.rules[rule].message, options));
           } else {
             return this._reactErrorElement(this.rules[rule].message, customClass);
@@ -78,7 +78,7 @@ class SimpleReactValidator{
   }
 
   _reactErrorElement(message, customClass){
-    return React.createElement('div', {className: customClass || 'error-message'}, message);
+    return React.createElement('div', {className: customClass || 'validation-message'}, message);
   }
 
   _testRegex(value, regex){
