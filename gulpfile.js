@@ -11,12 +11,12 @@ var gutil = require('gulp-util');
 
 // JS concat, strip debugging and minify
 gulp.task('build', function() {
-  gulp.src('./src/simple-react-validator.js')
+  gulp.src('./src/simple_react_validator.js')
   .pipe(babel({
     presets: ['es2015']
   }))
   .pipe(umd({
-    exports: function() {
+    namespace: function() {
       return 'SimpleReactValidator';
     },
     dependencies: function() {
