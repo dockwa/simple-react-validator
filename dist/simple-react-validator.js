@@ -21,7 +21,7 @@ var SimpleReactValidator = function () {
     _classCallCheck(this, SimpleReactValidator);
 
     this.fields = [];
-    this.showMessages = false;
+    this.messagesShown = false;
     this.rules = {
       'accepted': { message: 'The :attribute must be accepted.', rule: function rule(val) {
           return val === true;
@@ -44,6 +44,16 @@ var SimpleReactValidator = function () {
       'email': { message: 'The :attribute must be a valid email address.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         } },
+      'gt': { message: 'The :attribute must be greater than :gt.', rule: function rule(val, options) {
+          return _this._testRegex(val, /^\d+.?\d*$/) ? val > options[0] : false;
+        }, messageReplace: function messageReplace(message, options) {
+          return message.replace(':gt', options[0]);
+        } },
+      'gte': { message: 'The :attribute must be greater than or equal to :gt.', rule: function rule(val, options) {
+          return _this._testRegex(val, /^\d+.?\d*$/) ? val >= options[0] : false;
+        }, messageReplace: function messageReplace(message, options) {
+          return message.replace(':gte', options[0]);
+        } },
       'in': { message: 'The selected :attribute must be :values.', rule: function rule(val, options) {
           return options.indexOf(val) > -1;
         }, messageReplace: function messageReplace(message, options) {
@@ -51,6 +61,16 @@ var SimpleReactValidator = function () {
         } },
       'integer': { message: 'The :attribute must be an integer.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+$/);
+        } },
+      'lt': { message: 'The :attribute must be less than :gt.', rule: function rule(val, options) {
+          return _this._testRegex(val, /^\d+.?\d*$/) ? val < options[0] : false;
+        }, messageReplace: function messageReplace(message, options) {
+          return message.replace(':lt', options[0]);
+        } },
+      'lte': { message: 'The :attribute must be less than or equal to :gt.', rule: function rule(val, options) {
+          return _this._testRegex(val, /^\d+.?\d*$/) ? val <= options[0] : false;
+        }, messageReplace: function messageReplace(message, options) {
+          return message.replace(':lte', options[0]);
         } },
       'max': { message: 'The :attribute may not be greater than :max characters.', rule: function rule(val, options) {
           return val.length <= options[0];
@@ -83,9 +103,14 @@ var SimpleReactValidator = function () {
   }
 
   _createClass(SimpleReactValidator, [{
-    key: 'displayMessages',
-    value: function displayMessages(boolean) {
-      this.showMessages = boolean || true;
+    key: 'showMessages',
+    value: function showMessages() {
+      this.messagesShown = true;
+    }
+  }, {
+    key: 'hideMessages',
+    value: function hideMessages() {
+      this.messagesShown = true;
     }
 
     // return true if all fields cleared, false if there is a validation error
@@ -105,12 +130,9 @@ var SimpleReactValidator = function () {
 
   }, {
     key: 'customMessage',
-    value: function customMessage(key, message, customClass) {
-      if (message) {
-        this.fields[key] = false;
+    value: function customMessage(message, customClass) {
+      if (message && this.messagesShown) {
         return this._reactErrorElement(message, customClass);
-      } else {
-        this.fields[key] = true;
       }
     }
   }, {
@@ -127,7 +149,7 @@ var SimpleReactValidator = function () {
         // test if the value passes validation
         if (this.rules[rule].rule(value, options) === false) {
           this.fields[field] = false;
-          if (this.showMessages === true) {
+          if (this.messagesShown) {
             message = this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
             if (options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
               return this._reactErrorElement(this.rules[rule].messageReplace(message, options));

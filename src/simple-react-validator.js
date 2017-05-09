@@ -1,7 +1,7 @@
 class SimpleReactValidator{
   constructor(){
     this.fields = [];
-    this.showMessages = false;
+    this.messagesShown = false;
     this.rules = {
       'accepted'       : {message: 'The :attribute must be accepted.',                              rule: (val) => val === true },
       'alpha'          : {message: 'The :attribute may only contain letters.',                      rule: (val) => this._testRegex(val,/^[A-Z]*$/i) },
@@ -10,8 +10,12 @@ class SimpleReactValidator{
       'card_exp'       : {message: 'The :attribute must be a valid expiration date.',               rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/) },
       'card_num'       : {message: 'The :attribute must be a valid credit card number.',            rule: (val) => this._testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/) },
       'email'          : {message: 'The :attribute must be a valid email address.',                 rule: (val) => this._testRegex(val,/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i) },
+      'gt'             : {message: 'The :attribute must be greater than :gt.',                      rule: (val, options) => this._testRegex(val,/^\d+.?\d*$/) ? val > options[0] : false, messageReplace: (message, options) => message.replace(':gt', options[0]) },
+      'gte'            : {message: 'The :attribute must be greater than or equal to :gt.',          rule: (val, options) => this._testRegex(val,/^\d+.?\d*$/) ? val >= options[0] : false, messageReplace: (message, options) => message.replace(':gte', options[0]) },
       'in'             : {message: 'The selected :attribute must be :values.',                      rule: (val, options) => options.indexOf(val) > -1, messageReplace: (message, options) => message.replace(':values', this._toSentence(options)) },
       'integer'        : {message: 'The :attribute must be an integer.',                            rule: (val) => this._testRegex(val,/^\d+$/)},
+      'lt'             : {message: 'The :attribute must be less than :gt.',                         rule: (val, options) => this._testRegex(val,/^\d+.?\d*$/) ? val < options[0] : false, messageReplace: (message, options) => message.replace(':lt', options[0]) },
+      'lte'            : {message: 'The :attribute must be less than or equal to :gt.',             rule: (val, options) => this._testRegex(val,/^\d+.?\d*$/) ? val <= options[0] : false, messageReplace: (message, options) => message.replace(':lte', options[0]) },
       'max'            : {message: 'The :attribute may not be greater than :max characters.',       rule: (val, options) => val.length <= options[0], messageReplace: (message, options) => message.replace(':max', options[0]) },
       'min'            : {message: 'The :attribute must be at least :min characters.',              rule: (val, options) => val.length >= options[0], messageReplace: (message, options) => message.replace(':min', options[0]) },
       'not_in'         : {message: 'The selected :attribute must not be :values.',                  rule: (val, options) => options.indexOf(val) === -1, messageReplace: (message, options) => message.replace(':values', this._toSentence(options)) },
@@ -22,8 +26,12 @@ class SimpleReactValidator{
     };
   }
 
-  displayMessages(boolean){
-    this.showMessages = boolean || true;
+  showMessages(){
+    this.messagesShown = true;
+  }
+
+  hideMessages(){
+    this.messagesShown = true;
   }
 
   // return true if all fields cleared, false if there is a validation error
@@ -37,12 +45,9 @@ class SimpleReactValidator{
   }
 
   // if a message is present, show an error message
-  customMessage(key, message, customClass){
-    if( message ){
-      this.fields[key] = false;
+  customMessage(message, customClass){
+    if( message && this.messagesShown){
       return this._reactErrorElement(message, customClass);
-    } else {
-      this.fields[key] = true;
     }
   }
 
@@ -58,7 +63,7 @@ class SimpleReactValidator{
       // test if the value passes validation
       if(this.rules[rule].rule(value, options) === false){
         this.fields[field] = false;
-        if(this.showMessages === true){
+        if(this.messagesShown){
           message = this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
           if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
             return this._reactErrorElement(this.rules[rule].messageReplace(message, options));

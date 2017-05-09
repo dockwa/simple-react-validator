@@ -9,10 +9,11 @@
   },
 
   submitForm: function() {
-    this.validator.displayMessages();
-    this.forceUpdate();
     if( this.validator.allValid() ){
       alert('You submitted the form and stuff!');
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
     }
   },
 
@@ -81,6 +82,18 @@
           </div>
 
           <div className="form-group">
+            <label>gt</label>
+            <input className="form-control" name="gt" value={this.state.gt} onChange={this.setStateFromInput} />
+            {this.validator.message('gt', this.state.gt, 'required|gt:30')}
+          </div>
+
+          <div className="form-group">
+            <label>gte</label>
+            <input className="form-control" name="gte" value={this.state.gte} onChange={this.setStateFromInput} />
+            {this.validator.message('gte', this.state.gte, 'required|gte:30')}
+          </div>
+
+          <div className="form-group">
             <label>in</label>
             <input className="form-control" name="in" value={this.state.in} onChange={this.setStateFromInput} />
             {this.validator.message('in', this.state.in, 'required|in:stu,stuart,stuman')}
@@ -90,6 +103,18 @@
             <label>integer</label>
             <input className="form-control" name="integer" value={this.state.integer} onChange={this.setStateFromInput} />
             {this.validator.message('integer', this.state.integer, 'required|integer')}
+          </div>
+
+          <div className="form-group">
+            <label>lt</label>
+            <input className="form-control" name="lt" value={this.state.lt} onChange={this.setStateFromInput} />
+            {this.validator.message('lt', this.state.lt, 'required|lt:30')}
+          </div>
+
+          <div className="form-group">
+            <label>lte</label>
+            <input className="form-control" name="lte" value={this.state.lte} onChange={this.setStateFromInput} />
+            {this.validator.message('lte', this.state.lte, 'required|lte:30')}
           </div>
 
           <div className="form-group">
@@ -133,7 +158,6 @@
       </div>
     );
   }
-
 });
 
 ReactDOM.render(<ExampleForm />, document.getElementById('root'));
