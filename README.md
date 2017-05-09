@@ -66,7 +66,7 @@ submitForm: function() {
   if( this.validator.allValid() ){
     alert('You submitted the form and stuff!');
   } else {
-    this.validator.displayMessages();
+    this.validator.showMessages();
     // rerender to show messages for the first time
     this.forceUpdate();
   }
