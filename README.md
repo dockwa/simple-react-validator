@@ -85,7 +85,7 @@ This is the list of all the rules you can validate form inputs against. When usi
 |card_exp      |             | Must have only a valid credit card expiration date.      |
 |card_num      |             | Must have only a valid credit card number.               |
 |email         |             | Must have only a valid email address.                    |
-|in            |stuart,chris | Must be one of the provided options.                     |
+|in            |stu,chris,hi | Must be one of the provided options.                     |
 |integer       |             | Must have only an integer.                               |
 |max           |120          | Must have less than X number of character.               |
 |min           |40           | Must have more than X number of characters.              |
