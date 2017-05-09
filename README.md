@@ -13,13 +13,13 @@ Open the `example/index.html` file for more usuage examples of the library.
 1. Initialize the validator.
 
 es5
-```Javascript
+```javascript
 componentWillMount: function() {
   this.validator = new SimpleReactValidator();
 },
 ```
 es6
-```Javascript
+```javascript
 constructor() {
   this.validator = new SimpleReactValidator();
 }
@@ -31,7 +31,7 @@ constructor() {
 - **rules string**, which is a pipe seperated list of rules to apply to the string.
 - **optional class name**, which is the class applied to the div that wraps the message, default is 'validation-message'.
 
-```Javascript
+```javascript
 render: function() {
   return (
     <div className="container">
@@ -51,8 +51,22 @@ render: function() {
         <textarea className="form-control" value={this.state.min} onChange={this.setReview} />
         {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
       </div>
+      <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
     </div>
   );
+},
+```
+
+3. Turn on messaging when submiting and check if the validation passes. Once messaging is turned on, validation messages will change and update as the user types.
+```Javascript
+submitForm: function() {
+  if( this.validator.allValid() ){
+    alert('You submitted the form and stuff!');
+  } else {
+    this.validator.displayMessages();
+    // rerender to show messages for the first time
+    this.forceUpdate();
+  }
 },
 ```
 
