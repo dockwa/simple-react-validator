@@ -9,6 +9,16 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
 ## Usage
 Open the `example/index.html` file for more usuage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
 
+**npm**
+```
+npm install simple-react-validator --save
+```
+
+**bower**
+```
+bower install simple-react-validator --save
+```
+
 #### 3 Easy Steps
 1. Initialize the validator.
 
