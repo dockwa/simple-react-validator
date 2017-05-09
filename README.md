@@ -39,16 +39,19 @@ render: function() {
       <div className="form-group">
         <label>Title</label>
         <input className="form-control" value={this.state.title} onChange={this.setTitle} />
+        {/*   This is where the magic happens     */}
         {this.validator.message('title', this.state.title, 'required|alpha')}
       </div>
       <div className="form-group">
         <label>Email</label>
         <input className="form-control" value={this.state.email} onChange={this.setEmail} />
+        {/*   This is where the magic happens     */}
         {this.validator.message('email', this.state.email, 'required|email', 'text-danger')}
       </div>
       <div className="form-group">
         <label>Review</label>
         <textarea className="form-control" value={this.state.min} onChange={this.setReview} />
+        {/*   This is where the magic happens     */}
         {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
       </div>
       <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
@@ -57,8 +60,8 @@ render: function() {
 },
 ```
 
-3. Turn on messaging when submiting and check if the validation passes. Once messaging is turned on, validation messages will change and update as the user types.
-```Javascript
+3. Check if the validation passes when submiting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
+```javascript
 submitForm: function() {
   if( this.validator.allValid() ){
     alert('You submitted the form and stuff!');
