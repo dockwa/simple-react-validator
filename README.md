@@ -7,7 +7,7 @@ A simple react form validator inspired by Laravel validation.
 Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimul configuration and felt nautural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
 ## Usage
-Open the `example/index.html` file for more usuage examples of the library.
+Open the `example/index.html` file for more usuage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
 
 #### 3 Easy Steps
 1. Initialize the validator.
