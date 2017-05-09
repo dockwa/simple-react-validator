@@ -7,7 +7,51 @@ A simple react form validator inspired by Laravel validation.
 Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimul configuration and felt nautural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
 ## Usage
-Open the `example.html` file for more usuage examples of the library.
+Open the `example/index.html` file for more usuage examples of the library.
+
+#### 3 Easy Steps
+1. Initialize the validator.
+
+es5
+```Javascript
+componentWillMount: function() {
+  this.validator = new SimpleReactValidator();
+},
+```
+es6
+```Javascript
+constructor() {
+  this.validator = new SimpleReactValidator();
+}
+```
+
+2. Add validation rules under inputs.
+
+```Javascript
+render: function() {
+  return (
+    <div className="container">
+      <h1>Write a Review</h1>
+      <div className="form-group">
+        <label>Title</label>
+        <input className="form-control" value={this.state.title} onChange={this.setTitle} />
+        {this.validator.message('title', this.state.title, 'required|alpha')}
+      </div>
+      <div className="form-group">
+        <label>Email</label>
+        <input className="form-control" value={this.state.email} onChange={this.setEmail} />
+        {this.validator.message('email', this.state.email, 'required|email')}
+      </div>
+      <div className="form-group">
+        <label>Review</label>
+        <textarea className="form-control" value={this.state.min} onChange={this.setReview} />
+        {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
+      </div>
+    </div>
+  );
+},
+```
+es6
 
 ## Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, seperate them with a pipe `|`. When adding options, append a colon to the rule and seperate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
