@@ -1,0 +1,25 @@
+{
+  "name": "simple-react-validator",
+  "description": "A simple react form validator inspired by Laravel validation.",
+  "main": "dist/simple-react-validator.min.js",
+  "version": "0.0.1",
+  "authors": [
+    "Stuart Yamartino"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "validator",
+    "form",
+    "form-validator",
+    "simple-react-validator"
+  ],
+  "homepage": "https://github.com/stuyam/simple-react-validator",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
