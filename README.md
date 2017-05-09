@@ -25,7 +25,11 @@ constructor() {
 }
 ```
 
-2. Add validation rules under inputs.
+2. Add validation rules under inputs. The `message` method accepts 4 arguments:
+- **field name**, which is an underscored string that gets replaced in the messaging as the name of the field.
+- **value**, which is usually the state of the current field.
+- **rules string**, which is a pipe seperated list of rules to apply to the string.
+- **optional class name**, which is the class applied to the div that wraps the message, default is 'validation-message'.
 
 ```Javascript
 render: function() {
@@ -40,7 +44,7 @@ render: function() {
       <div className="form-group">
         <label>Email</label>
         <input className="form-control" value={this.state.email} onChange={this.setEmail} />
-        {this.validator.message('email', this.state.email, 'required|email')}
+        {this.validator.message('email', this.state.email, 'required|email', 'text-danger')}
       </div>
       <div className="form-group">
         <label>Review</label>
@@ -51,7 +55,6 @@ render: function() {
   );
 },
 ```
-es6
 
 ## Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, seperate them with a pipe `|`. When adding options, append a colon to the rule and seperate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
