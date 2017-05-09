@@ -45,12 +45,12 @@ var SimpleReactValidator = function () {
           return _this._testRegex(val, /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         } },
       'gt': { message: 'The :attribute must be greater than :gt.', rule: function rule(val, options) {
-          return _this._testRegex(val, /^\d+.?\d*$/) ? val > options[0] : false;
+          return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) > parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':gt', options[0]);
         } },
       'gte': { message: 'The :attribute must be greater than or equal to :gt.', rule: function rule(val, options) {
-          return _this._testRegex(val, /^\d+.?\d*$/) ? val >= options[0] : false;
+          return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) >= parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':gte', options[0]);
         } },
@@ -63,12 +63,12 @@ var SimpleReactValidator = function () {
           return _this._testRegex(val, /^\d+$/);
         } },
       'lt': { message: 'The :attribute must be less than :gt.', rule: function rule(val, options) {
-          return _this._testRegex(val, /^\d+.?\d*$/) ? val < options[0] : false;
+          return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) < parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':lt', options[0]);
         } },
       'lte': { message: 'The :attribute must be less than or equal to :gt.', rule: function rule(val, options) {
-          return _this._testRegex(val, /^\d+.?\d*$/) ? val <= options[0] : false;
+          return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) <= parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':lte', options[0]);
         } },
