@@ -49,7 +49,7 @@ var SimpleReactValidator = function () {
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':gt', options[0]);
         } },
-      'gte': { message: 'The :attribute must be greater than or equal to :gt.', rule: function rule(val, options) {
+      'gte': { message: 'The :attribute must be greater than or equal to :gte.', rule: function rule(val, options) {
           return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) >= parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':gte', options[0]);
@@ -62,12 +62,12 @@ var SimpleReactValidator = function () {
       'integer': { message: 'The :attribute must be an integer.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+$/);
         } },
-      'lt': { message: 'The :attribute must be less than :gt.', rule: function rule(val, options) {
+      'lt': { message: 'The :attribute must be less than :lt.', rule: function rule(val, options) {
           return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) < parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':lt', options[0]);
         } },
-      'lte': { message: 'The :attribute must be less than or equal to :gt.', rule: function rule(val, options) {
+      'lte': { message: 'The :attribute must be less than or equal to :lte.', rule: function rule(val, options) {
           return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) <= parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':lte', options[0]);
