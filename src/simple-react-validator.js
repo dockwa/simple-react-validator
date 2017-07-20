@@ -64,7 +64,8 @@ class SimpleReactValidator{
       if(this.rules[rule].rule(value, options) === false){
         this.fields[field] = false;
         if(this.messagesShown){
-          message = this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
+          var re = /_/g;
+          message = this.rules[rule].message.replace(':attribute', field.replace(re, ' '));
           if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
             return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
           } else {
