@@ -138,6 +138,8 @@ var SimpleReactValidator = function () {
   }, {
     key: 'message',
     value: function message(field, value, testString, customClass) {
+      var customErrors = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+
       this.fields[field] = true;
       var tests = testString.split('|');
       var rule, options, message;
@@ -151,7 +153,7 @@ var SimpleReactValidator = function () {
           this.fields[field] = false;
           if (this.messagesShown) {
             var re = /_/g;
-            message = this.rules[rule].message.replace(':attribute', field.replace(re, ' '));
+            message = customErrors[rule] || this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
             if (options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
               return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
             } else {
