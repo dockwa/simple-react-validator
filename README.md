@@ -35,11 +35,12 @@ constructor() {
 }
 ```
 
-2. Add validation rules under inputs. The `message` method accepts 4 arguments:
+2. Add validation rules under inputs. The `message` method accepts 5 arguments:
 - **field name**, which is an underscored string that gets replaced in the messaging as the name of the field.
 - **value**, which is usually the state of the current field.
 - **rules string**, which is a pipe seperated list of rules to apply to the string.
 - **optional class name**, which is the class applied to the div that wraps the message, default is 'validation-message'.
+- **optional custom error messages**, these will override the normal error messages.
 
 ```javascript
 render: function() {
@@ -62,7 +63,7 @@ render: function() {
         <label>Review</label>
         <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
         {/*   This is where the magic happens     */}
-        {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
+        {this.validator.message('review', this.state.review, 'required|min:20|max:120', false, {min: 'Custom min error'})}
       </div>
       <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
     </div>
