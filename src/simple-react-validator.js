@@ -31,7 +31,7 @@ class SimpleReactValidator{
   }
 
   hideMessages(){
-    this.messagesShown = true;
+    this.messagesShown = false;
   }
 
   // return true if all fields cleared, false if there is a validation error
@@ -64,8 +64,7 @@ class SimpleReactValidator{
       if(this.rules[rule].rule(value, options) === false){
         this.fields[field] = false;
         if(this.messagesShown){
-          var re = /_/g;
-          message = customErrors[rule] || this.rules[rule].message.replace(':attribute', field.replace('_', ' '));
+          message = customErrors[rule] || this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
           if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
             return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
           } else {
