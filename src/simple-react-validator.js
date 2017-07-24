@@ -1,5 +1,5 @@
 class SimpleReactValidator{
-  constructor(){
+  constructor(customRules = {}){
     this.fields = [];
     this.messagesShown = false;
     this.rules = {
@@ -23,6 +23,7 @@ class SimpleReactValidator{
       'phone'          : {message: 'The :attribute must be a valid phone number.',                  rule: (val) => this._testRegex(val,/(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/)},
       'required'       : {message: 'The :attribute field is required.',                             rule: (val) => this._testRegex(val,/.+/) },
       'url'            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i) },
+      ...customRules,
     };
   }
 
