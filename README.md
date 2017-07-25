@@ -120,9 +120,9 @@ Example:
 ```javascript
 constructor() {
   this.validator = new SimpleReactValidator({
-    'ip' : {
-      message: 'The :attribute must be a valid IP address.',
-      rule: function(val, options)){
+    ip: { //name the rule
+      message: 'The :attribute must be a valid IP address.', //give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
+      rule: function(val, options)){ //return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
         // check that it is a valid IP address and is not blacklisted
         this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
       }
@@ -142,7 +142,7 @@ render: function() {
         <label>IP Address</label>
         <input className="form-control" value={this.state.ip} onChange={this.setIP} />
         {/*   This is where the magic happens     */}
-        {this.validator.message('ip_address', this.state.ip, 'required|ip')}
+        {this.validator.message('ip_address', this.state.ip, 'required|ip:127.0.0.1')}
       </div>
       ...
     </div>

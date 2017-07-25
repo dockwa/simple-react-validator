@@ -27,80 +27,80 @@ var SimpleReactValidator = function () {
     this.fields = [];
     this.messagesShown = false;
     this.rules = _extends({
-      'accepted': { message: 'The :attribute must be accepted.', rule: function rule(val) {
+      accepted: { message: 'The :attribute must be accepted.', rule: function rule(val) {
           return val === true;
         } },
-      'alpha': { message: 'The :attribute may only contain letters.', rule: function rule(val) {
+      alpha: { message: 'The :attribute may only contain letters.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z]*$/i);
         } },
-      'alpha_num': { message: 'The :attribute may only contain letters and numbers.', rule: function rule(val) {
+      alpha_num: { message: 'The :attribute may only contain letters and numbers.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9]*$/i);
         } },
-      'alpha_num_dash': { message: 'The :attribute may only contain letters, numbers, and dashes.', rule: function rule(val) {
+      alpha_num_dash: { message: 'The :attribute may only contain letters, numbers, and dashes.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9_-]*$/i);
         } },
-      'card_exp': { message: 'The :attribute must be a valid expiration date.', rule: function rule(val) {
+      card_exp: { message: 'The :attribute must be a valid expiration date.', rule: function rule(val) {
           return _this._testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/);
         } },
-      'card_num': { message: 'The :attribute must be a valid credit card number.', rule: function rule(val) {
+      card_num: { message: 'The :attribute must be a valid credit card number.', rule: function rule(val) {
           return _this._testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/);
         } },
-      'email': { message: 'The :attribute must be a valid email address.', rule: function rule(val) {
+      email: { message: 'The :attribute must be a valid email address.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         } },
-      'gt': { message: 'The :attribute must be greater than :gt.', rule: function rule(val, options) {
+      gt: { message: 'The :attribute must be greater than :gt.', rule: function rule(val, options) {
           return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) > parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':gt', options[0]);
         } },
-      'gte': { message: 'The :attribute must be greater than or equal to :gte.', rule: function rule(val, options) {
+      gte: { message: 'The :attribute must be greater than or equal to :gte.', rule: function rule(val, options) {
           return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) >= parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':gte', options[0]);
         } },
-      'in': { message: 'The selected :attribute must be :values.', rule: function rule(val, options) {
+      in: { message: 'The selected :attribute must be :values.', rule: function rule(val, options) {
           return options.indexOf(val) > -1;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':values', _this._toSentence(options));
         } },
-      'integer': { message: 'The :attribute must be an integer.', rule: function rule(val) {
+      integer: { message: 'The :attribute must be an integer.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+$/);
         } },
-      'lt': { message: 'The :attribute must be less than :lt.', rule: function rule(val, options) {
+      lt: { message: 'The :attribute must be less than :lt.', rule: function rule(val, options) {
           return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) < parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':lt', options[0]);
         } },
-      'lte': { message: 'The :attribute must be less than or equal to :lte.', rule: function rule(val, options) {
+      lte: { message: 'The :attribute must be less than or equal to :lte.', rule: function rule(val, options) {
           return _this._testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) <= parseFloat(options[0]) : false;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':lte', options[0]);
         } },
-      'max': { message: 'The :attribute may not be greater than :max characters.', rule: function rule(val, options) {
+      max: { message: 'The :attribute may not be greater than :max characters.', rule: function rule(val, options) {
           return val.length <= options[0];
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':max', options[0]);
         } },
-      'min': { message: 'The :attribute must be at least :min characters.', rule: function rule(val, options) {
+      min: { message: 'The :attribute must be at least :min characters.', rule: function rule(val, options) {
           return val.length >= options[0];
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':min', options[0]);
         } },
-      'not_in': { message: 'The selected :attribute must not be :values.', rule: function rule(val, options) {
+      not_in: { message: 'The selected :attribute must not be :values.', rule: function rule(val, options) {
           return options.indexOf(val) === -1;
         }, messageReplace: function messageReplace(message, options) {
           return message.replace(':values', _this._toSentence(options));
         } },
-      'numeric': { message: 'The :attribute must be a number.', rule: function rule(val) {
+      numeric: { message: 'The :attribute must be a number.', rule: function rule(val) {
           return _this._testRegex(val, /^\d+.?\d*$/);
         } },
-      'phone': { message: 'The :attribute must be a valid phone number.', rule: function rule(val) {
+      phone: { message: 'The :attribute must be a valid phone number.', rule: function rule(val) {
           return _this._testRegex(val, /(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/);
         } },
-      'required': { message: 'The :attribute field is required.', rule: function rule(val) {
+      required: { message: 'The :attribute field is required.', rule: function rule(val) {
           return _this._testRegex(val, /.+/);
         } },
-      'url': { message: 'The :attribute must be a url.', rule: function rule(val) {
+      url: { message: 'The :attribute must be a url.', rule: function rule(val) {
           return _this._testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         } }
     }, customRules);
@@ -130,7 +130,7 @@ var SimpleReactValidator = function () {
       return true;
     }
 
-    // if a message is present, show an error message
+    // if a message is present, generate a validation error react element
 
   }, {
     key: 'customMessage',
