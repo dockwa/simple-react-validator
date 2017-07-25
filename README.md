@@ -7,10 +7,10 @@ A simple react form validator inspired by Laravel validation.
 [![Powered by Dockwa](https://raw.githubusercontent.com/dockwa/openpixel/dockwa/by-dockwa.png)](https://engineering.dockwa.com/)
 
 ## About
-Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimul configuration and felt nautural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
+Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
 ## Usage
-Open the `example/index.html` file for more usuage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
+Open the `example/index.html` file for more usage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
 
 **npm**
 ```
@@ -39,11 +39,11 @@ constructor() {
 ```
 
 2. Add validation rules under inputs. The `message` method accepts 5 arguments:
-- **field name**, which is an underscored string that gets replaced in the messaging as the name of the field.
-- **value**, which is usually the state of the current field.
-- **rules string**, which is a pipe seperated list of rules to apply to the string.
-- **optional class name**, which is the class applied to the div that wraps the message, default is 'validation-message'.
-- **optional custom error messages**, these will override the normal error messages.
+- **Field Name**: A unique underscored string that gets replaced in the messaging as the name of the field.
+- **Value**: Usually the state of the current field.
+- **Rules String**: A pipe separated list of rules to apply to the string.
+- **Optional Class Name**: The class applied to the div that wraps the message, default is 'validation-message'.
+- **Optional Custom Error Messages**: Will override the normal error messages.
 
 ```javascript
 render: function() {
@@ -74,7 +74,7 @@ render: function() {
 },
 ```
 
-3. Check if the validation passes when submiting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
+3. Check if the validation passes when submitting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
 ```javascript
 submitForm: function() {
   if( this.validator.allValid() ){
@@ -88,7 +88,7 @@ submitForm: function() {
 ```
 
 ## Rules
-This is the list of all the rules you can validate form inputs against. When using multiple rules, seperate them with a pipe `|`. When adding options, append a colon to the rule and seperate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
+This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
 
 | Rules        | Options      | Description                                              |
 |--------------|--------------|----------------------------------------------------------|
@@ -107,7 +107,7 @@ This is the list of all the rules you can validate form inputs against. When usi
 |lte           |55            | Must be less than or equal to value.                     |
 |max           |120           | Must have less than X number of character.               |
 |min           |40            | Must have more than X number of characters.              |
-|not_in        |john, msgainze| Must not be one of the provided options.                 |
+|not_in        |john, max     | Must not be one of the provided options.                 |
 |phone         |              | Must be a valid phone number.                            |
 |required      |              | Must be present, use with other rules to require them.   |
 |url           |              | Must be a valid url.                                     |
