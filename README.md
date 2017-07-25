@@ -45,7 +45,7 @@ constructor() {
 - **Optional Class Name**: The class applied to the div that wraps the message, default is 'validation-message'.
 - **Optional Custom Error Messages**: Will override the normal error messages.
 
-```javascript
+```jsx
 render: function() {
   return (
     <div className="container">
@@ -111,3 +111,41 @@ This is the list of all the rules you can validate form inputs against. When usi
 |phone         |              | Must be a valid phone number.                            |
 |required      |              | Must be present, use with other rules to require them.   |
 |url           |              | Must be a valid url.                                     |
+
+## Custom Rules
+You can write custom rules that you can use the validate. A rule is comprised of 3 parts; the name, the message, and the rule itself. Here is an example of adding a custom rule on initialize of the validator.
+
+Example:
+
+```javascript
+constructor() {
+  this.validator = new SimpleReactValidator({
+    'ip' : {
+      message: 'The :attribute must be a valid IP address.',
+      rule: function(val, options)){
+        // check that it is a valid IP address and is not blacklisted
+        this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
+      }
+    }
+  });
+}
+```
+
+Usage:
+
+```jsx
+render: function() {
+  return (
+    <div className="container">
+      <h1>Give Me Your IP</h1>
+      <div className="form-group">
+        <label>IP Address</label>
+        <input className="form-control" value={this.state.ip} onChange={this.setIP} />
+        {/*   This is where the magic happens     */}
+        {this.validator.message('ip_address', this.state.ip, 'required|ip')}
+      </div>
+      ...
+    </div>
+  );
+},
+```

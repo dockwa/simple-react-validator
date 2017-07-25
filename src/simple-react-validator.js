@@ -45,7 +45,7 @@ class SimpleReactValidator{
     return true;
   }
 
-  // if a message is present, show an error message
+  // if a message is present, generate a validation error react element
   customMessage(message, customClass){
     if( message && this.messagesShown){
       return this._reactErrorElement(message, customClass);
