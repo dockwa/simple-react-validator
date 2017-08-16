@@ -151,7 +151,7 @@ render: function() {
 ```
 
 ## Custom Error Messages
-These are the fifth parameter, it is an object. The keys correspond to the rule names.
+The fifth parameter is an object. The keys correspond to the rule names.
 If you use the key 'default' then that will be used for all errors that do not have custom errors set.
 
 ```jsx
