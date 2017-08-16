@@ -1,4 +1,4 @@
-// Simple React Validator v0.0.3 | Created By Dockwa | MIT License | 2017
+// Simple React Validator v0.0.4 | Created By Dockwa | MIT License | 2017
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
