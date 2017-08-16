@@ -149,3 +149,21 @@ render: function() {
   );
 },
 ```
+
+## Custom Error Messages
+The fifth parameter is an object. The keys correspond to the rule names.
+If you use the key 'default' then that will be used for all errors that do not have custom errors set.
+
+```jsx
+<div className="form-group">
+  <label>Amount</label>
+  <textarea className="form-control" value={this.state.amount} onChange={this.setAmount} />
+  {this.validator.message(
+    'amount',
+    this.state.amount,
+    'required|min:20|max:120',
+    false,
+    {min: 'Custom min error', default: 'Invalid.'}
+  )}
+</div>
+```
