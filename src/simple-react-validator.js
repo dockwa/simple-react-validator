@@ -80,7 +80,7 @@ class SimpleReactValidator{
     }
   }
 
-  getErrorMessage(){
+  getErrorMessages(){
     return this.errorMessages;
   }
 
