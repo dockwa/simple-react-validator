@@ -105,7 +105,7 @@ class SimpleReactValidator{
   }
 
   _reactErrorElement(message, customClass){
-     this.errorMessages.push(message);
+    this.errorMessages.push(message);
     return React.createElement('div', {className: customClass || 'validation-message'}, message);
   }
 
