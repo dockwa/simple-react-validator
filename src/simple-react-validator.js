@@ -1,6 +1,7 @@
 class SimpleReactValidator{
   constructor(customRules = {}){
     this.fields = [];
+    this.errorMessages = [];
     this.messagesShown = false;
     this.rules = {
       accepted       : {message: 'The :attribute must be accepted.',                              rule: (val) => val === true },
@@ -79,6 +80,10 @@ class SimpleReactValidator{
     }
   }
 
+  getErrorMessage(){
+    return this.errorMessages;
+  }
+
   // Private Methods
   _getRule(type){
     return type.split(':')[0];
@@ -100,6 +105,7 @@ class SimpleReactValidator{
   }
 
   _reactErrorElement(message, customClass){
+     this.errorMessages.push(message);
     return React.createElement('div', {className: customClass || 'validation-message'}, message);
   }
 
