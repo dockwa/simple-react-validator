@@ -28,6 +28,10 @@ class SimpleReactValidator{
     };
   }
 
+  getErrorMessages() {
+    return this.errorMessages;
+  }
+
   showMessages(){
     this.messagesShown = true;
   }
@@ -54,6 +58,7 @@ class SimpleReactValidator{
   }
 
   message(field, value, testString, customClass, customErrors = {}){
+    this.errorMessages[field] = null;
     this.fields[field] = true;
     var tests = testString.split('|');
     var rule, options, message;
@@ -71,19 +76,14 @@ class SimpleReactValidator{
                       this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
 
           if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
-            return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
+            return this._reactErrorElement(this.rules[rule].messageReplace(message, options), false, field);
           } else {
-            return this._reactErrorElement(message, customClass);
+            return this._reactErrorElement(message, customClass, field);
           }
         }
       }
     }
   }
-
-  getErrorMessages(){
-    return this.errorMessages;
-  }
-
   // Private Methods
   _getRule(type){
     return type.split(':')[0];
@@ -104,8 +104,8 @@ class SimpleReactValidator{
     arr.slice(-2).join(arr.length > 2 ? ', or ' : ' or ');
   }
 
-  _reactErrorElement(message, customClass){
-    this.errorMessages.push(message);
+  _reactErrorElement(message, customClass, field){
+    this.errorMessages[field] = message;
     return React.createElement('div', {className: customClass || 'validation-message'}, message);
   }
 
