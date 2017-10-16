@@ -38,11 +38,16 @@ class SimpleReactValidator{
   // return true if all fields cleared, false if there is a validation error
   allValid(){
     for (var key in this.fields) {
-      if( this.fields.hasOwnProperty(key) && this.fields[key] === false ) {
+      if( this.fieldValid(key) === false ) {
         return false;
       }
     }
     return true;
+  }
+
+  // return true if the one field passed in is valid, false if there is an error
+  fieldValid(field){
+    return this.fields.hasOwnProperty(field) && this.fields[field] === true;
   }
 
   // if a message is present, generate a validation error react element

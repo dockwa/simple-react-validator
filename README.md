@@ -87,6 +87,13 @@ submitForm: function() {
 },
 ```
 
+There is another method you can use to check if a single field is valid or not.
+```javascript
+if( this.validator.fieldValid('email') ){
+  // booya this field is valid!
+}
+```
+
 ## Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
 
