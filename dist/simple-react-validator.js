@@ -1,4 +1,4 @@
-// Simple React Validator v0.0.4 | Created By Dockwa | MIT License | 2017
+// Simple React Validator v0.0.5 | Created By Dockwa | MIT License | 2017
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -123,11 +123,19 @@ var SimpleReactValidator = function () {
     key: 'allValid',
     value: function allValid() {
       for (var key in this.fields) {
-        if (this.fields.hasOwnProperty(key) && this.fields[key] === false) {
+        if (this.fieldValid(key) === false) {
           return false;
         }
       }
       return true;
+    }
+
+    // return true if the one field passed in is valid, false if there is an error
+
+  }, {
+    key: 'fieldValid',
+    value: function fieldValid(field) {
+      return this.fields.hasOwnProperty(field) && this.fields[field] === true;
     }
 
     // if a message is present, generate a validation error react element
