@@ -1,6 +1,7 @@
 class SimpleReactValidator{
   constructor(customRules = {}){
-    this.fields = [];
+    this.fields = {};
+    this.errorMessages = {};
     this.messagesShown = false;
     this.rules = {
       accepted       : {message: 'The :attribute must be accepted.',                              rule: (val) => val === true },
@@ -25,6 +26,10 @@ class SimpleReactValidator{
       url            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i) },
       ...customRules,
     };
+  }
+
+  getErrorMessages() {
+    return this.errorMessages;
   }
 
   showMessages(){
@@ -58,6 +63,7 @@ class SimpleReactValidator{
   }
 
   message(field, value, testString, customClass, customErrors = {}){
+    this.errorMessages[field] = null;
     this.fields[field] = true;
     var tests = testString.split('|');
     var rule, options, message;
@@ -74,6 +80,7 @@ class SimpleReactValidator{
                       customErrors.default ||
                       this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
 
+          this.errorMessages[field] = message;
           if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
             return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
           } else {
@@ -83,7 +90,6 @@ class SimpleReactValidator{
       }
     }
   }
-
   // Private Methods
   _getRule(type){
     return type.split(':')[0];
