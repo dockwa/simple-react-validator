@@ -53,20 +53,26 @@ render: function() {
       <div className="form-group">
         <label>Title</label>
         <input className="form-control" value={this.state.title} onChange={this.setTitle} />
-        {/*   This is where the magic happens     */}
+
+        {/**********   This is where the magic happens     ***********/}
         {this.validator.message('title', this.state.title, 'required|alpha')}
+
       </div>
       <div className="form-group">
         <label>Email</label>
         <input className="form-control" value={this.state.email} onChange={this.setEmail} />
-        {/*   This is where the magic happens     */}
+
+        {/**********   This is where the magic happens     ***********/}
         {this.validator.message('email', this.state.email, 'required|email', 'text-danger')}
+
       </div>
       <div className="form-group">
         <label>Review</label>
         <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
-        {/*   This is where the magic happens     */}
+
+        {/**********   This is where the magic happens     ***********/}
         {this.validator.message('review', this.state.review, 'required|min:20|max:120', false, {min: 'Custom min error'})}
+
       </div>
       <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
     </div>

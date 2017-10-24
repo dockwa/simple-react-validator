@@ -24,7 +24,8 @@ var SimpleReactValidator = function () {
 
     _classCallCheck(this, SimpleReactValidator);
 
-    this.fields = [];
+    this.fields = {};
+    this.errorMessages = {};
     this.messagesShown = false;
     this.rules = _extends({
       accepted: { message: 'The :attribute must be accepted.', rule: function rule(val) {
@@ -107,6 +108,11 @@ var SimpleReactValidator = function () {
   }
 
   _createClass(SimpleReactValidator, [{
+    key: 'getErrorMessages',
+    value: function getErrorMessages() {
+      return this.errorMessages;
+    }
+  }, {
     key: 'showMessages',
     value: function showMessages() {
       this.messagesShown = true;
@@ -152,6 +158,7 @@ var SimpleReactValidator = function () {
     value: function message(field, value, testString, customClass) {
       var customErrors = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
+      this.errorMessages[field] = null;
       this.fields[field] = true;
       var tests = testString.split('|');
       var rule, options, message;
@@ -166,6 +173,7 @@ var SimpleReactValidator = function () {
           if (this.messagesShown) {
             message = customErrors[rule] || customErrors.default || this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
 
+            this.errorMessages[field] = message;
             if (options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
               return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
             } else {
@@ -175,7 +183,6 @@ var SimpleReactValidator = function () {
         }
       }
     }
-
     // Private Methods
 
   }, {
