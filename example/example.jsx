@@ -1,11 +1,18 @@
- var ExampleForm = React.createClass({
+var ExampleForm = React.createClass({
 
   getInitialState: function() {
     return {};
   },
 
   componentWillMount: function() {
-    this.validator = new SimpleReactValidator();
+    this.validator = new SimpleReactValidator({
+      ip: {
+        message: 'The :attribute must be a valid IP address.',
+        rule: function(val, options){
+          return this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
+        }
+      }
+    });
   },
 
   submitForm: function() {
@@ -84,13 +91,13 @@
           <div className="form-group">
             <label>gt</label>
             <input className="form-control" name="gt" value={this.state.gt} onChange={this.setStateFromInput} />
-            {this.validator.message('gt', this.state.gt, 'required|gt:30')}
+            {this.validator.message('greater_than', this.state.gt, 'required|gt:30')}
           </div>
 
           <div className="form-group">
             <label>gte</label>
             <input className="form-control" name="gte" value={this.state.gte} onChange={this.setStateFromInput} />
-            {this.validator.message('gte', this.state.gte, 'required|gte:30')}
+            {this.validator.message('greater_than_or_equal', this.state.gte, 'required|gte:30')}
           </div>
 
           <div className="form-group">
@@ -108,13 +115,13 @@
           <div className="form-group">
             <label>lt</label>
             <input className="form-control" name="lt" value={this.state.lt} onChange={this.setStateFromInput} />
-            {this.validator.message('lt', this.state.lt, 'required|lt:30')}
+            {this.validator.message('less_than', this.state.lt, 'required|lt:30')}
           </div>
 
           <div className="form-group">
             <label>lte</label>
             <input className="form-control" name="lte" value={this.state.lte} onChange={this.setStateFromInput} />
-            {this.validator.message('lte', this.state.lte, 'required|lte:30')}
+            {this.validator.message('less_than_or_equal', this.state.lte, 'required|lte:30')}
           </div>
 
           <div className="form-group">
@@ -151,6 +158,12 @@
             <label>required</label>
             <input className="form-control" name="required" value={this.state.required} onChange={this.setStateFromInput} />
             {this.validator.message('required', this.state.required, 'required')}
+          </div>
+
+          <div className="form-group">
+            <label>IP Address (custom example)</label>
+            <input className="form-control" name="ip" value={this.state.ip} onChange={this.setStateFromInput} />
+            {this.validator.message('ip_address', this.state.ip, 'required|ip:127.0.0.1')}
           </div>
 
           <button className="btn btn-primary" onClick={this.submitForm}>Submit</button>

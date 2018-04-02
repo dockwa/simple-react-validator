@@ -168,7 +168,7 @@ var SimpleReactValidator = function () {
         rule = this._getRule(tests[i]);
         options = this._getOptions(tests[i]);
         // test if the value passes validation
-        if (this.rules[rule].rule(value, options) === false) {
+        if (this.rules[rule].rule.call(this, value, options) === false) {
           this.fields[field] = false;
           if (this.messagesShown) {
             message = customErrors[rule] || customErrors.default || this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));

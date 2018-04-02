@@ -1,5 +1,5 @@
-class SimpleReactValidator{
-  constructor(customRules = {}){
+class SimpleReactValidator {
+  constructor(customRules = {}) {
     this.fields = {};
     this.errorMessages = {};
     this.messagesShown = false;
@@ -32,16 +32,16 @@ class SimpleReactValidator{
     return this.errorMessages;
   }
 
-  showMessages(){
+  showMessages() {
     this.messagesShown = true;
   }
 
-  hideMessages(){
+  hideMessages() {
     this.messagesShown = false;
   }
 
   // return true if all fields cleared, false if there is a validation error
-  allValid(){
+  allValid() {
     for (var key in this.fields) {
       if( this.fieldValid(key) === false ) {
         return false;
@@ -51,18 +51,18 @@ class SimpleReactValidator{
   }
 
   // return true if the one field passed in is valid, false if there is an error
-  fieldValid(field){
+  fieldValid(field) {
     return this.fields.hasOwnProperty(field) && this.fields[field] === true;
   }
 
   // if a message is present, generate a validation error react element
-  customMessage(message, customClass){
+  customMessage(message, customClass) {
     if( message && this.messagesShown){
       return this._reactErrorElement(message, customClass);
     }
   }
 
-  message(field, value, testString, customClass, customErrors = {}){
+  message(field, value, testString, customClass, customErrors = {}) {
     this.errorMessages[field] = null;
     this.fields[field] = true;
     var tests = testString.split('|');
@@ -73,7 +73,7 @@ class SimpleReactValidator{
       rule = this._getRule(tests[i]);
       options = this._getOptions(tests[i]);
       // test if the value passes validation
-      if(this.rules[rule].rule(value, options) === false){
+      if(this.rules[rule].rule.call(this, value, options) === false){
         this.fields[field] = false;
         if(this.messagesShown){
             message = customErrors[rule] ||
@@ -91,30 +91,30 @@ class SimpleReactValidator{
     }
   }
   // Private Methods
-  _getRule(type){
+  _getRule(type) {
     return type.split(':')[0];
   }
 
-  _getOptions(type){
+  _getOptions(type) {
     var parts = type.split(':');
     return parts.length > 1 ? parts[1].split(',') : [];
   }
 
-  _valueOrEmptyString(value){
+  _valueOrEmptyString(value) {
     return typeof value === 'undefined' || value === null ? '' : value;
   }
 
-  _toSentence(arr){
+  _toSentence(arr) {
     return arr.slice(0, -2).join(', ') +
     (arr.slice(0, -2).length ? ', ' : '') +
     arr.slice(-2).join(arr.length > 2 ? ', or ' : ' or ');
   }
 
-  _reactErrorElement(message, customClass){
+  _reactErrorElement(message, customClass) {
     return React.createElement('div', {className: customClass || 'validation-message'}, message);
   }
 
-  _testRegex(value, regex){
+  _testRegex(value, regex) {
     return value.toString().match(regex) !== null;
   }
 }
