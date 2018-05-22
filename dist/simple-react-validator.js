@@ -46,6 +46,12 @@ var SimpleReactValidator = function () {
       card_num: { message: 'The :attribute must be a valid credit card number.', rule: function rule(val) {
           return _this._testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/);
         } },
+      currency: { message: 'The :attribute must be a valid currency.', rule: function rule(val) {
+          return _this._testRegex(val, /^\$?(\d{1,3}(\,?\d{3}))*\.?\d{0,2}$/);
+        } },
+      decimal: { message: 'The :attribute must be a valid decimal.', rule: function rule(val) {
+          return _this._testRegex(val, /^\d*\.?\d*$/);
+        } },
       email: { message: 'The :attribute must be a valid email address.', rule: function rule(val) {
           return _this._testRegex(val, /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         } },
