@@ -103,27 +103,29 @@ if( this.validator.fieldValid('email') ){
 ## Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
 
-| Rules        | Options      | Description                                              |
-|--------------|--------------|----------------------------------------------------------|
-|accepted      |              | If 'true', good for required check boxes.                |
-|alpha         |              | Must have only letters.                                  |
-|alpha_num     |              | Must have only letters and numbers.                      |
-|alpha_num_dash|              | Must have only letters, numbers, dashes, and underscores.|
-|card_exp      |              | Must have only a valid credit card expiration date.      |
-|card_num      |              | Must have only a valid credit card number.               |
-|email         |              | Must have only a valid email address.                    |
-|gt            |30            | Must be greater than value.                              |
-|gte           |25.39         | Must be greater than or equal to value.                  |
-|in            |stu, chris, hi| Must be one of the provided options.                     |
-|integer       |              | Must have only an integer.                               |
-|lt            |193.3         | Must be less than value.                                 |
-|lte           |55            | Must be less than or equal to value.                     |
-|max           |120           | Must have less than X number of character.               |
-|min           |40            | Must have more than X number of characters.              |
-|not_in        |john, max     | Must not be one of the provided options.                 |
-|phone         |              | Must be a valid phone number.                            |
-|required      |              | Must be present, use with other rules to require them.   |
-|url           |              | Must be a valid url.                                     |
+| Rules        | Options      |Example                                       | Description                                              |
+|--------------|--------------|----------------------------------------------|----------------------------------------------------------|
+|accepted      |              | Javascript true                              | If 'true', good for required check boxes.                |
+|alpha         |              | abcdefghijk                                  | Must have only letters.                                  |
+|alpha_num     |              | abcdefg12345                                 | Must have only letters and numbers.                      |
+|alpha_num_dash|              | abcde-1234_                                  | Must have only letters, numbers, dashes, and underscores.|
+|card_exp      |              | 12/18, 12/2018                               | Must have only a valid credit card expiration date.      |
+|card_num      |              | 4242 4242 4242 4242 (with or without spaces) | Must have only a valid credit card number.               |
+|currency      |              | $2,442,424.12 (optional $ and commas)        | Must have only a valid currency.                         |
+|decimal       |              | 24424.123 (optional decimal place)           | Must have only a valid currency.                         |
+|email         |              | test+yahoo@example.com                       |  Must have only a valid email address.                   |
+|gt            |30            | 100                                          | Must be greater than value.                              |
+|gte           |25.39         | 25.39                                        | Must be greater than or equal to value.                  |
+|in            |stu, chris, hi| stu                                          | Must be one of the provided options.                     |
+|integer       |              | 12345                                        | Must have only an integer.                               |
+|lt            |193.3         | 20                                           | Must be less than value.                                 |
+|lte           |55            | 45                                           | Must be less than or equal to value.                     |
+|max           |120           | this is a test                               | Must have less than X number of character.               |
+|min           |20            | this is only a simple test                   | Must have more than X number of characters.              |
+|not_in        |john, max     | stu                                          | Must not be one of the provided options.                 |
+|phone         |              | (508) 555-1234 OR 5085551234                 | Must be a valid phone number.                            |
+|required      |              | something                                    | Must be present, use with other rules to require them.   |
+|url           |              | https://dockwa.com                           | Must be a valid url.                                     |
 
 ## Custom Rules
 You can write custom rules that you can use the validate. A rule is comprised of 3 parts; the name, the message, and the rule itself. Here is an example of adding a custom rule on initialize of the validator.
