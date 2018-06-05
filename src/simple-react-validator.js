@@ -113,10 +113,26 @@ class SimpleReactValidator {
   }
 
   _reactErrorElement(message, customClass) {
-    return React.createElement('div', {className: customClass || 'validation-message'}, message);
+    return React.createElement('div', {className: customClass || 'text-danger'}, message);
   }
 
   _testRegex(value, regex) {
     return value.toString().match(regex) !== null;
   }
 }
+
+
+
+this.validator = new SimpleReactValidator({
+  element: false,
+  elementClass: 'text-danger',
+  validators: {
+    ip: { // name the rule
+      message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
+      rule: function(val, options){ // return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
+        // check that it is a valid IP address and is not blacklisted
+        return this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
+      }
+    }
+  }
+});
