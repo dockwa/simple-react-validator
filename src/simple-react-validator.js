@@ -113,7 +113,12 @@ class SimpleReactValidator {
   }
 
   _reactErrorElement(message, customClass) {
-    return React.createElement('div', {className: customClass || 'validation-message'}, message);
+    if(navigator.product === "ReactNative") {
+      return message;
+    }
+    else {
+      return React.createElement('div', {className: customClass || 'validation-message'}, message);
+    }
   }
 
   _testRegex(value, regex) {
