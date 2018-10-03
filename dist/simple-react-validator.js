@@ -49,7 +49,7 @@ var SimpleReactValidator = function () {
           return _this._testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/);
         } },
       currency: { message: 'The :attribute must be a valid currency.', rule: function rule(val) {
-          return _this._testRegex(val, /^\$?(\d{1,3}(\,?\d{3}))*\.?\d{0,2}$/);
+          return _this._testRegex(val, /^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/);
         } },
       decimal: { message: 'The :attribute must be a valid decimal.', rule: function rule(val) {
           return _this._testRegex(val, /^\d*\.?\d*$/);
@@ -121,6 +121,10 @@ var SimpleReactValidator = function () {
       };
     } else if (options.hasOwnProperty('element')) {
       this.element = options.element;
+    } else if (navigator.product === "ReactNative") {
+      this.element = function (message) {
+        return React.createElement(Text, {}, message);
+      };
     } else {
       this.element = function (message) {
         return React.createElement('div', { className: options.className || 'text-danger' }, message);

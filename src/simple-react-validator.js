@@ -10,7 +10,7 @@ class SimpleReactValidator {
       alpha_num_dash : {message: 'The :attribute may only contain letters, numbers, and dashes.', rule: (val) => this._testRegex(val,/^[A-Z0-9_-]*$/i) },
       card_exp       : {message: 'The :attribute must be a valid expiration date.',               rule: (val) => this._testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/) },
       card_num       : {message: 'The :attribute must be a valid credit card number.',            rule: (val) => this._testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/) },
-      currency       : {message: 'The :attribute must be a valid currency.',                      rule: (val) => this._testRegex(val,/^\$?(\d{1,3}(\,?\d{3}))*\.?\d{0,2}$/) },
+      currency       : {message: 'The :attribute must be a valid currency.',                      rule: (val) => this._testRegex(val,/^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/) },
       decimal        : {message: 'The :attribute must be a valid decimal.',                       rule: (val) => this._testRegex(val,/^\d*\.?\d*$/) },
       email          : {message: 'The :attribute must be a valid email address.',                 rule: (val) => this._testRegex(val,/^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i) },
       gt             : {message: 'The :attribute must be greater than :gt.',                      rule: (val, options) => this._testRegex(val,/^\d+.?\d*$/) ? parseFloat(val) > parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':gt', options[0]) },
@@ -34,10 +34,10 @@ class SimpleReactValidator {
       this.element = message => message;
     } else if( options.hasOwnProperty('element') ) {
       this.element = options.element;
+    } else if (navigator.product === "ReactNative") {
+      this.element = message => React.createElement(Text, {}, message);
     } else {
-      this.element = (message) => {
-        return React.createElement('div', {className: (options.className || 'text-danger')}, message);
-      };
+      this.element = message => React.createElement('div', {className: (options.className || 'text-danger')}, message);
     }
   }
 
