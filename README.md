@@ -112,7 +112,7 @@ This is the list of all the rules you can validate form inputs against. When usi
 |card_exp      |              | 12/18, 12/2018                               | Must have only a valid credit card expiration date.      |
 |card_num      |              | 4242 4242 4242 4242 (with or without spaces) | Must have only a valid credit card number.               |
 |currency      |              | $2,442,424.12 (optional $ and commas)        | Must have only a valid currency.                         |
-|decimal       |              | 24424.123 (optional decimal place)           | Must have only a valid currency.                         |
+|decimal       |              | 24424.123 (optional decimal place)           | Must have only a valid decimal.                          |
 |email         |              | test+yahoo@example.com                       |  Must have only a valid email address.                   |
 |gt            |30            | 100                                          | Must be greater than value.                              |
 |gte           |25.39         | 25.39                                        | Must be greater than or equal to value.                  |

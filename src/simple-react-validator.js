@@ -1,5 +1,5 @@
 class SimpleReactValidator {
-  constructor(customRules = {}) {
+  constructor(options = {}) {
     this.fields = {};
     this.errorMessages = {};
     this.messagesShown = false;
@@ -12,7 +12,7 @@ class SimpleReactValidator {
       card_num       : {message: 'The :attribute must be a valid credit card number.',            rule: (val) => this._testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/) },
       currency       : {message: 'The :attribute must be a valid currency.',                      rule: (val) => this._testRegex(val,/^\$?(\d{1,3}(\,?\d{3}))*\.?\d{0,2}$/) },
       decimal        : {message: 'The :attribute must be a valid decimal.',                       rule: (val) => this._testRegex(val,/^\d*\.?\d*$/) },
-      email          : {message: 'The :attribute must be a valid email address.',                 rule: (val) => this._testRegex(val,/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i) },
+      email          : {message: 'The :attribute must be a valid email address.',                 rule: (val) => this._testRegex(val,/^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i) },
       gt             : {message: 'The :attribute must be greater than :gt.',                      rule: (val, options) => this._testRegex(val,/^\d+.?\d*$/) ? parseFloat(val) > parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':gt', options[0]) },
       gte            : {message: 'The :attribute must be greater than or equal to :gte.',         rule: (val, options) => this._testRegex(val,/^\d+.?\d*$/) ? parseFloat(val) >= parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':gte', options[0]) },
       in             : {message: 'The selected :attribute must be :values.',                      rule: (val, options) => options.indexOf(val) > -1, messageReplace: (message, options) => message.replace(':values', this._toSentence(options)) },
@@ -26,8 +26,19 @@ class SimpleReactValidator {
       phone          : {message: 'The :attribute must be a valid phone number.',                  rule: (val) => this._testRegex(val,/(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/)},
       required       : {message: 'The :attribute field is required.',                             rule: (val) => this._testRegex(val,/.+/) },
       url            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i) },
-      ...customRules,
+      ...(options.validators || {}),
     };
+
+    // apply default element
+    if( options.element === false) {
+      this.element = message => message;
+    } else if( options.hasOwnProperty('element') ) {
+      this.element = options.element;
+    } else {
+      this.element = (message) => {
+        return React.createElement('div', {className: (options.className || 'text-danger')}, message);
+      };
+    }
   }
 
   getErrorMessages() {
@@ -60,45 +71,49 @@ class SimpleReactValidator {
   // if a message is present, generate a validation error react element
   customMessage(message, customClass) {
     if( message && this.messagesShown){
-      return this._reactErrorElement(message, customClass);
+      return this.element(message);
     }
   }
 
-  message(field, value, testString, customClass, customErrors = {}) {
+  message(field, inputValue, validatorString, options = {}) {
     this.errorMessages[field] = null;
     this.fields[field] = true;
-    var tests = testString.split('|');
-    var rule, options, message;
-    for(var i = 0; i < tests.length; i++){
-      // if the validation does not pass the test
-      value = this._valueOrEmptyString(value);
-      rule = this._getRule(tests[i]);
-      options = this._getOptions(tests[i]);
-      // test if the value passes validation
-      if(this.rules[rule].rule.call(this, value, options) === false){
+    var validators = validatorString.split('|');
+    var message;
+    for (let validator of validators) {
+      let [value, rule, validatorOptions] = this._normalizeValues(inputValue, validator);
+      if( this._runValidation(rule, value, validatorOptions) ){
         this.fields[field] = false;
+        message = this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
+        if( options.hasOwnProperty('messages') ) {
+          message = options.messages[rule] || options.messages.default || message;
+        }
+        this.errorMessages[field] = message;
         if(this.messagesShown){
-            message = customErrors[rule] ||
-                      customErrors.default ||
-                      this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
-
-          this.errorMessages[field] = message;
-          if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
-            return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
+          if(validatorOptions.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
+            return this.element(this.rules[rule].messageReplace(message, validatorOptions));
           } else {
-            return this._reactErrorElement(message, customClass);
+            return this.element(message);
           }
         }
       }
     }
   }
+
   // Private Methods
-  _getRule(type) {
-    return type.split(':')[0];
+  _runValidation(rule, value, options) {
+    return this.rules[rule].rule.call(this, value, options) === false;
   }
 
-  _getOptions(type) {
-    var parts = type.split(':');
+  _normalizeValues(value, validator) {
+    return [this._valueOrEmptyString(value), this._getRule(validator), this._getOptions(validator)];
+  }
+  _getRule(validator) {
+    return validator.split(':')[0];
+  }
+
+  _getOptions(validator) {
+    var parts = validator.split(':');
     return parts.length > 1 ? parts[1].split(',') : [];
   }
 
@@ -112,10 +127,6 @@ class SimpleReactValidator {
     arr.slice(-2).join(arr.length > 2 ? ', or ' : ' or ');
   }
 
-  _reactErrorElement(message, customClass) {
-    return React.createElement('div', {className: customClass || 'text-danger'}, message);
-  }
-
   _testRegex(value, regex) {
     return value.toString().match(regex) !== null;
   }
@@ -123,16 +134,27 @@ class SimpleReactValidator {
 
 
 
-this.validator = new SimpleReactValidator({
-  element: false,
-  elementClass: 'text-danger',
-  validators: {
-    ip: { // name the rule
-      message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
-      rule: function(val, options){ // return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
-        // check that it is a valid IP address and is not blacklisted
-        return this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
-      }
-    }
-  }
-});
+// this.validator = new SimpleReactValidator({
+//   element: (message) => {
+//     return React.createElement('div', {className: 'text-danger'}, message);
+//     // return <div className="something">{message}</div>;
+//   },
+//   className: 'text-danger',
+//   validators: {
+//     ip: { // name the rule
+//       message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
+//       rule: function(val, options) { // return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
+//         // check that it is a valid IP address and is not blacklisted
+//         return this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
+//       }
+//     }
+//   }
+// });
+
+// options should be able to be set on initialize and overridden or added per element basis
+// only different option on a message should be the default message
+// allow validators to be added via an object as well as string form
+// :check: allow setting the base element or removing it entirely
+// :check: allow setting a custom class on default element
+// add 'any' validator for requiring values in array
+// currency validator is broken without comma
