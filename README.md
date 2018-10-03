@@ -1,5 +1,5 @@
 # Simple React Validator
-A simple react form validator inspired by Laravel validation.
+A simple react and react native form validator inspired by Laravel validation.
 
 [![npm](https://img.shields.io/npm/v/simple-react-validator.svg)](https://www.npmjs.com/package/simple-react-validator)
 [![npm](https://img.shields.io/npm/dt/simple-react-validator.svg)](https://www.npmjs.com/package/simple-react-validator)
@@ -98,6 +98,16 @@ There is another method you can use to check if a single field is valid or not.
 if( this.validator.fieldValid('email') ){
   // booya this field is valid!
 }
+```
+
+## React Native
+
+You need to wrap validator with `<Text>` Element.
+
+```javascript
+<Text>
+  {this.validator.message('title', this.state.title, 'required|alpha')}
+</Text>
 ```
 
 ## Rules
