@@ -8,12 +8,15 @@ class ExampleForm extends React.Component {
         return <div className="invalid-feedback d-block">{message}</div>;
       },
       className: 'text-danger',
+      messages: {
+        default: 'Good stuff!'
+      },
       validators: {
         ip: { // name the rule
           message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
           rule: function(val, options) { // return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
             // check that it is a valid IP address and is not blacklisted
-            return this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
+            return this.core.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
           }
         }
       }
@@ -90,6 +93,18 @@ class ExampleForm extends React.Component {
             <label>card_num</label>
             <input className="form-control" name="card_num" value={this.state.card_num} onChange={this.handleInputChange.bind(this)} />
             {this.validator.message('card_num', this.state.card_num, 'required|card_num')}
+          </div>
+
+          <div className="form-group">
+            <label>currency</label>
+            <input className="form-control" name="currency" value={this.state.currency} onChange={this.handleInputChange.bind(this)} />
+            {this.validator.message('currency', this.state.currency, 'required|currency')}
+          </div>
+
+          <div className="form-group">
+            <label>decimal</label>
+            <input className="form-control" name="decimal" value={this.state.decimal} onChange={this.handleInputChange.bind(this)} />
+            {this.validator.message('decimal', this.state.decimal, 'required|decimal')}
           </div>
 
           <div className="form-group">
