@@ -215,7 +215,11 @@ var SimpleReactValidator = function () {
   }, {
     key: '_reactErrorElement',
     value: function _reactErrorElement(message, customClass) {
-      return React.createElement('div', { className: customClass || 'validation-message' }, message);
+      if (navigator.product === "ReactNative") {
+        return message;
+      } else {
+        return React.createElement('div', { className: customClass || 'validation-message' }, message);
+      }
     }
   }, {
     key: '_testRegex',
