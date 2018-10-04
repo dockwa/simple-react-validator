@@ -38,7 +38,7 @@ class SimpleReactValidator {
     } else if( options.hasOwnProperty('element') ) {
       this.element = options.element;
     } else if (navigator.product === "ReactNative") {
-      this.element = message => React.createElement(Text, {}, message);
+      this.element = message => message;
     } else {
       this.element = message => React.createElement('div', {className: (options.className || 'text-danger')}, message);
     }

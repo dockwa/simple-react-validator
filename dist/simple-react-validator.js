@@ -242,7 +242,7 @@ function () {
       this.element = _options.element;
     } else if (navigator.product === "ReactNative") {
       this.element = function (message) {
-        return React.createElement(Text, {}, message);
+        return message;
       };
     } else {
       this.element = function (message) {

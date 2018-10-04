@@ -22,15 +22,6 @@ class ExampleForm extends React.Component {
         }
       }
     });
-
-    // this.validator = new SimpleReactValidator({
-    //   ip: {
-    //     message: 'The :attribute must be a valid IP address.',
-    //     rule: function(val, options){
-    //       return this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
-    //     }
-    //   }
-    // });
   }
 
   submitForm() {
