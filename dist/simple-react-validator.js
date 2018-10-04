@@ -66,12 +66,26 @@ function () {
       testRegex: function testRegex(value, regex) {
         return value.toString().match(regex) !== null;
       },
-      getMessage: function getMessage(rule, field, options) {
+      message: function message(rule, field, options) {
         options.messages = options.messages || {};
         var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || this.rules[rule].message;
         message.replace(':attribute', field.replace(/_/g, ' '));
         return message;
       },
+      element: function (_element) {
+        function element(_x, _x2) {
+          return _element.apply(this, arguments);
+        }
+
+        element.toString = function () {
+          return _element.toString();
+        };
+
+        return element;
+      }(function (message, options) {
+        element = options.element || this.parent.element;
+        return element(message);
+      }),
       numeric: function numeric(val) {
         return this.testRegex(val, /^(\d+.?\d*)?$/);
       }
@@ -321,14 +335,14 @@ function () {
 
           if (this.helpers.validationFailed(rule, value, validatorOptions)) {
             this.fields[field] = false;
-            message = this.helpers.getMessage(rule, field, options);
+            message = this.helpers.message(rule, field, options);
             this.errorMessages[field] = message;
 
             if (this.messagesShown) {
               if (validatorOptions.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
-                return this.element(this.rules[rule].messageReplace(message, validatorOptions));
+                return this.helpers.element(this.rules[rule].messageReplace(message, validatorOptions), options);
               } else {
-                return this.element(message);
+                return this.helpers.element(message, options);
               }
             }
           }

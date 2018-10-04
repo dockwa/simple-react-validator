@@ -4,9 +4,7 @@ class ExampleForm extends React.Component {
     super(props);
     this.state = {};
     this.validator = new SimpleReactValidator({
-      element: (message) => {
-        return <div className="invalid-feedback d-block">{message}</div>;
-      },
+      element: message => <div className="invalid-feedback d-block">{message}</div>,
       className: 'text-danger',
       messages: {
         email: 'That is not an email.',
