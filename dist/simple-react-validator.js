@@ -61,6 +61,12 @@ function () {
       },
       testRegex: function testRegex(value, regex) {
         return value.toString().match(regex) !== null;
+      },
+      getMessage: function getMessage(rule, field, options) {
+        options.messages = options.messages || {};
+        var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || this.rules[rule].message;
+        message.replace(':attribute', field.replace(/_/g, ' '));
+        return message;
       }
     });
 
@@ -95,19 +101,19 @@ function () {
       card_exp: {
         message: 'The :attribute must be a valid expiration date.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/);
+          return _this.helpers.testRegex(val, /^((([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4}))?$/);
         }
       },
       card_num: {
         message: 'The :attribute must be a valid credit card number.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/);
+          return _this.helpers.testRegex(val, /^(\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8})?$/);
         }
       },
       currency: {
         message: 'The :attribute must be a valid currency.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/);
+          return _this.helpers.testRegex(val, /^(\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2})?$/);
         }
       },
       decimal: {
@@ -119,7 +125,7 @@ function () {
       email: {
         message: 'The :attribute must be a valid email address.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i);
+          return _this.helpers.testRegex(val, /^([A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,})?$/i);
         }
       },
       gt: {
@@ -152,7 +158,7 @@ function () {
       integer: {
         message: 'The :attribute must be an integer.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^\d+$/);
+          return _this.helpers.testRegex(val, /^\d?$/);
         }
       },
       lt: {
@@ -203,13 +209,13 @@ function () {
       numeric: {
         message: 'The :attribute must be a number.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^\d+.?\d*$/);
+          return _this.helpers.testRegex(val, /^(\d+.?\d*)?$/);
         }
       },
       phone: {
         message: 'The :attribute must be a valid phone number.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/);
+          return _this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/);
         }
       },
       required: {
@@ -221,7 +227,7 @@ function () {
       url: {
         message: 'The :attribute must be a url.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
+          return _this.helpers.testRegex(val, /^((https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?)?$/i);
         }
       }
     }, _options.validators || {}); // apply default messages
@@ -312,12 +318,7 @@ function () {
 
           if (this.helpers.runValidation(rule, value, validatorOptions)) {
             this.fields[field] = false;
-            message = this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
-
-            if (options.hasOwnProperty('messages')) {
-              message = options.messages[rule] || options.messages.default || message;
-            }
-
+            message = this.helpers.getMessage(rule, field, options);
             this.errorMessages[field] = message;
 
             if (this.messagesShown) {
@@ -347,28 +348,6 @@ function () {
   }]);
 
   return SimpleReactValidator;
-}(); // this.validator = new SimpleReactValidator({
-//   element: (message) => {
-//     return React.createElement('div', {className: 'text-danger'}, message);
-//     // return <div className="something">{message}</div>;
-//   },
-//   className: 'text-danger',
-//   validators: {
-//     ip: { // name the rule
-//       message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
-//       rule: function(val, options) { // return true if it is succeeds and false it if fails validation. the testRegex method is available to give back a true/false for the regex and given value
-//         // check that it is a valid IP address and is not blacklisted
-//         return this.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
-//       }
-//     }
-//   }
-// });
-// options should be able to be set on initialize and overridden or added per element basis
-// add messages and default messages to options
-// allow validators to be added via an object as well as string form
-// :check: allow setting the base element or removing it entirely
-// :check: allow setting a custom class on default element
-// add 'any' validator for requiring values in array
-// :check: currency validator is broken without comma
+}();
 return SimpleReactValidator;
 }));
