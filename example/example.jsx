@@ -94,12 +94,6 @@ class ExampleForm extends React.Component {
           </div>
 
           <div className="form-group">
-            <label>decimal</label>
-            <input className="form-control" name="decimal" value={this.state.decimal} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('decimal', this.state.decimal, 'decimal')}
-          </div>
-
-          <div className="form-group">
             <label>email</label>
             <input className="form-control" name="email" value={this.state.email} onChange={this.handleInputChange.bind(this)} />
             {this.validator.message('email', this.state.email, 'email')}

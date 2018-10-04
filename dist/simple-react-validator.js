@@ -40,7 +40,11 @@ function () {
 
     _defineProperty(this, "helpers", {
       parent: this,
-      runValidation: function runValidation(rule, value, options) {
+      validationFailed: function validationFailed(rule, value, options) {
+        if ((!this.parent.rules[rule].hasOwnProperty('required') || !this.parent.rules[rule].required) && !value) {
+          return false;
+        }
+
         return this.parent.rules[rule].rule.call(this.parent, value, options) === false;
       },
       normalizeValues: function normalizeValues(value, validator) {
@@ -67,6 +71,9 @@ function () {
         var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || this.rules[rule].message;
         message.replace(':attribute', field.replace(/_/g, ' '));
         return message;
+      },
+      numeric: function numeric(val) {
+        return this.testRegex(val, /^(\d+.?\d*)?$/);
       }
     });
 
@@ -78,7 +85,8 @@ function () {
         message: 'The :attribute must be accepted.',
         rule: function rule(val) {
           return val === true;
-        }
+        },
+        required: true
       },
       alpha: {
         message: 'The :attribute may only contain letters.',
@@ -101,37 +109,31 @@ function () {
       card_exp: {
         message: 'The :attribute must be a valid expiration date.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^((([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4}))?$/);
+          return _this.helpers.testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/);
         }
       },
       card_num: {
         message: 'The :attribute must be a valid credit card number.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8})?$/);
+          return _this.helpers.testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/);
         }
       },
       currency: {
         message: 'The :attribute must be a valid currency.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2})?$/);
-        }
-      },
-      decimal: {
-        message: 'The :attribute must be a valid decimal.',
-        rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^\d*\.?\d*$/);
+          return _this.helpers.testRegex(val, /^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/);
         }
       },
       email: {
         message: 'The :attribute must be a valid email address.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^([A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,})?$/i);
+          return _this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i);
         }
       },
       gt: {
         message: 'The :attribute must be greater than :gt.',
         rule: function rule(val, options) {
-          return _this.helpers.testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) > parseFloat(options[0]) : false;
+          return _this.helpers.numeric(val) ? parseFloat(val) > parseFloat(options[0]) : false;
         },
         messageReplace: function messageReplace(message, options) {
           return message.replace(':gt', options[0]);
@@ -140,7 +142,7 @@ function () {
       gte: {
         message: 'The :attribute must be greater than or equal to :gte.',
         rule: function rule(val, options) {
-          return _this.helpers.testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) >= parseFloat(options[0]) : false;
+          return _this.helpers.numeric(val) ? parseFloat(val) >= parseFloat(options[0]) : false;
         },
         messageReplace: function messageReplace(message, options) {
           return message.replace(':gte', options[0]);
@@ -164,7 +166,7 @@ function () {
       lt: {
         message: 'The :attribute must be less than :lt.',
         rule: function rule(val, options) {
-          return _this.helpers.testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) < parseFloat(options[0]) : false;
+          return _this.helpers.numeric(val) ? parseFloat(val) < parseFloat(options[0]) : false;
         },
         messageReplace: function messageReplace(message, options) {
           return message.replace(':lt', options[0]);
@@ -173,7 +175,7 @@ function () {
       lte: {
         message: 'The :attribute must be less than or equal to :lte.',
         rule: function rule(val, options) {
-          return _this.helpers.testRegex(val, /^\d+.?\d*$/) ? parseFloat(val) <= parseFloat(options[0]) : false;
+          return _this.helpers.numeric(val) ? parseFloat(val) <= parseFloat(options[0]) : false;
         },
         messageReplace: function messageReplace(message, options) {
           return message.replace(':lte', options[0]);
@@ -209,7 +211,7 @@ function () {
       numeric: {
         message: 'The :attribute must be a number.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(\d+.?\d*)?$/);
+          return _this.helpers.numeric(val);
         }
       },
       phone: {
@@ -221,13 +223,14 @@ function () {
       required: {
         message: 'The :attribute field is required.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /.+/);
-        }
+          return !!val;
+        },
+        required: true
       },
       url: {
         message: 'The :attribute must be a url.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^((https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?)?$/i);
+          return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         }
       }
     }, _options.validators || {}); // apply default messages
@@ -316,7 +319,7 @@ function () {
               rule = _this$helpers$normali2[1],
               validatorOptions = _this$helpers$normali2[2];
 
-          if (this.helpers.runValidation(rule, value, validatorOptions)) {
+          if (this.helpers.validationFailed(rule, value, validatorOptions)) {
             this.fields[field] = false;
             message = this.helpers.getMessage(rule, field, options);
             this.errorMessages[field] = message;

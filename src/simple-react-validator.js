@@ -4,28 +4,27 @@ class SimpleReactValidator {
     this.errorMessages = {};
     this.messagesShown = false;
     this.rules = {
-      accepted       : {message: 'The :attribute must be accepted.',                              rule: val => val === true },
+      accepted       : {message: 'The :attribute must be accepted.',                              rule: val => val === true, required: true },
       alpha          : {message: 'The :attribute may only contain letters.',                      rule: val => this.helpers.testRegex(val,/^[A-Z]*$/i) },
       alpha_num      : {message: 'The :attribute may only contain letters and numbers.',          rule: val => this.helpers.testRegex(val,/^[A-Z0-9]*$/i) },
       alpha_num_dash : {message: 'The :attribute may only contain letters, numbers, and dashes.', rule: val => this.helpers.testRegex(val,/^[A-Z0-9_-]*$/i) },
-      card_exp       : {message: 'The :attribute must be a valid expiration date.',               rule: val => this.helpers.testRegex(val,/^((([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4}))?$/) },
-      card_num       : {message: 'The :attribute must be a valid credit card number.',            rule: val => this.helpers.testRegex(val,/^(\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8})?$/) },
-      currency       : {message: 'The :attribute must be a valid currency.',                      rule: val => this.helpers.testRegex(val,/^(\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2})?$/) },
-      decimal        : {message: 'The :attribute must be a valid decimal.',                       rule: val => this.helpers.testRegex(val,/^\d*\.?\d*$/) },
-      email          : {message: 'The :attribute must be a valid email address.',                 rule: val => this.helpers.testRegex(val,/^([A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,})?$/i) },
-      gt             : {message: 'The :attribute must be greater than :gt.',                      rule: (val, options) => this.helpers.testRegex(val,/^\d+.?\d*$/) ? parseFloat(val) > parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':gt', options[0]) },
-      gte            : {message: 'The :attribute must be greater than or equal to :gte.',         rule: (val, options) => this.helpers.testRegex(val,/^\d+.?\d*$/) ? parseFloat(val) >= parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':gte', options[0]) },
+      card_exp       : {message: 'The :attribute must be a valid expiration date.',               rule: val => this.helpers.testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/) },
+      card_num       : {message: 'The :attribute must be a valid credit card number.',            rule: val => this.helpers.testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/) },
+      currency       : {message: 'The :attribute must be a valid currency.',                      rule: val => this.helpers.testRegex(val,/^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/) },
+      email          : {message: 'The :attribute must be a valid email address.',                 rule: val => this.helpers.testRegex(val,/^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i) },
+      gt             : {message: 'The :attribute must be greater than :gt.',                      rule: (val, options) => this.helpers.numeric(val) ? parseFloat(val) > parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':gt', options[0]) },
+      gte            : {message: 'The :attribute must be greater than or equal to :gte.',         rule: (val, options) => this.helpers.numeric(val) ? parseFloat(val) >= parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':gte', options[0]) },
       in             : {message: 'The selected :attribute must be :values.',                      rule: (val, options) => options.indexOf(val) > -1, messageReplace: (message, options) => message.replace(':values', this.helpers.toSentence(options)) },
       integer        : {message: 'The :attribute must be an integer.',                            rule: val => this.helpers.testRegex(val,/^\d?$/)},
-      lt             : {message: 'The :attribute must be less than :lt.',                         rule: (val, options) => this.helpers.testRegex(val,/^\d+.?\d*$/) ? parseFloat(val) < parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':lt', options[0]) },
-      lte            : {message: 'The :attribute must be less than or equal to :lte.',            rule: (val, options) => this.helpers.testRegex(val,/^\d+.?\d*$/) ? parseFloat(val) <= parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':lte', options[0]) },
+      lt             : {message: 'The :attribute must be less than :lt.',                         rule: (val, options) => this.helpers.numeric(val) ? parseFloat(val) < parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':lt', options[0]) },
+      lte            : {message: 'The :attribute must be less than or equal to :lte.',            rule: (val, options) => this.helpers.numeric(val) ? parseFloat(val) <= parseFloat(options[0]) : false, messageReplace: (message, options) => message.replace(':lte', options[0]) },
       max            : {message: 'The :attribute may not be greater than :max characters.',       rule: (val, options) => val.length <= options[0], messageReplace: (message, options) => message.replace(':max', options[0]) },
       min            : {message: 'The :attribute must be at least :min characters.',              rule: (val, options) => val.length >= options[0], messageReplace: (message, options) => message.replace(':min', options[0]) },
       not_in         : {message: 'The selected :attribute must not be :values.',                  rule: (val, options) => options.indexOf(val) === -1, messageReplace: (message, options) => message.replace(':values', this.helpers.toSentence(options)) },
-      numeric        : {message: 'The :attribute must be a number.',                              rule: val => this.helpers.testRegex(val,/^(\d+.?\d*)?$/)},
+      numeric        : {message: 'The :attribute must be a number.',                              rule: val => this.helpers.numeric(val)},
       phone          : {message: 'The :attribute must be a valid phone number.',                  rule: val => this.helpers.testRegex(val,/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/)},
-      required       : {message: 'The :attribute field is required.',                             rule: val => this.helpers.testRegex(val,/.+/) },
-      url            : {message: 'The :attribute must be a url.',                                 rule: val => this.helpers.testRegex(val,/^((https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?)?$/i) },
+      required       : {message: 'The :attribute field is required.',                             rule: val => !!val, required: true },
+      url            : {message: 'The :attribute must be a url.',                                 rule: val => this.helpers.testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i) },
       ...(options.validators || {}),
     };
 
@@ -85,7 +84,7 @@ class SimpleReactValidator {
     var message;
     for (let validator of validators) {
       let [value, rule, validatorOptions] = this.helpers.normalizeValues(inputValue, validator);
-      if( this.helpers.runValidation(rule, value, validatorOptions) ){
+      if( this.helpers.validationFailed(rule, value, validatorOptions) ){
         this.fields[field] = false;
         message = this.helpers.getMessage(rule, field, options);
         this.errorMessages[field] = message;
@@ -103,7 +102,10 @@ class SimpleReactValidator {
   helpers = {
     parent: this,
 
-    runValidation(rule, value, options) {
+    validationFailed(rule, value, options) {
+      if( (!this.parent.rules[rule].hasOwnProperty('required') ||  !this.parent.rules[rule].required) && !value ) {
+        return false;
+      }
       return this.parent.rules[rule].rule.call(this.parent, value, options) === false;
     },
 
@@ -139,6 +141,10 @@ class SimpleReactValidator {
       var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || this.rules[rule].message;
       message.replace(':attribute', field.replace(/_/g, ' '));
       return message;
+    },
+
+    numeric(val) {
+      return this.testRegex(val,/^(\d+.?\d*)?$/);
     }
   }
 }
