@@ -7,8 +7,8 @@ class ExampleForm extends React.Component {
       element: (message, className) => <div className="invalid-feedback d-block">{message}</div>,
       className: 'text-danger',
       messages: {
-        email: 'That is not an email.',
-        default: 'Good stuff!'
+        email: 'That is not an email.'
+        // default: 'Good stuff!'
       },
       validators: {
         ip: { // name the rule
@@ -161,6 +161,12 @@ class ExampleForm extends React.Component {
             <label>phone</label>
             <input className="form-control" name="phone" value={this.state.phone} onChange={this.handleInputChange.bind(this)} />
             {this.validator.message('phone', this.state.phone, 'phone')}
+          </div>
+
+          <div className="form-group">
+            <label>regex</label>
+            <input className="form-control" name="regex" value={this.state.regex} onChange={this.handleInputChange.bind(this)} />
+            {this.validator.message('regex', this.state.regex, 'regex:^A*$')}
           </div>
 
           <div className="form-group">

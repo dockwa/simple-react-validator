@@ -23,6 +23,7 @@ class SimpleReactValidator {
       not_in         : {message: 'The selected :attribute must not be :values.',                  rule: (val, options) => options.indexOf(val) === -1, messageReplace: (message, options) => message.replace(':values', this.helpers.toSentence(options)) },
       numeric        : {message: 'The :attribute must be a number.',                              rule: val => this.helpers.numeric(val)},
       phone          : {message: 'The :attribute must be a valid phone number.',                  rule: val => this.helpers.testRegex(val,/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/)},
+      regex          : {message: 'The :attribute does not match the required pattern.',           rule: (val, options) => this.helpers.testRegex(val, typeof options[0] === 'string' || options[0] instanceof String ? new RegExp(options[0]) : options[0])},
       required       : {message: 'The :attribute field is required.',                             rule: val => !!val, required: true },
       url            : {message: 'The :attribute must be a url.',                                 rule: val => this.helpers.testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i) },
       ...(options.validators || {}),
@@ -85,9 +86,9 @@ class SimpleReactValidator {
     var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (let validator of validators) {
       let [value, rule, validatorOptions] = this.helpers.normalizeValues(inputValue, validator);
-      if (this.helpers.validationFailed(rule, value, validatorOptions, rules) ){
+      if (!this.helpers.passes(rule, value, validatorOptions, rules)){
         this.fields[field] = false;
-        let message = this.helpers.message(rule, field, options);
+        let message = this.helpers.message(rule, field, options, rules);
         this.errorMessages[field] = message;
         if (this.messagesShown && (validatorOptions.length > 0 && rules[rule].hasOwnProperty('messageReplace'))) {
           return this.helpers.element(rules[rule].messageReplace(message, validatorOptions), options);
@@ -101,11 +102,11 @@ class SimpleReactValidator {
   helpers = {
     parent: this,
 
-    validationFailed(rule, value, options, rules) {
-      if( (!rules[rule].hasOwnProperty('required') ||  !rules[rule].required) && !value ) {
-        return false;
+    passes(rule, value, options, rules) {
+      if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
+        return true;
       }
-      return rules[rule].rule.call(this.parent, value, options) === false;
+      return rules[rule].rule.call(this.parent, value, options) !== false;
     },
 
     normalizeValues(value, validator) {
@@ -135,11 +136,10 @@ class SimpleReactValidator {
       return value.toString().match(regex) !== null;
     },
 
-    message(rule, field, options) {
+    message(rule, field, options, rules) {
       options.messages = options.messages || {};
-      var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || this.rules[rule].message;
-      message.replace(':attribute', field.replace(/_/g, ' '));
-      return message;
+      var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
+      return message.replace(':attribute', field.replace(/_/g, ' '));
     },
 
     element(message, options) {

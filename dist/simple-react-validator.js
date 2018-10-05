@@ -40,12 +40,12 @@ function () {
 
     _defineProperty(this, "helpers", {
       parent: this,
-      validationFailed: function validationFailed(rule, value, options, rules) {
+      passes: function passes(rule, value, options, rules) {
         if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
-          return false;
+          return true;
         }
 
-        return rules[rule].rule.call(this.parent, value, options) === false;
+        return rules[rule].rule.call(this.parent, value, options) !== false;
       },
       normalizeValues: function normalizeValues(value, validator) {
         return [this.valueOrEmptyString(value), this.getRule(validator), this.getOptions(validator)];
@@ -66,11 +66,10 @@ function () {
       testRegex: function testRegex(value, regex) {
         return value.toString().match(regex) !== null;
       },
-      message: function message(rule, field, options) {
+      message: function message(rule, field, options, rules) {
         options.messages = options.messages || {};
-        var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || this.rules[rule].message;
-        message.replace(':attribute', field.replace(/_/g, ' '));
-        return message;
+        var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
+        return message.replace(':attribute', field.replace(/_/g, ' '));
       },
       element: function element(message, options) {
         var element = options.element || this.parent.element;
@@ -224,6 +223,12 @@ function () {
           return _this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/);
         }
       },
+      regex: {
+        message: 'The :attribute does not match the required pattern.',
+        rule: function rule(val, options) {
+          return _this.helpers.testRegex(val, typeof options[0] === 'string' || options[0] instanceof String ? new RegExp(options[0]) : options[0]);
+        }
+      },
       required: {
         message: 'The :attribute field is required.',
         rule: function rule(val) {
@@ -324,9 +329,9 @@ function () {
               rule = _this$helpers$normali2[1],
               validatorOptions = _this$helpers$normali2[2];
 
-          if (this.helpers.validationFailed(rule, value, validatorOptions, rules)) {
+          if (!this.helpers.passes(rule, value, validatorOptions, rules)) {
             this.fields[field] = false;
-            var message = this.helpers.message(rule, field, options);
+            var message = this.helpers.message(rule, field, options, rules);
             this.errorMessages[field] = message;
 
             if (this.messagesShown && validatorOptions.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
