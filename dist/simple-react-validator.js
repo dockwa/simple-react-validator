@@ -40,12 +40,12 @@ function () {
 
     _defineProperty(this, "helpers", {
       parent: this,
-      validationFailed: function validationFailed(rule, value, options) {
-        if ((!this.parent.rules[rule].hasOwnProperty('required') || !this.parent.rules[rule].required) && !value) {
+      validationFailed: function validationFailed(rule, value, options, rules) {
+        if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
           return false;
         }
 
-        return this.parent.rules[rule].rule.call(this.parent, value, options) === false;
+        return rules[rule].rule.call(this.parent, value, options) === false;
       },
       normalizeValues: function normalizeValues(value, validator) {
         return [this.valueOrEmptyString(value), this.getRule(validator), this.getOptions(validator)];
@@ -72,20 +72,10 @@ function () {
         message.replace(':attribute', field.replace(/_/g, ' '));
         return message;
       },
-      element: function (_element) {
-        function element(_x, _x2) {
-          return _element.apply(this, arguments);
-        }
-
-        element.toString = function () {
-          return _element.toString();
-        };
-
-        return element;
-      }(function (message, options) {
-        element = options.element || this.parent.element;
-        return element(message);
-      }),
+      element: function element(message, options) {
+        var element = options.element || this.parent.element;
+        return element(message, options.className);
+      },
       numeric: function numeric(val) {
         return this.testRegex(val, /^(\d+.?\d*)?$/);
       }
@@ -247,24 +237,25 @@ function () {
           return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         }
       }
-    }, _options.validators || {}); // apply default messages
+    }, _options.validators || {}); // apply default options
 
-    this.messages = _options.messages || {}; // apply default element
+    this.messages = _options.messages || {};
+    this.className = _options.className; // apply default element
 
     if (_options.element === false) {
-      this.element = function (message) {
+      this.element = function (message, className) {
         return message;
       };
     } else if (_options.hasOwnProperty('element')) {
       this.element = _options.element;
     } else if (navigator.product === "ReactNative") {
-      this.element = function (message) {
+      this.element = function (message, className) {
         return message;
       };
     } else {
-      this.element = function (message) {
+      this.element = function (message, className) {
         return React.createElement('div', {
-          className: _options.className || 'text-danger'
+          className: _this.className || 'srv-validation-message'
         }, message);
       };
     }
@@ -318,7 +309,7 @@ function () {
       this.errorMessages[field] = null;
       this.fields[field] = true;
       var validators = validatorString.split('|');
-      var message;
+      var rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -333,17 +324,15 @@ function () {
               rule = _this$helpers$normali2[1],
               validatorOptions = _this$helpers$normali2[2];
 
-          if (this.helpers.validationFailed(rule, value, validatorOptions)) {
+          if (this.helpers.validationFailed(rule, value, validatorOptions, rules)) {
             this.fields[field] = false;
-            message = this.helpers.message(rule, field, options);
+            var message = this.helpers.message(rule, field, options);
             this.errorMessages[field] = message;
 
-            if (this.messagesShown) {
-              if (validatorOptions.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')) {
-                return this.helpers.element(this.rules[rule].messageReplace(message, validatorOptions), options);
-              } else {
-                return this.helpers.element(message, options);
-              }
+            if (this.messagesShown && validatorOptions.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+              return this.helpers.element(rules[rule].messageReplace(message, validatorOptions), options);
+            } else if (this.messagesShown) {
+              return this.helpers.element(message, options);
             }
           }
         }

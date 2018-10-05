@@ -28,18 +28,19 @@ class SimpleReactValidator {
       ...(options.validators || {}),
     };
 
-    // apply default messages
+    // apply default options
     this.messages = options.messages || {};
+    this.className = options.className;
 
     // apply default element
-    if( options.element === false) {
-      this.element = message => message;
-    } else if( options.hasOwnProperty('element') ) {
+    if (options.element === false) {
+      this.element = (message, className) => message;
+    } else if (options.hasOwnProperty('element')) {
       this.element = options.element;
     } else if (navigator.product === "ReactNative") {
-      this.element = message => message;
+      this.element = (message, className) => message;
     } else {
-      this.element = message => React.createElement('div', {className: (options.className || 'text-danger')}, message);
+      this.element = (message, className) => React.createElement('div', {className: (this.className || 'srv-validation-message')}, message);
     }
   }
 
@@ -81,19 +82,17 @@ class SimpleReactValidator {
     this.errorMessages[field] = null;
     this.fields[field] = true;
     var validators = validatorString.split('|');
-    var message;
+    var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (let validator of validators) {
       let [value, rule, validatorOptions] = this.helpers.normalizeValues(inputValue, validator);
-      if( this.helpers.validationFailed(rule, value, validatorOptions) ){
+      if (this.helpers.validationFailed(rule, value, validatorOptions, rules) ){
         this.fields[field] = false;
-        message = this.helpers.message(rule, field, options);
+        let message = this.helpers.message(rule, field, options);
         this.errorMessages[field] = message;
-        if(this.messagesShown){
-          if(validatorOptions.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
-            return this.helpers.element(this.rules[rule].messageReplace(message, validatorOptions), options);
-          } else {
-            return this.helpers.element(message, options);
-          }
+        if (this.messagesShown && (validatorOptions.length > 0 && rules[rule].hasOwnProperty('messageReplace'))) {
+          return this.helpers.element(rules[rule].messageReplace(message, validatorOptions), options);
+        } else if (this.messagesShown) {
+          return this.helpers.element(message, options);
         }
       }
     }
@@ -102,11 +101,11 @@ class SimpleReactValidator {
   helpers = {
     parent: this,
 
-    validationFailed(rule, value, options) {
-      if( (!this.parent.rules[rule].hasOwnProperty('required') ||  !this.parent.rules[rule].required) && !value ) {
+    validationFailed(rule, value, options, rules) {
+      if( (!rules[rule].hasOwnProperty('required') ||  !rules[rule].required) && !value ) {
         return false;
       }
-      return this.parent.rules[rule].rule.call(this.parent, value, options) === false;
+      return rules[rule].rule.call(this.parent, value, options) === false;
     },
 
     normalizeValues(value, validator) {
@@ -144,8 +143,8 @@ class SimpleReactValidator {
     },
 
     element(message, options) {
-      element = options.element || this.parent.element;
-      return element(message);
+      var element = options.element || this.parent.element;
+      return element(message, options.className);
     },
 
     numeric(val) {

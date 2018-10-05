@@ -4,7 +4,7 @@ class ExampleForm extends React.Component {
     super(props);
     this.state = {};
     this.validator = new SimpleReactValidator({
-      element: message => <div className="invalid-feedback d-block">{message}</div>,
+      element: (message, className) => <div className="invalid-feedback d-block">{message}</div>,
       className: 'text-danger',
       messages: {
         email: 'That is not an email.',
@@ -13,7 +13,7 @@ class ExampleForm extends React.Component {
       validators: {
         ip: { // name the rule
           message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
-          rule: function(val, options) { // return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
+          rule: function(val, options) { // return true if it is succeeds and false it if fails validation. the testRegex method is available to give back a true/false for the regex and given value
             // check that it is a valid IP address and is not blacklisted
             return this.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
           }
