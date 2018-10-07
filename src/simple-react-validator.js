@@ -35,13 +35,13 @@ class SimpleReactValidator {
 
     // apply default element
     if (options.element === false) {
-      this.element = (message, className) => message;
+      this.element = message => message;
     } else if (options.hasOwnProperty('element')) {
       this.element = options.element;
     } else if (navigator.product === "ReactNative") {
-      this.element = (message, className) => message;
+      this.element = message => message;
     } else {
-      this.element = (message, className) => React.createElement('div', {className: (this.className || 'srv-validation-message')}, message);
+      this.element = (message, className) => React.createElement('div', {className: (className || this.className || 'srv-validation-message')}, message);
     }
   }
 
@@ -73,9 +73,13 @@ class SimpleReactValidator {
   }
 
   // if a message is present, generate a validation error react element
-  customMessage(message, customClass) {
+  messageAlways(field, message, options = {}) {
+    this.errorMessages[field] = null;
+    this.fields[field] = true;
     if( message && this.messagesShown){
-      return this.element(message);
+      this.fields[field] = false;
+      this.errorMessages[field] = message;
+      return this.helpers.element(message, options);
     }
   }
 
@@ -83,7 +87,6 @@ class SimpleReactValidator {
     this.errorMessages[field] = null;
     this.fields[field] = true;
     if (!Array.isArray(validations)) {
-      console.log(validations);
       validations = validations.split('|');
     }
     var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;

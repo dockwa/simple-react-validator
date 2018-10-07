@@ -257,19 +257,19 @@ function () {
     this.className = _options.className; // apply default element
 
     if (_options.element === false) {
-      this.element = function (message, className) {
+      this.element = function (message) {
         return message;
       };
     } else if (_options.hasOwnProperty('element')) {
       this.element = _options.element;
     } else if (navigator.product === "ReactNative") {
-      this.element = function (message, className) {
+      this.element = function (message) {
         return message;
       };
     } else {
       this.element = function (message, className) {
         return React.createElement('div', {
-          className: _this.className || 'srv-validation-message'
+          className: className || _this.className || 'srv-validation-message'
         }, message);
       };
     }
@@ -310,10 +310,16 @@ function () {
     } // if a message is present, generate a validation error react element
 
   }, {
-    key: "customMessage",
-    value: function customMessage(message, customClass) {
+    key: "messageAlways",
+    value: function messageAlways(field, message) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      this.errorMessages[field] = null;
+      this.fields[field] = true;
+
       if (message && this.messagesShown) {
-        return this.element(message);
+        this.fields[field] = false;
+        this.errorMessages[field] = message;
+        return this.helpers.element(message, options);
       }
     }
   }, {
@@ -324,7 +330,6 @@ function () {
       this.fields[field] = true;
 
       if (!Array.isArray(validations)) {
-        console.log(validations);
         validations = validations.split('|');
       }
 

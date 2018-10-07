@@ -2,9 +2,11 @@ class ExampleForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      ajaxError: 'There was a server error the prevented the form from submitting.'
+    };
     this.validator = new SimpleReactValidator({
-      element: (message, className) => <div className="invalid-feedback d-block">{message}</div>,
+      // element: (message, className) => <div className="invalid-feedback d-block">{message}</div>,
       className: 'text-danger',
       messages: {
         email: 'That is not an email.'
@@ -186,6 +188,8 @@ class ExampleForm extends React.Component {
             <input className="form-control" name="ip" value={this.state.ip} onChange={this.handleInputChange.bind(this)} />
             {this.validator.message('ip_address', this.state.ip, 'ip:127.0.0.1')}
           </div>
+
+          {this.validator.messageAlways('ajax_error', this.state.ajaxError, {element: message => <div className="alert alert-warning" role="alert">{message}</div>})}
 
           <button className="btn btn-primary" onClick={this.submitForm.bind(this)}>Submit</button>
         </div>
