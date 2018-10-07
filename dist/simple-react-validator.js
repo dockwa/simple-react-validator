@@ -47,15 +47,24 @@ function () {
 
         return rules[rule].rule.call(this.parent, value, options) !== false;
       },
-      normalizeValues: function normalizeValues(value, validator) {
-        return [this.valueOrEmptyString(value), this.getRule(validator), this.getOptions(validator)];
+      normalizeValues: function normalizeValues(value, validation) {
+        return [this.valueOrEmptyString(value), this.getValidation(validation), this.getOptions(validation)];
       },
-      getRule: function getRule(validator) {
-        return validator.split(':')[0];
+      getValidation: function getValidation(validation) {
+        if (validation === Object(validation) && !!Object.keys(validation).length) {
+          return Object.keys(validation)[0];
+        } else {
+          return validation.split(':')[0];
+        }
       },
-      getOptions: function getOptions(validator) {
-        var parts = validator.split(':');
-        return parts.length > 1 ? parts[1].split(',') : [];
+      getOptions: function getOptions(validation) {
+        if (validation === Object(validation) && !!Object.values(validation).length) {
+          var options = Object.values(validation)[0];
+          return Array.isArray(options) ? options : [options];
+        } else {
+          var options = validation.split(':');
+          return options.length > 1 ? options[1].split(',') : [];
+        }
       },
       valueOrEmptyString: function valueOrEmptyString(value) {
         return typeof value === 'undefined' || value === null ? '' : value;
@@ -309,21 +318,26 @@ function () {
     }
   }, {
     key: "message",
-    value: function message(field, inputValue, validatorString) {
+    value: function message(field, inputValue, validations) {
       var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
       this.errorMessages[field] = null;
       this.fields[field] = true;
-      var validators = validatorString.split('|');
+
+      if (!Array.isArray(validations)) {
+        console.log(validations);
+        validations = validations.split('|');
+      }
+
       var rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = validators[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var validator = _step.value;
+        for (var _iterator = validations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var validation = _step.value;
 
-          var _this$helpers$normali = this.helpers.normalizeValues(inputValue, validator),
+          var _this$helpers$normali = this.helpers.normalizeValues(inputValue, validation),
               _this$helpers$normali2 = _slicedToArray(_this$helpers$normali, 3),
               value = _this$helpers$normali2[0],
               rule = _this$helpers$normali2[1],

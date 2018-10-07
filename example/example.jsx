@@ -148,7 +148,7 @@ class ExampleForm extends React.Component {
           <div className="form-group">
             <label>not_in</label>
             <input className="form-control" name="not_in" value={this.state.not_in} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('not_in', this.state.not_in, 'not_in:stu,stuart')}
+            {this.validator.message('not_in', this.state.not_in, ['required', {not_in: ['stu', 'stuart']}] )}
           </div>
 
           <div className="form-group">

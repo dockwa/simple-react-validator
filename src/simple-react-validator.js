@@ -79,13 +79,16 @@ class SimpleReactValidator {
     }
   }
 
-  message(field, inputValue, validatorString, options = {}) {
+  message(field, inputValue, validations, options = {}) {
     this.errorMessages[field] = null;
     this.fields[field] = true;
-    var validators = validatorString.split('|');
+    if (!Array.isArray(validations)) {
+      console.log(validations);
+      validations = validations.split('|');
+    }
     var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
-    for (let validator of validators) {
-      let [value, rule, validatorOptions] = this.helpers.normalizeValues(inputValue, validator);
+    for (let validation of validations) {
+      let [value, rule, validatorOptions] = this.helpers.normalizeValues(inputValue, validation);
       if (!this.helpers.passes(rule, value, validatorOptions, rules)){
         this.fields[field] = false;
         let message = this.helpers.message(rule, field, options, rules);
@@ -109,17 +112,26 @@ class SimpleReactValidator {
       return rules[rule].rule.call(this.parent, value, options) !== false;
     },
 
-    normalizeValues(value, validator) {
-      return [this.valueOrEmptyString(value), this.getRule(validator), this.getOptions(validator)];
+    normalizeValues(value, validation) {
+      return [this.valueOrEmptyString(value), this.getValidation(validation), this.getOptions(validation)];
     },
 
-    getRule(validator) {
-      return validator.split(':')[0];
+    getValidation(validation) {
+      if (validation === Object(validation) && !!Object.keys(validation).length) {
+        return Object.keys(validation)[0];
+      } else {
+        return validation.split(':')[0];
+      }
     },
 
-    getOptions(validator) {
-      var parts = validator.split(':');
-      return parts.length > 1 ? parts[1].split(',') : [];
+    getOptions(validation) {
+      if (validation === Object(validation) && !!Object.values(validation).length) {
+        var options = Object.values(validation)[0];
+        return Array.isArray(options) ? options : [options];
+      } else {
+        var options = validation.split(':');
+        return options.length > 1 ? options[1].split(',') : [];
+      }
     },
 
     valueOrEmptyString(value) {
