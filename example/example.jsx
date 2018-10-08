@@ -90,7 +90,7 @@ class ExampleForm extends React.Component {
             {this.example('card_exp')}
             {this.example('card_num')}
             {this.example('currency')}
-            {this.example('date', this.state.date && moment(this.state.date, 'YYYY-MM-DD')), 'date'}
+            {this.example('date', this.state.date && moment(this.state.date, 'YYYY-MM-DD'), 'date', 'date')}
             {this.example('date_equals', this.state.date_equals && moment(this.state.date_equals, 'YYYY-MM-DD'), [{date_equals: moment()}], 'date')}
             {this.example('email')}
             {this.example('gt', this.state.gt, 'gt:30')}

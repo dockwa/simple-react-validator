@@ -86,6 +86,11 @@ class SimpleReactValidator {
     return this.fields.hasOwnProperty(field) && this.fields[field] === true;
   }
 
+  purgeFields() {
+    this.fields = {};
+    this.errorMessages = {};
+  }
+
   // if a message is present, generate a validation error react element
   messageAlways(field, message, options = {}) {
     if( message && this.messagesShown){
@@ -119,6 +124,10 @@ class SimpleReactValidator {
     parent: this,
 
     passes(rule, value, params, rules) {
+      if (!rules.hasOwnProperty(rule)) {
+        console.error(`Rule Not Found: There is no rule with the name ${rule}.`);
+        return true;
+      }
       if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
         return true;
       }
@@ -178,7 +187,7 @@ class SimpleReactValidator {
 
     momentInstalled() {
       if (!window.moment) {
-        console.log('Date validators require using momentjs https://momentjs.com and moment objects.');
+        console.warn('Date validators require using momentjs https://momentjs.com and moment objects.');
         return false;
       } else {
         return true;

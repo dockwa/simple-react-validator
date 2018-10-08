@@ -43,6 +43,11 @@ function () {
     _defineProperty(this, "helpers", {
       parent: this,
       passes: function passes(rule, value, params, rules) {
+        if (!rules.hasOwnProperty(rule)) {
+          console.error("Rule Not Found: There is no rule with the name ".concat(rule, "."));
+          return true;
+        }
+
         if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
           return true;
         }
@@ -91,7 +96,7 @@ function () {
       },
       momentInstalled: function momentInstalled() {
         if (!window.moment) {
-          console.log('Date validators require using momentjs https://momentjs.com and moment objects.');
+          console.warn('Date validators require using momentjs https://momentjs.com and moment objects.');
           return false;
         } else {
           return true;
@@ -419,6 +424,12 @@ function () {
     key: "fieldValid",
     value: function fieldValid(field) {
       return this.fields.hasOwnProperty(field) && this.fields[field] === true;
+    }
+  }, {
+    key: "purgeFields",
+    value: function purgeFields() {
+      this.fields = {};
+      this.errorMessages = {};
     } // if a message is present, generate a validation error react element
 
   }, {
