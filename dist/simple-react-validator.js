@@ -18,6 +18,8 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -40,12 +42,12 @@ function () {
 
     _defineProperty(this, "helpers", {
       parent: this,
-      passes: function passes(rule, value, options, rules) {
+      passes: function passes(rule, value, params, rules) {
         if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
           return true;
         }
 
-        return rules[rule].rule.call(this.parent, value, options) !== false;
+        return rules[rule].rule(value, params, this.parent) !== false;
       },
       normalizeValues: function normalizeValues(value, validation) {
         return [this.valueOrEmptyString(value), this.getValidation(validation), this.getOptions(validation)];
@@ -59,11 +61,11 @@ function () {
       },
       getOptions: function getOptions(validation) {
         if (validation === Object(validation) && !!Object.values(validation).length) {
-          var options = Object.values(validation)[0];
-          return Array.isArray(options) ? options : [options];
+          var params = Object.values(validation)[0];
+          return Array.isArray(params) ? params : [params];
         } else {
-          var options = validation.split(':');
-          return options.length > 1 ? options[1].split(',') : [];
+          var params = validation.split(':');
+          return params.length > 1 ? params[1].split(',') : [];
         }
       },
       valueOrEmptyString: function valueOrEmptyString(value) {
@@ -86,6 +88,14 @@ function () {
       },
       numeric: function numeric(val) {
         return this.testRegex(val, /^(\d+.?\d*)?$/);
+      },
+      momentInstalled: function momentInstalled() {
+        if (!window.moment) {
+          console.log('Date validators require using momentjs https://momentjs.com and moment objects.');
+          return false;
+        } else {
+          return true;
+        }
       }
     });
 
@@ -100,10 +110,34 @@ function () {
         },
         required: true
       },
+      after: {
+        message: 'The :attribute must be after :date.',
+        rule: function rule(val, params) {
+          return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day');
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':date', params[0].format('MM/DD/YYYY'));
+        }
+      },
+      after_or_equal: {
+        message: 'The :attribute must be after or on :date.',
+        rule: function rule(val, params) {
+          return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], 'day');
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':date', params[0].format('MM/DD/YYYY'));
+        }
+      },
       alpha: {
         message: 'The :attribute may only contain letters.',
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z]*$/i);
+        }
+      },
+      alpha_space: {
+        message: 'The :attribute may only contain letters and spaces.',
+        rule: function rule(val) {
+          return _this.helpers.testRegex(val, /^[A-Z\s]*$/i);
         }
       },
       alpha_num: {
@@ -112,10 +146,52 @@ function () {
           return _this.helpers.testRegex(val, /^[A-Z0-9]*$/i);
         }
       },
+      alpha_num_space: {
+        message: 'The :attribute may only contain letters, numbers, and spaces.',
+        rule: function rule(val) {
+          return _this.helpers.testRegex(val, /^[A-Z0-9\s]*$/i);
+        }
+      },
       alpha_num_dash: {
         message: 'The :attribute may only contain letters, numbers, and dashes.',
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z0-9_-]*$/i);
+        }
+      },
+      alpha_num_dash_space: {
+        message: 'The :attribute may only contain letters, numbers, dashes, and spaces.',
+        rule: function rule(val) {
+          return _this.helpers.testRegex(val, /^[A-Z0-9_-\s]*$/i);
+        }
+      },
+      array: {
+        message: 'The :attribute must be an array.',
+        rule: function rule(val) {
+          return Array.isArray(val);
+        }
+      },
+      before: {
+        message: 'The :attribute must be before :date.',
+        rule: function rule(val, params) {
+          return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isBefore(params[0], 'day');
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':date', params[0].format('MM/DD/YYYY'));
+        }
+      },
+      before_or_equal: {
+        message: 'The :attribute must be before or on :date.',
+        rule: function rule(val, params) {
+          return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrBefore(params[0], 'day');
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':date', params[0].format('MM/DD/YYYY'));
+        }
+      },
+      boolean: {
+        message: 'The :attribute must be a boolean.',
+        rule: function rule(val) {
+          return val === false || val === true;
         }
       },
       card_exp: {
@@ -136,6 +212,21 @@ function () {
           return _this.helpers.testRegex(val, /^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/);
         }
       },
+      date: {
+        message: 'The :attribute must be a date.',
+        rule: function rule(val) {
+          return _this.helpers.momentInstalled() && moment.isMoment(val);
+        }
+      },
+      date_equals: {
+        message: 'The :attribute must be on :date.',
+        rule: function rule(val, params) {
+          return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isSame(params[0], 'day');
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':date', params[0].format('MM/DD/YYYY'));
+        }
+      },
       email: {
         message: 'The :attribute must be a valid email address.',
         rule: function rule(val) {
@@ -144,29 +235,29 @@ function () {
       },
       gt: {
         message: 'The :attribute must be greater than :gt.',
-        rule: function rule(val, options) {
-          return _this.helpers.numeric(val) ? parseFloat(val) > parseFloat(options[0]) : false;
+        rule: function rule(val, params) {
+          return _this.helpers.numeric(val) ? parseFloat(val) > parseFloat(params[0]) : false;
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':gt', options[0]);
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':gt', params[0]);
         }
       },
       gte: {
         message: 'The :attribute must be greater than or equal to :gte.',
-        rule: function rule(val, options) {
-          return _this.helpers.numeric(val) ? parseFloat(val) >= parseFloat(options[0]) : false;
+        rule: function rule(val, params) {
+          return _this.helpers.numeric(val) ? parseFloat(val) >= parseFloat(params[0]) : false;
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':gte', options[0]);
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':gte', params[0]);
         }
       },
       in: {
         message: 'The selected :attribute must be :values.',
-        rule: function rule(val, options) {
-          return options.indexOf(val) > -1;
+        rule: function rule(val, params) {
+          return params.indexOf(val) > -1;
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':values', _this.helpers.toSentence(options));
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':values', _this.helpers.toSentence(params));
         }
       },
       integer: {
@@ -177,47 +268,53 @@ function () {
       },
       lt: {
         message: 'The :attribute must be less than :lt.',
-        rule: function rule(val, options) {
-          return _this.helpers.numeric(val) ? parseFloat(val) < parseFloat(options[0]) : false;
+        rule: function rule(val, params) {
+          return _this.helpers.numeric(val) ? parseFloat(val) < parseFloat(params[0]) : false;
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':lt', options[0]);
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':lt', params[0]);
         }
       },
       lte: {
         message: 'The :attribute must be less than or equal to :lte.',
-        rule: function rule(val, options) {
-          return _this.helpers.numeric(val) ? parseFloat(val) <= parseFloat(options[0]) : false;
+        rule: function rule(val, params) {
+          return _this.helpers.numeric(val) ? parseFloat(val) <= parseFloat(params[0]) : false;
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':lte', options[0]);
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':lte', params[0]);
         }
       },
       max: {
         message: 'The :attribute may not be greater than :max characters.',
-        rule: function rule(val, options) {
-          return val.length <= options[0];
+        rule: function rule(val, params) {
+          return val.length <= params[0];
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':max', options[0]);
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':max', params[0]);
         }
       },
       min: {
         message: 'The :attribute must be at least :min characters.',
-        rule: function rule(val, options) {
-          return val.length >= options[0];
+        rule: function rule(val, params) {
+          return val.length >= params[0];
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':min', options[0]);
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':min', params[0]);
         }
       },
       not_in: {
         message: 'The selected :attribute must not be :values.',
-        rule: function rule(val, options) {
-          return options.indexOf(val) === -1;
+        rule: function rule(val, params) {
+          return params.indexOf(val) === -1;
         },
-        messageReplace: function messageReplace(message, options) {
-          return message.replace(':values', _this.helpers.toSentence(options));
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':values', _this.helpers.toSentence(params));
+        }
+      },
+      not_regex: {
+        message: 'The :attribute must not match the required pattern.',
+        rule: function rule(val, params) {
+          return !_this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0]);
         }
       },
       numeric: {
@@ -233,9 +330,9 @@ function () {
         }
       },
       regex: {
-        message: 'The :attribute does not match the required pattern.',
-        rule: function rule(val, options) {
-          return _this.helpers.testRegex(val, typeof options[0] === 'string' || options[0] instanceof String ? new RegExp(options[0]) : options[0]);
+        message: 'The :attribute must match the required pattern.',
+        rule: function rule(val, params) {
+          return _this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0]);
         }
       },
       required: {
@@ -244,6 +341,21 @@ function () {
           return !!val;
         },
         required: true
+      },
+      string: {
+        message: 'The :attribute must be a string.',
+        rule: function rule(val) {
+          return _typeof(val) === _typeof('string');
+        }
+      },
+      typeof: {
+        message: 'The :attribute is not the correct type of :type.',
+        rule: function rule(val, params) {
+          return _typeof(val) === _typeof(params[0]);
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':type', _typeof(params[0]));
+        }
       },
       url: {
         message: 'The :attribute must be a url.',
@@ -313,12 +425,8 @@ function () {
     key: "messageAlways",
     value: function messageAlways(field, message) {
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      this.errorMessages[field] = null;
-      this.fields[field] = true;
 
       if (message && this.messagesShown) {
-        this.fields[field] = false;
-        this.errorMessages[field] = message;
         return this.helpers.element(message, options);
       }
     }
@@ -346,15 +454,15 @@ function () {
               _this$helpers$normali2 = _slicedToArray(_this$helpers$normali, 3),
               value = _this$helpers$normali2[0],
               rule = _this$helpers$normali2[1],
-              validatorOptions = _this$helpers$normali2[2];
+              params = _this$helpers$normali2[2];
 
-          if (!this.helpers.passes(rule, value, validatorOptions, rules)) {
+          if (!this.helpers.passes(rule, value, params, rules)) {
             this.fields[field] = false;
             var message = this.helpers.message(rule, field, options, rules);
             this.errorMessages[field] = message;
 
-            if (this.messagesShown && validatorOptions.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-              return this.helpers.element(rules[rule].messageReplace(message, validatorOptions), options);
+            if (this.messagesShown && params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+              return this.helpers.element(rules[rule].messageReplace(message, params), options);
             } else if (this.messagesShown) {
               return this.helpers.element(message, options);
             }

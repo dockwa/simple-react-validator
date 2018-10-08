@@ -1,10 +1,10 @@
 // include plug-ins
-var gulp       = require('gulp');
-var umd        = require('gulp-umd');
-var inject     = require('gulp-inject-string')
-var rename     = require('gulp-rename');
-var uglify     = require('gulp-uglify');
-var babel      = require('gulp-babel');
+var gulp           = require('gulp');
+var umd            = require('gulp-umd');
+var inject         = require('gulp-inject-string')
+var rename         = require('gulp-rename');
+var uglify         = require('gulp-uglify');
+var babel          = require('gulp-babel');
 var HEADER_COMMENT = '// Simple React Validator v1.0.0 | Created By Dockwa | MIT License | 2018\n';
 
 var gutil = require('gulp-util');

@@ -10,14 +10,14 @@ class ExampleForm extends React.Component {
       className: 'text-danger',
       messages: {
         email: 'That is not an email.'
-        // default: 'Good stuff!'
+        // default: "Womp! That's not right!"
       },
       validators: {
         ip: { // name the rule
           message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
-          rule: function(val, options) { // return true if it is succeeds and false it if fails validation. the testRegex method is available to give back a true/false for the regex and given value
+          rule: function(val, params, validator) { // return true if it is succeeds and false it if fails validation. the testRegex method is available to give back a true/false for the regex and given value
             // check that it is a valid IP address and is not blacklisted
-            return this.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
+            return validator.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && params.indexOf(val) === -1
           }
         }
       }
@@ -42,151 +42,75 @@ class ExampleForm extends React.Component {
     });
   }
 
+  example(name, value, rules, type = 'text') {
+    value = value || this.state[name];
+    rules = rules || name;
+    return (
+      <div className="col-sm-6 col-md-4">
+        <div className="form-group">
+          <label>{name}</label>
+          <input className="form-control" type={type} name={name} value={this.state[name]} onChange={this.handleInputChange.bind(this)} />
+          {this.validator.message(name, value, rules)}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container card my-4">
         <div className="card-body">
           <h3>Example Form</h3>
-          <small className="text-muted">hit submit to view messages</small>
+          <small className="text-muted">Click submit to view messages.</small>
           <hr />
-          <div className="form-check">
-            <label className="form-check-label">
-              <input type="checkbox" name="accepted" className="form-check-input" checked={this.state.accepted} onChange={this.handleInputChange.bind(this)} />
-              <span>accepted</span>
-            </label>
-            {this.validator.message('checkbox', this.state.accepted, 'accepted')}
-          </div>
+          <div className="row">
 
-          <div className="form-group">
-            <label>alpha</label>
-            <input className="form-control" name="alpha" value={this.state.alpha} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('alpha', this.state.alpha, 'alpha')}
-          </div>
+            <div className="col-sm-6 col-md-4">
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input type="checkbox" name="accepted" className="form-check-input" checked={this.state.accepted} onChange={this.handleInputChange.bind(this)} />
+                  <span>accepted</span>
+                </label>
+                {this.validator.message('checkbox', this.state.accepted, 'accepted')}
+              </div>
+            </div>
 
-          <div className="form-group">
-            <label>alpha_num</label>
-            <input className="form-control" name="alpha_num" value={this.state.alpha_num} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('alpha_num', this.state.alpha_num, 'alpha_num')}
-          </div>
-
-          <div className="form-group">
-            <label>alpha_num_dash</label>
-            <input className="form-control" name="alpha_num_dash" value={this.state.alpha_num_dash} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('alpha_num_dash', this.state.alpha_num_dash, 'alpha_num_dash')}
-          </div>
-
-          <div className="form-group">
-            <label>card_exp</label>
-            <input className="form-control" name="card_exp" value={this.state.card_exp} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('card_exp', this.state.card_exp, 'card_exp')}
-          </div>
-
-          <div className="form-group">
-            <label>card_num</label>
-            <input className="form-control" name="card_num" value={this.state.card_num} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('card_num', this.state.card_num, 'card_num')}
-          </div>
-
-          <div className="form-group">
-            <label>currency</label>
-            <input className="form-control" name="currency" value={this.state.currency} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('currency', this.state.currency, 'currency')}
-          </div>
-
-          <div className="form-group">
-            <label>email</label>
-            <input className="form-control" name="email" value={this.state.email} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('email', this.state.email, 'email')}
-          </div>
-
-          <div className="form-group">
-            <label>gt</label>
-            <input className="form-control" name="gt" value={this.state.gt} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('greater_than', this.state.gt, 'gt:30')}
-          </div>
-
-          <div className="form-group">
-            <label>gte</label>
-            <input className="form-control" name="gte" value={this.state.gte} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('greater_than_or_equal', this.state.gte, 'gte:30')}
-          </div>
-
-          <div className="form-group">
-            <label>in</label>
-            <input className="form-control" name="in" value={this.state.in} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('in', this.state.in, 'in:stu,stuart,stuman')}
-          </div>
-
-          <div className="form-group">
-            <label>integer</label>
-            <input className="form-control" name="integer" value={this.state.integer} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('integer', this.state.integer, 'integer')}
-          </div>
-
-          <div className="form-group">
-            <label>lt</label>
-            <input className="form-control" name="lt" value={this.state.lt} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('less_than', this.state.lt, 'lt:30')}
-          </div>
-
-          <div className="form-group">
-            <label>lte</label>
-            <input className="form-control" name="lte" value={this.state.lte} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('less_than_or_equal', this.state.lte, 'lte:30')}
-          </div>
-
-          <div className="form-group">
-            <label>max</label>
-            <input className="form-control" name="max" value={this.state.max} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('max', this.state.max, 'max:20')}
-          </div>
-
-          <div className="form-group">
-            <label>min</label>
-            <input className="form-control" name="min" value={this.state.min} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('min', this.state.min, 'min:20')}
-          </div>
-
-          <div className="form-group">
-            <label>not_in</label>
-            <input className="form-control" name="not_in" value={this.state.not_in} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('not_in', this.state.not_in, ['required', {not_in: ['stu', 'stuart']}] )}
-          </div>
-
-          <div className="form-group">
-            <label>numeric</label>
-            <input className="form-control" name="numeric" value={this.state.numeric} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('numeric', this.state.numeric, 'numeric:20')}
-          </div>
-
-          <div className="form-group">
-            <label>phone</label>
-            <input className="form-control" name="phone" value={this.state.phone} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('phone', this.state.phone, 'phone')}
-          </div>
-
-          <div className="form-group">
-            <label>regex</label>
-            <input className="form-control" name="regex" value={this.state.regex} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('regex', this.state.regex, 'regex:^A*$')}
-          </div>
-
-          <div className="form-group">
-            <label>required</label>
-            <input className="form-control" name="required" value={this.state.required} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('required', this.state.required, 'required')}
-          </div>
-
-          <div className="form-group">
-            <label>url</label>
-            <input className="form-control" name="url" value={this.state.url} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('url', this.state.url, 'url')}
-          </div>
-
-          <div className="form-group">
-            <label>IP Address (custom example)</label>
-            <input className="form-control" name="ip" value={this.state.ip} onChange={this.handleInputChange.bind(this)} />
-            {this.validator.message('ip_address', this.state.ip, 'ip:127.0.0.1')}
+            {this.example('after', this.state.after && moment(this.state.after, 'YYYY-MM-DD'), [{after: moment().add(1, 'month')}], 'date')}
+            {this.example('after_or_equal', this.state.after_or_equal && moment(this.state.after_or_equal, 'YYYY-MM-DD'), [{after_or_equal: moment().add(1, 'month')}], 'date')}
+            {this.example('alpha')}
+            {this.example('alpha_space')}
+            {this.example('alpha_num')}
+            {this.example('alpha_num_space')}
+            {this.example('alpha_num_dash')}
+            {this.example('alpha_num_dash_space')}
+            {this.example('array')}
+            {this.example('before', this.state.before && moment(this.state.before, 'YYYY-MM-DD'), [{before: moment().add(1, 'month')}], 'date')}
+            {this.example('before_or_equal', this.state.before_or_equal && moment(this.state.before_or_equal, 'YYYY-MM-DD'), [{before_or_equal: moment().add(1, 'month')}], 'date')}
+            {this.example('boolean')}
+            {this.example('card_exp')}
+            {this.example('card_num')}
+            {this.example('currency')}
+            {this.example('date', this.state.date && moment(this.state.date, 'YYYY-MM-DD')), 'date'}
+            {this.example('date_equals', this.state.date_equals && moment(this.state.date_equals, 'YYYY-MM-DD'), [{date_equals: moment()}], 'date')}
+            {this.example('email')}
+            {this.example('gt', this.state.gt, 'gt:30')}
+            {this.example('gte', this.state.gte, 'gte:30')}
+            {this.example('in', this.state.in, 'in:stu,stuart,stuman')}
+            {this.example('integer')}
+            {this.example('lt', this.state.lt, 'lt:30')}
+            {this.example('lte', this.state.lte, 'lte:30')}
+            {this.example('max', this.state.max, 'max:20')}
+            {this.example('min', this.state.min, 'min:20')}
+            {this.example('not_in', this.state.not_in, ['required', {not_in: ['stu', 'stuart']}] )}
+            {this.example('not_regex', this.state.not_regex, 'not_regex:^A*$')}
+            {this.example('numeric', this.state.numeric, 'numeric:20')}
+            {this.example('phone')}
+            {this.example('regex', this.state.regex, 'regex:^A*$')}
+            {this.example('required')}
+            {this.example('string')}
+            {this.example('typeof', this.state.typeof, [{typeof: 'string'}] )}
+            {this.example('url')}
+            {this.example('ip', this.state.ip, 'ip:127.0.0.1')}
           </div>
 
           {this.validator.messageAlways('ajax_error', this.state.ajaxError, {element: message => <div className="alert alert-warning" role="alert">{message}</div>})}
