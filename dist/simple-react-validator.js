@@ -95,11 +95,28 @@ function () {
         return this.testRegex(val, /^(\d+.?\d*)?$/);
       },
       momentInstalled: function momentInstalled() {
-        if (!window.moment) {
+        if (!window || !window.moment) {
           console.warn('Date validators require using momentjs https://momentjs.com and moment objects.');
           return false;
         } else {
           return true;
+        }
+      },
+      size: function size(val, params) {
+        // if an array or string get the length, else return the value.
+        if (params[0] === 'string' || params[0] === 'array') {
+          return val.length;
+        } else if (params[0] === 'num') {
+          return parseFloat(val);
+        }
+      },
+      sizeText: function sizeText(type) {
+        if (type === 'string') {
+          return ' characters';
+        } else if (type === 'array') {
+          return ' elements';
+        } else {
+          return '';
         }
       }
     });
@@ -193,6 +210,15 @@ function () {
           return message.replace(':date', params[0].format('MM/DD/YYYY'));
         }
       },
+      between: {
+        message: 'The :attribute must be between :min and :max:type.',
+        rule: function rule(val, params) {
+          return _this.helpers.size(val, params) >= parseFloat(params[1]) && _this.helpers.size(val, params) <= parseFloat(params[2]);
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':min', params[1]).replace(':max', params[2]).replace(':type', _this.helpers.sizeText(params[0]));
+        }
+      },
       boolean: {
         message: 'The :attribute must be a boolean.',
         rule: function rule(val) {
@@ -238,24 +264,6 @@ function () {
           return _this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i);
         }
       },
-      gt: {
-        message: 'The :attribute must be greater than :gt.',
-        rule: function rule(val, params) {
-          return _this.helpers.numeric(val) ? parseFloat(val) > parseFloat(params[0]) : false;
-        },
-        messageReplace: function messageReplace(message, params) {
-          return message.replace(':gt', params[0]);
-        }
-      },
-      gte: {
-        message: 'The :attribute must be greater than or equal to :gte.',
-        rule: function rule(val, params) {
-          return _this.helpers.numeric(val) ? parseFloat(val) >= parseFloat(params[0]) : false;
-        },
-        messageReplace: function messageReplace(message, params) {
-          return message.replace(':gte', params[0]);
-        }
-      },
       in: {
         message: 'The selected :attribute must be :values.',
         rule: function rule(val, params) {
@@ -271,40 +279,22 @@ function () {
           return _this.helpers.testRegex(val, /^\d?$/);
         }
       },
-      lt: {
-        message: 'The :attribute must be less than :lt.',
-        rule: function rule(val, params) {
-          return _this.helpers.numeric(val) ? parseFloat(val) < parseFloat(params[0]) : false;
-        },
-        messageReplace: function messageReplace(message, params) {
-          return message.replace(':lt', params[0]);
-        }
-      },
-      lte: {
-        message: 'The :attribute must be less than or equal to :lte.',
-        rule: function rule(val, params) {
-          return _this.helpers.numeric(val) ? parseFloat(val) <= parseFloat(params[0]) : false;
-        },
-        messageReplace: function messageReplace(message, params) {
-          return message.replace(':lte', params[0]);
-        }
-      },
       max: {
-        message: 'The :attribute may not be greater than :max characters.',
+        message: 'The :attribute may not be greater than :max:type.',
         rule: function rule(val, params) {
-          return val.length <= params[0];
+          return _this.helpers.size(val, params) <= parseFloat(params[1]);
         },
         messageReplace: function messageReplace(message, params) {
-          return message.replace(':max', params[0]);
+          return message.replace(':max', params[1]).replace(':type', _this.helpers.sizeText(params[0]));
         }
       },
       min: {
-        message: 'The :attribute must be at least :min characters.',
+        message: 'The :attribute must be at least :min:type.',
         rule: function rule(val, params) {
-          return val.length >= params[0];
+          return _this.helpers.size(val, params) >= parseFloat(params[1]);
         },
         messageReplace: function messageReplace(message, params) {
-          return message.replace(':min', params[0]);
+          return message.replace(':min', params[1]).replace(':type', _this.helpers.sizeText(params[0]));
         }
       },
       not_in: {
@@ -346,6 +336,15 @@ function () {
           return !!val;
         },
         required: true
+      },
+      size: {
+        message: 'The :attribute must be :size:type.',
+        rule: function rule(val, params) {
+          return _this.helpers.size(val, params) == parseFloat(params[1]);
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':size', params[1]).replace(':type', _this.helpers.sizeText(params[0]));
+        }
       },
       string: {
         message: 'The :attribute must be a string.',

@@ -21,7 +21,8 @@
     "gulp": "./node_modules/.bin/gulp",
     "dist": "gulp dist",
     "watch": "gulp watch",
-    "prepare": "npm run dist"
+    "prepare": "npm run dist",
+    "serve": "python -m SimpleHTTPServer 3000"
   },
   "repository": {
     "type": "git",

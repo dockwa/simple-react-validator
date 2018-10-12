@@ -86,6 +86,7 @@ class ExampleForm extends React.Component {
             {this.example('array')}
             {this.example('before', this.state.before && moment(this.state.before, 'YYYY-MM-DD'), [{before: moment().add(1, 'month')}], 'date')}
             {this.example('before_or_equal', this.state.before_or_equal && moment(this.state.before_or_equal, 'YYYY-MM-DD'), [{before_or_equal: moment().add(1, 'month')}], 'date')}
+            {this.example('between', this.state.between, 'between:string,10,20')}
             {this.example('boolean')}
             {this.example('card_exp')}
             {this.example('card_num')}
@@ -93,20 +94,17 @@ class ExampleForm extends React.Component {
             {this.example('date', this.state.date && moment(this.state.date, 'YYYY-MM-DD'), 'date', 'date')}
             {this.example('date_equals', this.state.date_equals && moment(this.state.date_equals, 'YYYY-MM-DD'), [{date_equals: moment()}], 'date')}
             {this.example('email')}
-            {this.example('gt', this.state.gt, 'gt:30')}
-            {this.example('gte', this.state.gte, 'gte:30')}
             {this.example('in', this.state.in, 'in:stu,stuart,stuman')}
             {this.example('integer')}
-            {this.example('lt', this.state.lt, 'lt:30')}
-            {this.example('lte', this.state.lte, 'lte:30')}
-            {this.example('max', this.state.max, 'max:20')}
-            {this.example('min', this.state.min, 'min:20')}
+            {this.example('max', this.state.max, 'max:string,20')}
+            {this.example('min', this.state.min, 'min:num,20')}
             {this.example('not_in', this.state.not_in, ['required', {not_in: ['stu', 'stuart']}] )}
             {this.example('not_regex', this.state.not_regex, 'not_regex:^A*$')}
             {this.example('numeric', this.state.numeric, 'numeric:20')}
             {this.example('phone')}
             {this.example('regex', this.state.regex, 'regex:^A*$')}
             {this.example('required')}
+            {this.example('size', this.state.size, 'size:num,20')}
             {this.example('string')}
             {this.example('typeof', this.state.typeof, [{typeof: 'string'}] )}
             {this.example('url')}
