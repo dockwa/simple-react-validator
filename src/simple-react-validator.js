@@ -84,7 +84,7 @@ class SimpleReactValidator {
 
           this.errorMessages[field] = message;
           if(options.length > 0 && this.rules[rule].hasOwnProperty('messageReplace')){
-            return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
+            return this._reactErrorElement(this.rules[rule].messageReplace(message, options), customClass);
           } else {
             return this._reactErrorElement(message, customClass);
           }
