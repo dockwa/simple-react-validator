@@ -137,6 +137,11 @@ This is the list of all the rules you can validate form inputs against. When usi
 |required      |              | something                                    | Must be present, use with other rules to require them.   |
 |url           |              | https://dockwa.com                           | Must be a valid url.                                     |
 
+
+
+#### Accepted
+If 'true', good for required check boxes.
+
 ## Custom Rules
 You can write custom rules that you can use the validate. A rule is comprised of 3 parts; the name, the message, and the rule itself. Here is an example of adding a custom rule on initialize of the validator.
 
