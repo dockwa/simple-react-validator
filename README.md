@@ -176,10 +176,12 @@ Must be a JavaScript _true_, good for required check boxes.
 
 #### after
 Must be after date. See <a href="#">Date</a> for info on accepted date values.
+
 *options:* moment js date
 
 #### after_or_equal
 Must be after or on date. See <a href="#">Date</a> for info on accepted date values.
+
 *options:* moment js date
 
 #### alpha
