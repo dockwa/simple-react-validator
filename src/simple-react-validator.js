@@ -16,7 +16,7 @@ class SimpleReactValidator {
       array                : {message: 'The :attribute must be an array.',                                      rule: val => Array.isArray(val)},
       before               : {message: 'The :attribute must be before :date.',                                  rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isBefore(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       before_or_equal      : {message: 'The :attribute must be before or on :date.',                            rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrBefore(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
-      between              : {message: 'The :attribute must be between :min and :max:type.',                    rule: (val, params) => this.helpers.size(val, params) >= parseFloat(params[1]) && this.helpers.size(val, params) <= parseFloat(params[2]), messageReplace: (message, params) => message.replace(':min', params[1]).replace(':max', params[2]).replace(':type', this.helpers.sizeText(params[0]))},
+      between              : {message: 'The :attribute must be between :min and :max:type.',                    rule: (val, params) => this.helpers.size(val, params[2]) >= parseFloat(params[0]) && this.helpers.size(val, params[2]) <= parseFloat(params[1]), messageReplace: (message, params) => message.replace(':min', params[0]).replace(':max', params[1]).replace(':type', this.helpers.sizeText(params[2]))},
       boolean              : {message: 'The :attribute must be a boolean.',                                     rule: val => val === false || val === true},
       card_exp             : {message: 'The :attribute must be a valid expiration date.',                       rule: val => this.helpers.testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/)},
       card_num             : {message: 'The :attribute must be a valid credit card number.',                    rule: val => this.helpers.testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/)},
@@ -26,15 +26,15 @@ class SimpleReactValidator {
       email                : {message: 'The :attribute must be a valid email address.',                         rule: val => this.helpers.testRegex(val,/^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i)},
       in                   : {message: 'The selected :attribute must be :values.',                              rule: (val, params) => params.indexOf(val) > -1, messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
       integer              : {message: 'The :attribute must be an integer.',                                    rule: val => this.helpers.testRegex(val,/^\d?$/)},
-      max                  : {message: 'The :attribute may not be greater than :max:type.',                     rule: (val, params) => this.helpers.size(val, params) <= parseFloat(params[1]), messageReplace: (message, params) => message.replace(':max', params[1]).replace(':type', this.helpers.sizeText(params[0]))},
-      min                  : {message: 'The :attribute must be at least :min:type.',                            rule: (val, params) => this.helpers.size(val, params) >= parseFloat(params[1]), messageReplace: (message, params) => message.replace(':min', params[1]).replace(':type', this.helpers.sizeText(params[0]))},
+      max                  : {message: 'The :attribute may not be greater than :max:type.',                     rule: (val, params) => this.helpers.size(val, params[1]) <= parseFloat(params[0]), messageReplace: (message, params) => message.replace(':max', params[0]).replace(':type', this.helpers.sizeText(params[1]))},
+      min                  : {message: 'The :attribute must be at least :min:type.',                            rule: (val, params) => this.helpers.size(val, params[1]) >= parseFloat(params[0]), messageReplace: (message, params) => message.replace(':min', params[0]).replace(':type', this.helpers.sizeText(params[1]))},
       not_in               : {message: 'The selected :attribute must not be :values.',                          rule: (val, params) => params.indexOf(val) === -1, messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
       not_regex            : {message: 'The :attribute must not match the required pattern.',                   rule: (val, params) => !this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0])},
       numeric              : {message: 'The :attribute must be a number.',                                      rule: val => this.helpers.numeric(val)},
       phone                : {message: 'The :attribute must be a valid phone number.',                          rule: val => this.helpers.testRegex(val,/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/)},
       regex                : {message: 'The :attribute must match the required pattern.',                       rule: (val, params) => this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0])},
       required             : {message: 'The :attribute field is required.',                                     rule: val => !!val, required: true },
-      size                 : {message: 'The :attribute must be :size:type.',                                    rule: (val, params) => this.helpers.size(val, params) == parseFloat(params[1]), messageReplace: (message, params) => message.replace(':size', params[1]).replace(':type', this.helpers.sizeText(params[0]))},
+      size                 : {message: 'The :attribute must be :size:type.',                                    rule: (val, params) => this.helpers.size(val, params[1]) == parseFloat(params[0]), messageReplace: (message, params) => message.replace(':size', params[0]).replace(':type', this.helpers.sizeText(params[1]))},
       string               : {message: 'The :attribute must be a string.',                                      rule: val => typeof(val) === typeof('string')},
       typeof               : {message: 'The :attribute is not the correct type of :type.',                      rule: (val, params) => typeof(val) === typeof(params[0]), messageReplace: (message, params) => message.replace(':type', typeof(params[0]))},
       url                  : {message: 'The :attribute must be a url.',                                         rule: val => this.helpers.testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i)},
@@ -192,17 +192,17 @@ class SimpleReactValidator {
       }
     },
 
-    size(val, params) {
+    size(val, type) {
       // if an array or string get the length, else return the value.
-      if (params[0] === 'string' || params[0] === 'array') {
+      if (type === 'string' || type === undefined || type === 'array') {
         return val.length;
-      } else if (params[0] === 'num') {
+      } else if (type === 'num') {
         return parseFloat(val);
       }
     },
 
     sizeText(type) {
-      if (type === 'string') {
+      if (type === 'string' || type === undefined) {
         return ' characters';
       } else if (type === 'array') {
         return ' elements';

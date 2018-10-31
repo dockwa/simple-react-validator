@@ -102,16 +102,16 @@ function () {
           return true;
         }
       },
-      size: function size(val, params) {
+      size: function size(val, type) {
         // if an array or string get the length, else return the value.
-        if (params[0] === 'string' || params[0] === 'array') {
+        if (type === 'string' || type === undefined || type === 'array') {
           return val.length;
-        } else if (params[0] === 'num') {
+        } else if (type === 'num') {
           return parseFloat(val);
         }
       },
       sizeText: function sizeText(type) {
-        if (type === 'string') {
+        if (type === 'string' || type === undefined) {
           return ' characters';
         } else if (type === 'array') {
           return ' elements';
@@ -213,10 +213,10 @@ function () {
       between: {
         message: 'The :attribute must be between :min and :max:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params) >= parseFloat(params[1]) && _this.helpers.size(val, params) <= parseFloat(params[2]);
+          return _this.helpers.size(val, params[2]) >= parseFloat(params[0]) && _this.helpers.size(val, params[2]) <= parseFloat(params[1]);
         },
         messageReplace: function messageReplace(message, params) {
-          return message.replace(':min', params[1]).replace(':max', params[2]).replace(':type', _this.helpers.sizeText(params[0]));
+          return message.replace(':min', params[0]).replace(':max', params[1]).replace(':type', _this.helpers.sizeText(params[2]));
         }
       },
       boolean: {
@@ -282,19 +282,19 @@ function () {
       max: {
         message: 'The :attribute may not be greater than :max:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params) <= parseFloat(params[1]);
+          return _this.helpers.size(val, params[1]) <= parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
-          return message.replace(':max', params[1]).replace(':type', _this.helpers.sizeText(params[0]));
+          return message.replace(':max', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
         }
       },
       min: {
         message: 'The :attribute must be at least :min:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params) >= parseFloat(params[1]);
+          return _this.helpers.size(val, params[1]) >= parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
-          return message.replace(':min', params[1]).replace(':type', _this.helpers.sizeText(params[0]));
+          return message.replace(':min', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
         }
       },
       not_in: {
@@ -340,10 +340,10 @@ function () {
       size: {
         message: 'The :attribute must be :size:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params) == parseFloat(params[1]);
+          return _this.helpers.size(val, params[1]) == parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
-          return message.replace(':size', params[1]).replace(':type', _this.helpers.sizeText(params[0]));
+          return message.replace(':size', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
         }
       },
       string: {

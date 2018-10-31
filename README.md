@@ -132,7 +132,7 @@ This is the list of all the rules you can validate form inputs against. When usi
 * <a href="#array">Array</a>
 * <a href="#beforedate">Before</a>
 * <a href="#before_or_equaldate">Before or Equal</a>
-* <a href="#betweensizetypeoptional">Between</a>
+* <a href="#betweenminmaxtypeoptional">Between</a>
 * <a href="#boolean">Boolean</a>
 * <a href="#card_exp">Card Expiration</a>
 * <a href="#card_num">Card Number</a>
@@ -191,7 +191,7 @@ Must be before date. See <a href="#date">Date</a> for info on accepted date valu
 #### before_or_equal:date
 Must be before or on date. See <a href="#date">Date</a> for info on accepted date values.
 
-#### between:size,type(optional)
+#### between:min,max,type(optional)
 Must be between two values. See <a href="#sizesizetypeoptional">Size</a> for info on how size is calculated and how options work.
 
 #### boolean
