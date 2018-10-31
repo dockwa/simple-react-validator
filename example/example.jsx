@@ -96,15 +96,15 @@ class ExampleForm extends React.Component {
             {this.example('email')}
             {this.example('in', this.state.in, 'in:stu,stuart,stuman')}
             {this.example('integer')}
-            {this.example('max', this.state.max, 'max:string,20')}
-            {this.example('min', this.state.min, 'min:num,20')}
+            {this.example('max', this.state.max, 'max:20')}
+            {this.example('min', this.state.min, 'min:20,num')}
             {this.example('not_in', this.state.not_in, ['required', {not_in: ['stu', 'stuart']}] )}
             {this.example('not_regex', this.state.not_regex, 'not_regex:^A*$')}
             {this.example('numeric')}
             {this.example('phone')}
             {this.example('regex', this.state.regex, 'regex:^A*$')}
             {this.example('required')}
-            {this.example('size', this.state.size, 'size:num,20')}
+            {this.example('size', this.state.size, 'size:20,num')}
             {this.example('string')}
             {this.example('typeof', this.state.typeof, [{typeof: 'string'}] )}
             {this.example('url')}

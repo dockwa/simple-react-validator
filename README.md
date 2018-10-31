@@ -49,8 +49,7 @@ constructor() {
 - **Field Name**: A unique underscored string that gets replaced in the messaging as the name of the field.
 - **Value**: Usually the state of the current field.
 - **Rules String**: A pipe separated list of rules to apply to the string.
-- **Optional Class Name**: The class applied to the div that wraps the message, default is 'validation-message'.
-- **Optional Custom Error Messages**: Will override the normal error messages.
+- **Options (Optional)**: Object of options same as the [default options](#).
 
 ```jsx
 render: function() {
@@ -78,7 +77,7 @@ render: function() {
         <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
 
         {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('review', this.state.review, 'required|min:20|max:120', false, {min: 'Custom min error'})}
+        {this.validator.message('review', this.state.review, 'required|min:20|max:120'})}
 
       </div>
       <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
@@ -278,11 +277,13 @@ Example:
 ```javascript
 constructor() {
   this.validator = new SimpleReactValidator({
-    ip: { // name the rule
-      message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
-      rule: function(val, options){ // return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
-        // check that it is a valid IP address and is not blacklisted
-        return this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
+    validators: {
+      ip: { // name the rule
+        message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
+        rule: function(val, params, validator) { // return true if it is succeeds and false it if fails validation. the testRegex method is available to give back a true/false for the regex and given value
+          // check that it is a valid IP address and is not blacklisted
+          return validator.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && params.indexOf(val) === -1
+        }
       }
     }
   });
