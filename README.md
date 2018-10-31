@@ -13,17 +13,17 @@
 
 [![Powered by Dockwa](https://raw.githubusercontent.com/dockwa/openpixel/dockwa/by-dockwa.png)](https://engineering.dockwa.com/)
 
+# About
+Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
+
 # Documentation
-1. [About](#about)
-2. [Usage](#usage)
-3. [Setup](#3easysteps)
+1. [Usage](#usage)
+2. [Setup](#3easysteps)
+3. [Rules](#rules)
 4. [Options](#options)
 5. [Custom Validators](#customvalidators)
 
-## About
-Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
-
-## Usage
+# Usage
 Open the `example/index.html` file for more usage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
 
 **npm**
@@ -36,7 +36,7 @@ npm install simple-react-validator --save
 bower install simple-react-validator --save
 ```
 
-#### 3 Easy Steps
+# 3 Easy Steps
 1. Initialize the validator.
 
 es5
@@ -128,7 +128,7 @@ You need to wrap validator with `<Text>` Element.
 </Text>
 ```
 
-## Rules
+# Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`. You can apply the rules via an array like `['require', {max: 20, min: 120}]` or `['require', {in: ['stu', 'stuyam']}]`. This is necessary for things like the regex validator where you may be using pipes or commas in the regex and would conflict with the rule string.
 
 * <a href="#accepted">Accepted</a>
@@ -279,7 +279,7 @@ Must be of JavaScript type specified in the options.
 Must be a valid url. Ex. https://dockwa.com or dockwa.com
 
 
-## Options
+# Options
 The Simple React Validator can receive an options object when initialized or as the fourth parameter when defining a validator. There are 4 options you can provide.
 1. element: Accepts a block where you can return the default element that you want to wrap the message from a validator message. The default element is `<div className="srv-validation-message">{message}</div>`. If you are using React Native the default will be just the message the gets returned. You can also set `element: false` to just return a message.
   * **Takes 2 params**
@@ -307,7 +307,7 @@ this.validator = new SimpleReactValidator({
 
 
 
-## Custom Validators
+# Custom Validators
 You can write custom rules that you can use the validate. A rule has 4 options:
 1. message: The message the will be shown when the validation fails. :attribute will be replaced by the _humanized_ name that your provide of the attribute you are validating.
 2. rule: Accepts a block that returns true if validator passes and false if it fails.
