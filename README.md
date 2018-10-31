@@ -174,13 +174,11 @@ This is the list of all the rules you can validate form inputs against. When usi
 #### accepted
 Must be a JavaScript _true_, good for required check boxes.
 
-#### after
-Must be after date. See <a href="#">Date</a> for info on accepted date values.
-<br />*options:* moment js date
+#### after:date
+Must be after date. See <a href="#date">Date</a> for info on accepted date values.
 
-#### after_or_equal
-Must be after or on date. See <a href="#">Date</a> for info on accepted date values.
-<br />*options:* moment js date
+#### after_or_equal:date
+Must be after or on date. See <a href="#date">Date</a> for info on accepted date values.
 
 #### alpha
 Must only container letters.
@@ -203,14 +201,14 @@ Must only container letters, numbers, dashes, underscores, and spaces.
 #### array
 Must be a JavaScript Array.
 
-#### before
-Must be before date. See <a href="#">Date</a> for info on accepted date values.
+#### before:date
+Must be before date. See <a href="#date">Date</a> for info on accepted date values.
 
-#### before_or_equal
-Must be before or on date. See <a href="#">Date</a> for info on accepted date values.
+#### before_or_equal:date
+Must be before or on date. See <a href="#date">Date</a> for info on accepted date values.
 
-#### between
-Must be between two values. See <a href="#">Size</a> for info on how size is calculated.
+#### between:type,size
+Must be between two values. See <a href="#size">Size</a> for info on how size is calculated and how options work.
 
 #### boolean
 Must be a JavaScript Boolean.
@@ -225,8 +223,9 @@ Must be a valid credit card number. Ex. 4242424242424242 or 4242 4242 4242 4242
 Must be a valid currency. Dollar signs and commas are optional. Ex. 4.25, $3000 or $3,245,525.12
 
 #### date
-Must be a date type <a href="#">momentjs</a> date.
-<span style="color: red">Requires Momentjs</span>
+Must be a date type <a href="https://momentjs.com/">momentjs</a> date.
+**Requires Momentjs**
+<br />*Options:* date must be a momentjs date object.
 
 #### date_equals
 Must be a date on a specific date.
@@ -234,20 +233,27 @@ Must be a date on a specific date.
 #### email
 Must be a valid email format.
 
-#### in
+#### in:foo,bar,...
 Must match a string in options.
+<br />*Options:* list of values it must match.
 
 #### integer
 Must be an integer value.
 
-#### max
-Must not be higher than max. See <a href="#">Size</a> for info on how size is calculated.
+#### max:type,size
+Must not be greater than max. See <a href="#size">Size</a> for info on how size is calculated and how options work.
 
-#### not_in
+#### min:type,size
+Must not be less than min. See <a href="#size">Size</a> for info on how size is calculated and how options work.
+
+#### not_in:foo,bar,...
 Must NOT match a string in options.
+<br />*Options:* list of values it must not match.
 
-#### not_regex
+#### not_regex:pattern
 Must NOT match a regex.
+<br />*Options:* regex it must not match.
+<br />*Note:* if your regex uses a | or , or other special characters use the array syntax to define the rule.
 
 #### numeric
 Must be a number of any type.
@@ -255,20 +261,24 @@ Must be a number of any type.
 #### phone
 Must be a valid phone number format. Ex. (508) 555-1234 or 5085551234
 
-#### regex
+#### regex:pattern
 Must match a regex.
+<br />*Options:* regex it must match.
+<br />*Note:* if your regex uses a | or , or other special characters use the array syntax to define the rule.
 
 #### required
 Must be present, use with other validators to require them.
 
-#### size
+#### size:type,size
 Must be of a particular size. Can be a string length, array length, or number.
+<br />*Options:* there are 3 types 'string', 'num', and 'array'. String is length of string, num is size of number, array is length of array.
 
 #### string
 Must be of type string.
 
-#### typeof
+#### typeof:type
 Must be of JavaScript type specified in the options.
+<br />*Options:* compare the type of the value given to the type provided. Use array syntax to define the type else it will always be type string.
 
 #### url
 Must be a valid url. Ex. https://dockwa.com or dockwa.com

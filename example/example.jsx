@@ -100,7 +100,7 @@ class ExampleForm extends React.Component {
             {this.example('min', this.state.min, 'min:num,20')}
             {this.example('not_in', this.state.not_in, ['required', {not_in: ['stu', 'stuart']}] )}
             {this.example('not_regex', this.state.not_regex, 'not_regex:^A*$')}
-            {this.example('numeric', this.state.numeric, 'numeric:20')}
+            {this.example('numeric')}
             {this.example('phone')}
             {this.example('regex', this.state.regex, 'regex:^A*$')}
             {this.example('required')}
