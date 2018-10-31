@@ -137,7 +137,39 @@ This is the list of all the rules you can validate form inputs against. When usi
 |required      |              | something                                    | Must be present, use with other rules to require them.   |
 |url           |              | https://dockwa.com                           | Must be a valid url.                                     |
 
-
+<a href="#accepted">Accepted</a>
+<a href="#after">After</a>
+<a href="#after_or_equal">After or Equal</a>
+<a href="#alpha">Alpha</a>
+<a href="#alpha_space">Alpha Space</a>
+<a href="#alpha_num">Alpha Num</a>
+<a href="#alpha_num_space">Alpha Num Space</a>
+<a href="#alpha_num_dash">Alpha Num Dash</a>
+<a href="#alpha_num_dash_space">Alpha Num Dash Space</a>
+<a href="#array">Array</a>
+<a href="#before">Before</a>
+<a href="#before_or_equal">Before or Equal</a>
+<a href="#between">Between</a>
+<a href="#boolean">Boolean</a>
+<a href="#card_exp">Card Expiration</a>
+<a href="#card_num">Card Number</a>
+<a href="#currency">Currency</a>
+<a href="#date">Date</a>
+<a href="#date_equals">Date Equals</a>
+<a href="#email">Email</a>
+<a href="#in">In</a>
+<a href="#integer">Integer</a>
+<a href="#max">Max</a>
+<a href="#not_in">Not In</a>
+<a href="#not_regex">Not Regex</a>
+<a href="#numeric">Numeric</a>
+<a href="#phone">Phone</a>
+<a href="#regex">Regex</a>
+<a href="#required">Required</a>
+<a href="#size">Size</a>
+<a href="#string">string</a>
+<a href="#typeof">Type Of</a>
+<a href="#url">Url</a>
 
 #### accepted
 Must be a JavaScript _true_, good for required check boxes.
