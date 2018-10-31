@@ -118,31 +118,7 @@ You need to wrap validator with `<Text>` Element.
 ```
 
 ## Rules
-This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
-
-| Rules        | Options      |Example                                       | Description                                              |
-|--------------|--------------|----------------------------------------------|----------------------------------------------------------|
-|accepted      |              | Javascript true                              | If 'true', good for required check boxes.                |
-|alpha         |              | abcdefghijk                                  | Must have only letters.                                  |
-|alpha_num     |              | abcdefg12345                                 | Must have only letters and numbers.                      |
-|alpha_num_dash|              | abcde-1234_                                  | Must have only letters, numbers, dashes, and underscores.|
-|card_exp      |              | 12/18, 12/2018                               | Must have only a valid credit card expiration date.      |
-|card_num      |              | 4242 4242 4242 4242 (with or without spaces) | Must have only a valid credit card number.               |
-|currency      |              | $2,442,424.12 (optional $ and commas)        | Must have only a valid currency.                         |
-|decimal       |              | 24424.123 (optional decimal place)           | Must have only a valid decimal.                          |
-|email         |              | test+yahoo@example.com                       |  Must have only a valid email address.                   |
-|gt            |30            | 100                                          | Must be greater than value.                              |
-|gte           |25.39         | 25.39                                        | Must be greater than or equal to value.                  |
-|in            |stu, chris, hi| stu                                          | Must be one of the provided options.                     |
-|integer       |              | 12345                                        | Must have only an integer.                               |
-|lt            |193.3         | 20                                           | Must be less than value.                                 |
-|lte           |55            | 45                                           | Must be less than or equal to value.                     |
-|max           |120           | this is a test                               | Must have less than X number of character.               |
-|min           |20            | this is only a simple test                   | Must have more than X number of characters.              |
-|not_in        |john, max     | stu                                          | Must not be one of the provided options.                 |
-|phone         |              | (508) 555-1234 OR 5085551234                 | Must be a valid phone number.                            |
-|required      |              | something                                    | Must be present, use with other rules to require them.   |
-|url           |              | https://dockwa.com                           | Must be a valid url.                                     |
+This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`. You can apply the rules via an array like `['require', {max: 20, min: 120}]` or `['require', {in: ['stu', 'stuyam']}]`. This is necessary for things like the regex validator where you may be using pipes or commas in the regex and would conflict with the rule string.
 
 * <a href="#accepted">Accepted</a>
 * <a href="#afterdate">After</a>
@@ -156,25 +132,25 @@ This is the list of all the rules you can validate form inputs against. When usi
 * <a href="#array">Array</a>
 * <a href="#beforedate">Before</a>
 * <a href="#before_or_equaldate">Before or Equal</a>
-* <a href="#betweentypesize">Between</a>
+* <a href="#betweensizetypeoptional">Between</a>
 * <a href="#boolean">Boolean</a>
 * <a href="#card_exp">Card Expiration</a>
 * <a href="#card_num">Card Number</a>
 * <a href="#currency">Currency</a>
 * <a href="#date">Date</a>
-* <a href="#date_equals">Date Equals</a>
+* <a href="#date_equalsdate">Date Equals</a>
 * <a href="#email">Email</a>
 * <a href="#infoobar">In</a>
 * <a href="#integer">Integer</a>
-* <a href="#maxtypesize">Max</a>
-* <a href="#mintypesize">Min</a>
+* <a href="#maxsizetypeoptional">Max</a>
+* <a href="#minsizetypeoptional">Min</a>
 * <a href="#not_infoobar">Not In</a>
 * <a href="#not_regexpattern">Not Regex</a>
 * <a href="#numeric">Numeric</a>
 * <a href="#phone">Phone</a>
 * <a href="#regexpattern">Regex</a>
 * <a href="#required">Required</a>
-* <a href="#sizetypesize">Size</a>
+* <a href="#sizesizetypeoptional">Size</a>
 * <a href="#string">string</a>
 * <a href="#typeoftype">Type Of</a>
 * <a href="#url">Url</a>
@@ -215,8 +191,8 @@ Must be before date. See <a href="#date">Date</a> for info on accepted date valu
 #### before_or_equal:date
 Must be before or on date. See <a href="#date">Date</a> for info on accepted date values.
 
-#### between:type,size
-Must be between two values. See <a href="#sizetypesize">Size</a> for info on how size is calculated and how options work.
+#### between:size,type(optional)
+Must be between two values. See <a href="#sizesizetypeoptional">Size</a> for info on how size is calculated and how options work.
 
 #### boolean
 Must be a JavaScript Boolean.
@@ -233,10 +209,10 @@ Must be a valid currency. Dollar signs and commas are optional. Ex. 4.25, $3000 
 #### date
 Must be a date type <a href="https://momentjs.com/">momentjs</a> date.
 **Requires Momentjs**
-<br />*Options:* date must be a momentjs date object.
 
-#### date_equals
+#### date_equals:date
 Must be a date on a specific date.
+<br />*Options:* date must be a momentjs date object.
 
 #### email
 Must be a valid email format.
@@ -248,11 +224,11 @@ Must match a string in options.
 #### integer
 Must be an integer value.
 
-#### max:type,size
-Must not be greater than max. See <a href="#sizetypesize">Size</a> for info on how size is calculated and how options work.
+#### max:size,type(optional)
+Must not be greater than max. See <a href="#sizesizetypeoptional">Size</a> for info on how size is calculated and how options work.
 
-#### min:type,size
-Must not be less than min. See <a href="#sizetypesize">Size</a> for info on how size is calculated and how options work.
+#### min:size,type(optional)
+Must not be less than min. See <a href="#sizesizetypeoptional">Size</a> for info on how size is calculated and how options work.
 
 #### not_in:foo,bar,...
 Must NOT match a string in options.
@@ -277,9 +253,9 @@ Must match a regex.
 #### required
 Must be present, use with other validators to require them.
 
-#### size:type,size
+#### size:size,type(optional)
 Must be of a particular size. Can be a string length, array length, or number.
-<br />*Options:* there are 3 types 'string', 'num', and 'array'. String is length of string, num is size of number, array is length of array.
+<br />*Options:* type is optional and defaults to `string`. There are 3 types 'string', 'num', and 'array'. String is length of string, num is size of number, array is length of array.
 
 #### string
 Must be of type string.
