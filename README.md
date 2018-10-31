@@ -145,8 +145,8 @@ This is the list of all the rules you can validate form inputs against. When usi
 |url           |              | https://dockwa.com                           | Must be a valid url.                                     |
 
 * <a href="#accepted">Accepted</a>
-* <a href="#after">After</a>
-* <a href="#after_or_equal">After or Equal</a>
+* <a href="#afterdate">After</a>
+* <a href="#after_or_equaldate">After or Equal</a>
 * <a href="#alpha">Alpha</a>
 * <a href="#alpha_space">Alpha Space</a>
 * <a href="#alpha_num">Alpha Num</a>
@@ -154,9 +154,9 @@ This is the list of all the rules you can validate form inputs against. When usi
 * <a href="#alpha_num_dash">Alpha Num Dash</a>
 * <a href="#alpha_num_dash_space">Alpha Num Dash Space</a>
 * <a href="#array">Array</a>
-* <a href="#before">Before</a>
-* <a href="#before_or_equal">Before or Equal</a>
-* <a href="#between">Between</a>
+* <a href="#beforedate">Before</a>
+* <a href="#before_or_equaldate">Before or Equal</a>
+* <a href="#betweentypesize">Between</a>
 * <a href="#boolean">Boolean</a>
 * <a href="#card_exp">Card Expiration</a>
 * <a href="#card_num">Card Number</a>
@@ -164,18 +164,19 @@ This is the list of all the rules you can validate form inputs against. When usi
 * <a href="#date">Date</a>
 * <a href="#date_equals">Date Equals</a>
 * <a href="#email">Email</a>
-* <a href="#in">In</a>
+* <a href="#infoobar">In</a>
 * <a href="#integer">Integer</a>
-* <a href="#max">Max</a>
-* <a href="#not_in">Not In</a>
-* <a href="#not_regex">Not Regex</a>
+* <a href="#maxtypesize">Max</a>
+* <a href="#mintypesize">Min</a>
+* <a href="#not_infoobar">Not In</a>
+* <a href="#not_regexpattern">Not Regex</a>
 * <a href="#numeric">Numeric</a>
 * <a href="#phone">Phone</a>
-* <a href="#regex">Regex</a>
+* <a href="#regexpattern">Regex</a>
 * <a href="#required">Required</a>
-* <a href="#size">Size</a>
+* <a href="#sizetypesize">Size</a>
 * <a href="#string">string</a>
-* <a href="#typeof">Type Of</a>
+* <a href="#typeoftype">Type Of</a>
 * <a href="#url">Url</a>
 
 #### accepted
@@ -215,7 +216,7 @@ Must be before date. See <a href="#date">Date</a> for info on accepted date valu
 Must be before or on date. See <a href="#date">Date</a> for info on accepted date values.
 
 #### between:type,size
-Must be between two values. See <a href="#size">Size</a> for info on how size is calculated and how options work.
+Must be between two values. See <a href="#sizetypesize">Size</a> for info on how size is calculated and how options work.
 
 #### boolean
 Must be a JavaScript Boolean.
@@ -248,10 +249,10 @@ Must match a string in options.
 Must be an integer value.
 
 #### max:type,size
-Must not be greater than max. See <a href="#size">Size</a> for info on how size is calculated and how options work.
+Must not be greater than max. See <a href="#sizetypesize">Size</a> for info on how size is calculated and how options work.
 
 #### min:type,size
-Must not be less than min. See <a href="#size">Size</a> for info on how size is calculated and how options work.
+Must not be less than min. See <a href="#sizetypesize">Size</a> for info on how size is calculated and how options work.
 
 #### not_in:foo,bar,...
 Must NOT match a string in options.
