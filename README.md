@@ -13,6 +13,13 @@
 
 [![Powered by Dockwa](https://raw.githubusercontent.com/dockwa/openpixel/dockwa/by-dockwa.png)](https://engineering.dockwa.com/)
 
+# Documentation
+1. [About](#about)
+2. [Usage](#usage)
+3. [Setup](#3easysteps)
+4. [Options](#options)
+5. [Custom Validators](#customvalidators)
+
 ## About
 Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
@@ -51,6 +58,11 @@ constructor() {
 - **Rules String**: A pipe separated list of rules to apply to the string.
 - **Options (Optional)**: Object of options same as the [default options](#).
 
+```javascript
+this.validator.message('title', this.state.title, 'required|email')
+```
+
+**Example:**
 ```jsx
 render: function() {
   return (
@@ -267,10 +279,47 @@ Must be of JavaScript type specified in the options.
 Must be a valid url. Ex. https://dockwa.com or dockwa.com
 
 
-<span style="color: red">Requires Momentjs</span>
+## Options
+The Simple React Validator can receive an options object when initialized or as the fourth parameter when defining a validator. There are 4 options you can provide.
+1. element: Accepts a block where you can return the default element that you want to wrap the message from a validator message. The default element is `<div className="srv-validation-message">{message}</div>`. If you are using React Native the default will be just the message the gets returned. You can also set `element: false` to just return a message.
+  * **Takes 2 params**
+  * message: The message coming from the validator.
+  * className (optional): Will optionally be provided so you can change the className on a per validation basis.
+```jsx
+this.validator = new SimpleReactValidator({
+  element: message => <div>{message}</div>
+  // OR
+  element: (message, className) => <div className={className}>{message}</div>
+}
+```
+2. className: String of classes to be passed into an element, default is `srv-validation-message` and can be overriden.
+3. messages: Accepts an object to override validation messages. It also accepts a default which will override all messages.
+```jsx
+this.validator = new SimpleReactValidator({
+  messages: {
+    email: 'That is not an email.'
+    // OR
+    default: 'Validation has failed!'  // will override all messages
+  },
+}
+```
+4. validators: Accepts an object of custom validators. See [Custom Validators](#customvalidators) for more info on defining custom validators.
 
-## Custom Rules
-You can write custom rules that you can use the validate. A rule is comprised of 3 parts; the name, the message, and the rule itself. Here is an example of adding a custom rule on initialize of the validator.
+
+
+## Custom Validators
+You can write custom rules that you can use the validate. A rule has 4 options:
+1. message: The message the will be shown when the validation fails. :attribute will be replaced by the _humanized_ name that your provide of the attribute you are validating.
+2. rule: Accepts a block that returns true if validator passes and false if it fails.
+  * **Takes 3 params**
+  * val: The value that is being validated.
+  * params: An array containing the params passed into the validator.
+  * validator: The validator object, allows you to access helper methods such as `validator.helpers.textRegex(val, regex)` which returns true or false if the regex passes.
+3. messageReplace (optional): Accepts a block uses to modify and return the message on the fly.
+  * **Takes 2 params**
+  * message: The message provided above.
+  * params: An array containing the params passed into the validator.
+4. required (optional): True if you want the validator to be implicitly required when it is applied. All validators are not required by default. The equivalent of adding `required` to each validation definition.
 
 Example:
 
@@ -278,12 +327,13 @@ Example:
 constructor() {
   this.validator = new SimpleReactValidator({
     validators: {
-      ip: { // name the rule
-        message: 'The :attribute must be a valid IP address.', // give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
-        rule: function(val, params, validator) { // return true if it is succeeds and false it if fails validation. the testRegex method is available to give back a true/false for the regex and given value
-          // check that it is a valid IP address and is not blacklisted
+      ip: {  // name the rule
+        message: 'The :attribute must be a valid IP address and must be :values.',
+        rule: (val, params, validator) => {
           return validator.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && params.indexOf(val) === -1
-        }
+        },
+        messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params)),  // optional
+        required: true  // optional
       }
     }
   });
@@ -300,29 +350,10 @@ render: function() {
       <div className="form-group">
         <label>IP Address</label>
         <input className="form-control" value={this.state.ip} onChange={this.setIP} />
-        {/*   This is where the magic happens     */}
         {this.validator.message('ip_address', this.state.ip, 'required|ip:127.0.0.1')}
       </div>
       ...
     </div>
   );
 },
-```
-
-## Custom Error Messages
-The fifth parameter is an object. The keys correspond to the rule names.
-If you use the key 'default' then that will be used for all errors that do not have custom errors set.
-
-```jsx
-<div className="form-group">
-  <label>Amount</label>
-  <textarea className="form-control" value={this.state.amount} onChange={this.setAmount} />
-  {this.validator.message(
-    'amount',
-    this.state.amount,
-    'required|min:20|max:120',
-    false,
-    {min: 'Custom min error', default: 'Invalid.'}
-  )}
-</div>
 ```
