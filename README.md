@@ -1,8 +1,15 @@
-# Simple React Validator
-A simple react and react native form validator inspired by Laravel validation.
+<p align="center">
+  <h3 align="center">Simple React Validator</h3>
 
-[![npm](https://img.shields.io/npm/v/simple-react-validator.svg)](https://www.npmjs.com/package/simple-react-validator)
-[![npm](https://img.shields.io/npm/dt/simple-react-validator.svg)](https://www.npmjs.com/package/simple-react-validator)
+  <p align="center">
+    A simple react and react native form validator inspired by Laravel validation.
+    <br>
+    <a href="https://www.npmjs.com/package/simple-react-validator"><img src="https://img.shields.io/npm/v/simple-react-validator.svg" /></a>
+    <a href="https://www.npmjs.com/package/simple-react-validator"><img src="https://img.shields.io/npm/dt/simple-react-validator.svg" /></a>
+    <br>
+    <a href="https://www.npmjs.com/package/simple-react-validator"><strong>View on NPM »</strong></a>
+  </p>
+</p>
 
 [![Powered by Dockwa](https://raw.githubusercontent.com/dockwa/openpixel/dockwa/by-dockwa.png)](https://engineering.dockwa.com/)
 
