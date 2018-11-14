@@ -18,10 +18,10 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
 
 # Documentation
 1. [Usage](#usage)
-2. [Setup](#3easysteps)
+2. [Setup](#3-easy-steps)
 3. [Rules](#rules)
 4. [Options](#options)
-5. [Custom Validators](#customvalidators)
+5. [Custom Validators](#custom-validators)
 
 # Usage
 Open the `example/index.html` file for more usage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
