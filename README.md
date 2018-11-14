@@ -162,7 +162,7 @@ This is the list of all the rules you can validate form inputs against. When usi
 * <a href="#regexpattern">Regex</a>
 * <a href="#required">Required</a>
 * <a href="#sizesizetypeoptional">Size</a>
-* <a href="#string">string</a>
+* <a href="#string">String</a>
 * <a href="#typeoftype">Type Of</a>
 * <a href="#url">Url</a>
 
