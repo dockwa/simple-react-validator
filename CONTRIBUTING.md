@@ -6,7 +6,7 @@ Yay, you're interested in helping work on this project.  Thank you!
 
   - `src/`      - JavaScript Source
   - `dist/`     - Compiled and Minified
-  - `examples/` - Example test cases in browser
+  - `docs/`     - Example test cases in browser and publishes to GitHub Pages
 
 ## Having a problem?
 
