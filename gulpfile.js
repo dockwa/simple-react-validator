@@ -1,20 +1,18 @@
 // include plug-ins
-var gulp       = require('gulp');
-var umd        = require('gulp-umd');
-var inject     = require('gulp-inject-string')
-var rename     = require('gulp-rename');
-var uglify     = require('gulp-uglify');
-var babel      = require('gulp-babel');
-var HEADER_COMMENT = '// Simple React Validator v0.0.5 | Created By Dockwa | MIT License | 2017\n';
+var gulp           = require('gulp');
+var umd            = require('gulp-umd');
+var inject         = require('gulp-inject-string')
+var rename         = require('gulp-rename');
+var uglify         = require('gulp-uglify');
+var babel          = require('gulp-babel');
+var HEADER_COMMENT = '// Simple React Validator v1.0.0 | Created By Dockwa | MIT License | 2018\n';
 
 var gutil = require('gulp-util');
 
 // JS concat, strip debugging and minify
 gulp.task('build', function() {
   gulp.src('./src/simple-react-validator.js')
-  .pipe(babel({
-    presets: ['es2015']
-  }))
+  .pipe(babel())
   .pipe(umd({
     exports: function() {
       return 'SimpleReactValidator';
