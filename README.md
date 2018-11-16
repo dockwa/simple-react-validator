@@ -64,7 +64,7 @@ this.validator.message('title', this.state.title, 'required|email')
 
 **Example:**
 ```jsx
-render: function() {
+render() {
   return (
     <div className="container">
       <h1>Write a Review</h1>
@@ -95,7 +95,7 @@ render: function() {
       <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
     </div>
   );
-},
+}
 ```
 
 3. Check if the validation passes when submitting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
@@ -126,6 +126,27 @@ You need to wrap validator with `<Text>` Element.
 <Text>
   {this.validator.message('title', this.state.title, 'required|alpha')}
 </Text>
+```
+
+## Conditional Fields
+
+A field is added to validator via the above `message` method. But sometimes you want to conditionally add and remove validation as the form is completed. For this you can use the `purgeFields` method to clear all validator before each render so only the fields added during that render are validated.
+
+```jsx
+render() {
+  this.validator.purgeFields();
+  return (
+    <div>
+      <div className="form-group">
+        <label>Address Line 1</label>
+        <input className="form-control" value={this.state.title} onChange={this.setTitle} />
+        {this.validator.message('title', this.state.title, 'required|alpha')}
+      </div>
+      {this.optinallyAddAnotherAddressLine()}
+      <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
+    </div>
+  );
+}
 ```
 
 # Rules
