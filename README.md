@@ -16,6 +16,8 @@
 # About
 Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
+[Working Example](https://dockwa.github.io/simple-react-validator/index.html)
+
 # Documentation
 1. [Usage](#usage)
 2. [Setup](#3-easy-steps)
