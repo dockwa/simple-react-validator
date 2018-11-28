@@ -103,7 +103,7 @@ render() {
 3. Check if the validation passes when submitting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
 ```javascript
 submitForm: function() {
-  if( this.validator.allValid() ){
+  if (this.validator.allValid()) {
     alert('You submitted the form and stuff!');
   } else {
     this.validator.showMessages();
@@ -115,7 +115,7 @@ submitForm: function() {
 
 There is another method you can use to check if a single field is valid or not.
 ```javascript
-if( this.validator.fieldValid('email') ){
+if (this.validator.fieldValid('email')) {
   // booya this field is valid!
 }
 ```
