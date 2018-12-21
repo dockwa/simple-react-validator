@@ -69,7 +69,6 @@ class SimpleReactValidator {
     this.messagesShown = false;
   }
 
-  // return true if all fields cleared, false if there is a validation error
   allValid() {
     for (let key in this.fields) {
       if( this.fieldValid(key) === false ) {
@@ -79,7 +78,6 @@ class SimpleReactValidator {
     return true;
   }
 
-  // return true if the one field passed in is valid, false if there is an error
   fieldValid(field) {
     return this.fields.hasOwnProperty(field) && this.fields[field] === true;
   }
@@ -89,7 +87,6 @@ class SimpleReactValidator {
     this.errorMessages = {};
   }
 
-  // if a message is present, generate a validation error react element
   messageAlways(field, message, options = {}) {
     if( message && this.messagesShown){
       return this.helpers.element(message, options);
@@ -126,10 +123,18 @@ class SimpleReactValidator {
         console.error(`Rule Not Found: There is no rule with the name ${rule}.`);
         return true;
       }
-      if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
+      if (!this.isRequired(rule, rules) && this.isBlank(value)) {
         return true;
       }
       return rules[rule].rule(value, params, this.parent) !== false;
+    },
+
+    isRequired(rule, rules) {
+      return rules[rule].hasOwnProperty('required') && rules[rule].required;
+    },
+
+    isBlank(value) {
+      return typeof(value) === 'undefined' || value === null || value === '';
     },
 
     normalizeValues(value, validation) {

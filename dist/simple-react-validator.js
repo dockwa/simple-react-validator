@@ -48,11 +48,17 @@ function () {
           return true;
         }
 
-        if ((!rules[rule].hasOwnProperty('required') || !rules[rule].required) && !value) {
+        if (!this.isRequired(rule, rules) && this.isBlank(value)) {
           return true;
         }
 
         return rules[rule].rule(value, params, this.parent) !== false;
+      },
+      isRequired: function isRequired(rule, rules) {
+        return rules[rule].hasOwnProperty('required') && rules[rule].required;
+      },
+      isBlank: function isBlank(value) {
+        return typeof value === 'undefined' || value === null || value === '';
       },
       normalizeValues: function normalizeValues(value, validation) {
         return [this.valueOrEmptyString(value), this.getValidation(validation), this.getOptions(validation)];
@@ -405,8 +411,7 @@ function () {
     key: "hideMessages",
     value: function hideMessages() {
       this.messagesShown = false;
-    } // return true if all fields cleared, false if there is a validation error
-
+    }
   }, {
     key: "allValid",
     value: function allValid() {
@@ -417,8 +422,7 @@ function () {
       }
 
       return true;
-    } // return true if the one field passed in is valid, false if there is an error
-
+    }
   }, {
     key: "fieldValid",
     value: function fieldValid(field) {
@@ -429,8 +433,7 @@ function () {
     value: function purgeFields() {
       this.fields = {};
       this.errorMessages = {};
-    } // if a message is present, generate a validation error react element
-
+    }
   }, {
     key: "messageAlways",
     value: function messageAlways(field, message) {
