@@ -91,7 +91,11 @@ function () {
       message: function message(rule, field, options, rules) {
         options.messages = options.messages || {};
         var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
-        return message.replace(':attribute', field.replace(/_/g, ' '));
+        return message.replace(':attribute', this.humanizeFieldName(field));
+      },
+      humanizeFieldName: function humanizeFieldName(field) {
+        // supports snake_case or camelCase
+        return field.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').toLowerCase();
       },
       element: function element(message, options) {
         var element = options.element || this.parent.element;

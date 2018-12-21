@@ -332,7 +332,7 @@ this.validator = new SimpleReactValidator({
 
 # Custom Validators
 You can write custom rules that you can use the validate. A rule has 4 options:
-1. message: The message the will be shown when the validation fails. :attribute will be replaced by the _humanized_ name that your provide of the attribute you are validating.
+1. message: The message the will be shown when the validation fails. :attribute will be replaced by the _humanized_ name that your provide of the attribute you are validating (supports snake_case or camelCase).
 2. rule: Accepts a block that returns true if validator passes and false if it fails.
   * **Takes 3 params**
   * val: The value that is being validated.
@@ -373,7 +373,7 @@ render: function() {
       <div className="form-group">
         <label>IP Address</label>
         <input className="form-control" value={this.state.ip} onChange={this.setIP} />
-        {this.validator.message('ip_address', this.state.ip, 'required|ip:127.0.0.1')}
+        {this.validator.message('ipAddress', this.state.ip, 'required|ip:127.0.0.1')}
       </div>
       ...
     </div>
