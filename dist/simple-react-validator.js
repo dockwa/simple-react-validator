@@ -1,4 +1,4 @@
-// Simple React Validator v1.0.2 | Created By Dockwa | MIT License | 2018
+// Simple React Validator v1.0.3 | Created By Dockwa | MIT License | 2018
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -343,7 +343,7 @@ function () {
       required: {
         message: 'The :attribute field is required.',
         rule: function rule(val) {
-          return !!val;
+          return !_this.helpers.isBlank(val);
         },
         required: true
       },
