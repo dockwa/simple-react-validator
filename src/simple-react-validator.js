@@ -71,7 +71,7 @@ class SimpleReactValidator {
 
   allValid() {
     for (let key in this.fields) {
-      if( this.fieldValid(key) === false ) {
+      if (this.fieldValid(key) === false) {
         return false;
       }
     }
@@ -88,7 +88,7 @@ class SimpleReactValidator {
   }
 
   messageAlways(field, message, options = {}) {
-    if( message && this.messagesShown){
+    if (message && this.messagesShown) {
       return this.helpers.element(message, options);
     }
   }
@@ -102,7 +102,7 @@ class SimpleReactValidator {
     var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
-      if (!this.helpers.passes(rule, value, params, rules)){
+      if (!this.helpers.passes(rule, value, params, rules)) {
         this.fields[field] = false;
         let message = this.helpers.message(rule, field, options, rules);
         this.errorMessages[field] = message;
