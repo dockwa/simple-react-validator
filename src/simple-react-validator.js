@@ -50,7 +50,7 @@ class SimpleReactValidator {
       this.element = message => message;
     } else if (options.hasOwnProperty('element')) {
       this.element = options.element;
-    } else if (navigator.product === "ReactNative") {
+    } else if (typeof navigator === 'object' && navigator.product === 'ReactNative') {
       this.element = message => message;
     } else {
       this.element = (message, className) => React.createElement('div', {className: (className || this.className || 'srv-validation-message')}, message);
