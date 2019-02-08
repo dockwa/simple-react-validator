@@ -1,6 +1,6 @@
 {
   "name": "simple-react-validator",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
   "dependencies": {},
