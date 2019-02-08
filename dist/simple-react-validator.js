@@ -388,7 +388,7 @@ function () {
       };
     } else if (_options.hasOwnProperty('element')) {
       this.element = _options.element;
-    } else if ((typeof navigator === "undefined" ? "undefined" : _typeof(navigator)) === 'object' && navigator.product === 'ReactNative') {
+    } else if (navigator.product === "ReactNative") {
       this.element = function (message) {
         return message;
       };
