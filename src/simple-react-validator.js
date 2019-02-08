@@ -2,6 +2,7 @@ class SimpleReactValidator {
   constructor(options = {}) {
     this.fields = {};
     this.errorMessages = {};
+    this.asyncValidators = [];
     this.messagesShown = false;
     this.rules = {
       accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => val === true, required: true},
@@ -78,6 +79,23 @@ class SimpleReactValidator {
     return true;
   }
 
+  asyncValid(completion) {
+    if (this.asyncValidators.length === 0 ) {
+      // call immediately because there are no async validators
+      completion();
+    }
+    const validator = this.asyncValidators[0];
+    validator.rule(validator.value, validator.params, this, this.next, completion);
+  }
+
+  next(result) {
+    if (typeof result === 'function') {
+      this.asyncValidators[0].
+    } else {
+
+    }
+  }
+
   fieldValid(field) {
     return this.fields.hasOwnProperty(field) && this.fields[field] === true;
   }
@@ -85,6 +103,7 @@ class SimpleReactValidator {
   purgeFields() {
     this.fields = {};
     this.errorMessages = {};
+    this.asyncValidators = [];
   }
 
   messageAlways(field, message, options = {}) {
@@ -102,7 +121,9 @@ class SimpleReactValidator {
     var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
-      if (!this.helpers.passes(rule, value, params, rules)) {
+      if (this.helpers.isAsync(rule, rules)) {
+        this.asyncValidators.push({value: value, rule: rule, params: params, field: field});
+      } else if (!this.helpers.passes(rule, value, params, rules)) {
         this.fields[field] = false;
         let message = this.helpers.message(rule, field, options, rules);
         this.errorMessages[field] = message;
@@ -135,6 +156,10 @@ class SimpleReactValidator {
 
     isBlank(value) {
       return typeof(value) === 'undefined' || value === null || value === '';
+    },
+
+    isAsync(rule, rules) {
+      return rules[rule].hasOwnProperty('async') && rules[rule].async;
     },
 
     normalizeValues(value, validation) {
