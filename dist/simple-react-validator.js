@@ -271,7 +271,7 @@ function () {
       email: {
         message: 'The :attribute must be a valid email address.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^`{|}~]+@[A-Z0-9.-]+.[A-Z]{2,}$/i);
+          return _this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         }
       },
       in: {
