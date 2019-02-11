@@ -111,7 +111,6 @@ class SimpleReactValidator {
         }
 
         this.errorMessages[field] = message;
-
         if (this.messagesShown) {
           return this.helpers.element(message, options);
         }

@@ -5,7 +5,7 @@ var inject         = require('gulp-inject-string')
 var rename         = require('gulp-rename');
 var uglify         = require('gulp-uglify');
 var babel          = require('gulp-babel');
-var HEADER_COMMENT = '// Simple React Validator v1.0.4 | Created By Dockwa | MIT License | 2019\n';
+var HEADER_COMMENT = '// Simple React Validator v1.0.5 | Created By Dockwa | MIT License | 2017 - Present\n';
 
 var gutil = require('gulp-util');
 
