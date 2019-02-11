@@ -26,7 +26,7 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
 5. [Custom Validators](#custom-validators)
 
 # Usage
-Open the `example/index.html` file for more usage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
+Open the `example/index.html` file for more usage examples of the library or check out the [Example](https://dockwa.github.io/simple-react-validator)
 
 **npm**
 ```
