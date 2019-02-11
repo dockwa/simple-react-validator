@@ -15,7 +15,8 @@
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.1",
     "gulp-umd": "^0.2.1",
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "natives": "^1.1.6"
   },
   "scripts": {
     "gulp": "./node_modules/.bin/gulp",
