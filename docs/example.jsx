@@ -19,38 +19,18 @@ class ExampleForm extends React.Component {
             // check that it is a valid IP address and is not blacklisted
             return validator.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && params.indexOf(val) === -1
           }
-        },
-        unique: {
-          message: 'Not a unique email.',
-          asyncRule: function(val, params, validator, next, blocks) {
-            $.get('#', {}, (data) => {
-              console.log('This worked!');
-              return next(blocks.success);
-            })
-            .fail(() => {
-              return next(blocks.fail, false);
-            });
-          }
         }
       }
     });
   }
 
   submitForm() {
-    if (this.validator.allValid()){
+    if (this.validator.allValid()) {
       alert('You submitted the form and stuff!');
-      this.validator.asyncValidators({
-        success: () => console.log('finished'),
-        fail: this.validatorFailed
-      });
     } else {
-      this.validatorFailed();
+      this.validator.showMessages();
+      this.forceUpdate();
     }
-  }
-
-  validatorFailed() {
-    this.validator.showMessages();
-    this.forceUpdate();
   }
 
   handleInputChange(event) {
@@ -140,4 +120,4 @@ class ExampleForm extends React.Component {
   }
 }
 
-ReactDOM.render(<ExampleForm />, document.getElementById('root'));
+ReactDOM.render(<ExampleForm />, document.getElementById('exampleForm'));
