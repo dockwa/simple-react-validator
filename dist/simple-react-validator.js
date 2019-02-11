@@ -476,11 +476,14 @@ function () {
           if (!this.helpers.passes(rule, value, params, rules)) {
             this.fields[field] = false;
             var message = this.helpers.message(rule, field, options, rules);
+
+            if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+              message = rules[rule].messageReplace(message, params);
+            }
+
             this.errorMessages[field] = message;
 
-            if (this.messagesShown && params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-              return this.helpers.element(rules[rule].messageReplace(message, params), options);
-            } else if (this.messagesShown) {
+            if (this.messagesShown) {
               return this.helpers.element(message, options);
             }
           }
