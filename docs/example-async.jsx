@@ -33,8 +33,8 @@ class ExampleAsyncForm extends React.Component {
         this.setState({processing: false});
       },
       fail: () => {
+        console.log(this.validator);
         this.validator.showMessages();
-        this.forceUpdate();
         this.setState({processing: false});
       }
     });
@@ -65,7 +65,7 @@ class ExampleAsyncForm extends React.Component {
               </div>
             </div>
           </div>
-          <button className="btn btn-primary" onClick={this.submitForm.bind(this)}>Submit</button>
+          <button className="btn btn-primary" onClick={this.submitForm.bind(this)} disabled={this.state.processing}>Submit</button>
         </div>
       </div>
     );

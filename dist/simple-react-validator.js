@@ -434,15 +434,22 @@ function () {
   }, {
     key: "asyncValid",
     value: function asyncValid(completion) {
+      console.log(1);
+
       if (!this.allValid()) {
+        console.log(2);
         return completion.fail();
       }
 
+      console.log(3);
+
       if (Object.keys(this.asyncValidators).length === 0) {
-        // call immediately because there are no async validators
+        console.log(4); // call immediately because there are no async validators
+
         return completion.pass();
       }
 
+      console.log(5);
       this.asyncValidatorKey = Object.keys(this.asyncValidators)[0];
       var validator = this.asyncValidators[this.asyncValidatorKey];
       validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
