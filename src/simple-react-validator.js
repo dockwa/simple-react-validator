@@ -2,7 +2,7 @@ class SimpleReactValidator {
   constructor(options = {}) {
     this.fields = {};
     this.errorMessages = {};
-    this.asyncValidators = [];
+    this.asyncValidators = {};
     this.messagesShown = false;
     this.rules = {
       accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => val === true, required: true},
@@ -80,20 +80,33 @@ class SimpleReactValidator {
   }
 
   asyncValid(completion) {
-    if (this.asyncValidators.length === 0 ) {
-      // call immediately because there are no async validators
-      completion();
+    if (!this.allValid()) {
+      return completion.fail();
     }
-    const validator = this.asyncValidators[0];
-    validator.rule(validator.value, validator.params, this, this.next, completion);
+    if (Object.keys(this.asyncValidators).length === 0 ) {
+      // call immediately because there are no async validators
+      return completion.pass();
+    }
+    this.asyncValidatorKey = Object.keys(this.asyncValidators)[0];
+    const validator = this.asyncValidators[this.asyncValidatorKey];
+    validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
   }
 
-  next(result) {
-    if (typeof result === 'function') {
-      this.asyncValidators[0].
+  pass(completion) {
+    const index = Object.keys(this.asyncValidators).indexOf(this.asyncValidatorKey);
+    if (index >= Object.keys(this.asyncValidators).length >= Object.keys(this.asyncValidators).length - 1) {
+      return completion.pass();
     } else {
-
+      this.asyncValidatorIndex += 1;
+      const validator = this.asyncValidators[this.asyncValidatorIndex];
+      validator.asyncRule(validator.value, validator.params, this, completion);
     }
+  }
+
+  fail(completion, message) {
+    const validator = this.asyncValidators[this.asyncValidatorIndex];
+    this.fieldFailure(validator.field, validator.rule, validator.rules, validator.options, validator.params);
+    completion.fail();
   }
 
   fieldValid(field) {
@@ -122,20 +135,31 @@ class SimpleReactValidator {
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
       if (this.helpers.isAsync(rule, rules)) {
-        this.asyncValidators.push({value: value, rule: rule, params: params, field: field});
+        this.asyncValidators.push({
+          value: value,
+          rule: rule,
+          params: params,
+          field: field,
+          options: options,
+          rules: rules
+        });
       } else if (!this.helpers.passes(rule, value, params, rules)) {
-        this.fields[field] = false;
-        let message = this.helpers.message(rule, field, options, rules);
-
-        if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-          message = rules[rule].messageReplace(message, params);
-        }
-
-        this.errorMessages[field] = message;
-        if (this.messagesShown) {
-          return this.helpers.element(message, options);
-        }
+        this.fieldFailure(field, rule, rules, options, params);
       }
+    }
+  }
+
+  fieldFailure(field, rule, rules, options, params) {
+    this.fields[field] = false;
+    let message = this.helpers.message(rule, field, options, rules);
+
+    if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+      message = rules[rule].messageReplace(message, params);
+    }
+
+    this.errorMessages[field] = message;
+    if (this.messagesShown) {
+      return this.helpers.element(message, options);
     }
   }
 
@@ -162,7 +186,7 @@ class SimpleReactValidator {
     },
 
     isAsync(rule, rules) {
-      return rules[rule].hasOwnProperty('async') && rules[rule].async;
+      return rules[rule].hasOwnProperty('asyncRule');
     },
 
     normalizeValues(value, validation) {
@@ -209,7 +233,7 @@ class SimpleReactValidator {
 
     humanizeFieldName(field) {
       // supports snake_case or camelCase
-      return field.replace( /([A-Z])/g, ' $1' ).replace(/_/g, ' ').toLowerCase();
+      return field.replace(/([A-Z])/g, ' $1' ).replace(/_/g, ' ').toLowerCase();
     },
 
     element(message, options) {
