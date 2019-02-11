@@ -455,15 +455,15 @@ function () {
       if (index >= Object.keys(this.asyncValidators).length >= Object.keys(this.asyncValidators).length - 1) {
         return completion.pass();
       } else {
-        this.asyncValidatorIndex += 1;
-        var validator = this.asyncValidators[this.asyncValidatorIndex];
+        var nextKey = Object.keys(this.asyncValidators)[index + 1];
+        var validator = this.asyncValidators[nextKey];
         validator.asyncRule(validator.value, validator.params, this, completion);
       }
     }
   }, {
     key: "fail",
     value: function fail(completion, message) {
-      var validator = this.asyncValidators[this.asyncValidatorIndex];
+      var validator = this.asyncValidators[this.asyncValidatorKey];
       this.fieldFailure(validator.field, validator.rule, validator.rules, validator.options, validator.params);
       completion.fail();
     }
@@ -515,14 +515,14 @@ function () {
               params = _this$helpers$normali2[2];
 
           if (this.helpers.isAsync(rule, rules)) {
-            this.asyncValidators.push({
+            this.asyncValidators["".concat(field, ":").concat(rule)] = {
               value: value,
               rule: rule,
               params: params,
               field: field,
               options: options,
               rules: rules
-            });
+            };
           } else if (!this.helpers.passes(rule, value, params, rules)) {
             this.fieldFailure(field, rule, rules, options, params);
           }

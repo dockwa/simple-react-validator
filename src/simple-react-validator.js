@@ -97,14 +97,14 @@ class SimpleReactValidator {
     if (index >= Object.keys(this.asyncValidators).length >= Object.keys(this.asyncValidators).length - 1) {
       return completion.pass();
     } else {
-      this.asyncValidatorIndex += 1;
-      const validator = this.asyncValidators[this.asyncValidatorIndex];
+      const nextKey = Object.keys(this.asyncValidators)[index+1];
+      const validator = this.asyncValidators[nextKey];
       validator.asyncRule(validator.value, validator.params, this, completion);
     }
   }
 
   fail(completion, message) {
-    const validator = this.asyncValidators[this.asyncValidatorIndex];
+    const validator = this.asyncValidators[this.asyncValidatorKey];
     this.fieldFailure(validator.field, validator.rule, validator.rules, validator.options, validator.params);
     completion.fail();
   }
@@ -135,14 +135,14 @@ class SimpleReactValidator {
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
       if (this.helpers.isAsync(rule, rules)) {
-        this.asyncValidators.push({
+        this.asyncValidators[`${field}:${rule}`] = {
           value: value,
           rule: rule,
           params: params,
           field: field,
           options: options,
           rules: rules
-        });
+        };
       } else if (!this.helpers.passes(rule, value, params, rules)) {
         this.fieldFailure(field, rule, rules, options, params);
       }
