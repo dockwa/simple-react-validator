@@ -80,18 +80,13 @@ class SimpleReactValidator {
   }
 
   asyncValid(completion) {
-    console.log(1);
     if (!this.allValid()) {
-      console.log(2);
       return completion.fail();
     }
-    console.log(3);
     if (Object.keys(this.asyncValidators).length === 0 ) {
-      console.log(4);
       // call immediately because there are no async validators
       return completion.pass();
     }
-    console.log(5);
     this.asyncValidatorKey = Object.keys(this.asyncValidators)[0];
     const validator = this.asyncValidators[this.asyncValidatorKey];
     validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
@@ -121,7 +116,6 @@ class SimpleReactValidator {
   purgeFields() {
     this.fields = {};
     this.errorMessages = {};
-    this.asyncValidators = [];
   }
 
   messageAlways(field, message, options = {}) {
@@ -149,7 +143,7 @@ class SimpleReactValidator {
           rules: rules
         };
       } else if (!this.helpers.passes(rule, value, params, rules)) {
-        this.fieldFailure(field, rule, rules, options, params);
+        return this.fieldFailure(field, rule, rules, options, params);
       }
     }
   }

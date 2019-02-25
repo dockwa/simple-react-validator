@@ -11,7 +11,7 @@ class ExampleAsyncForm extends React.Component {
         unique: {
           message: 'Not a unique email.',
           asyncRule: function(val, params, validator, completion) {
-            setTimeout(() => validator.pass(completion), 1000);
+            setTimeout(() => validator.fail(completion), 1000);
             // $.get('#', {}, (data) => {
             //   console.log('This worked!');
             //   next(blocks.success);
