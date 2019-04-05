@@ -121,21 +121,21 @@ if (this.validator.fieldValid('email')) {
 ```
 
 ## Available Public Methods
-`getErrorMessages()`: Returns a JS object, key being the field name, value being the error message.
+`getErrorMessages()` Returns a JS object, key being the field name, value being the error message.
 
-`showMessages()`: Turns on showing messages for all messages.
+`showMessages()` Turns on showing messages for all messages.
 
-`hideMessages()`: Turns off showing messages for all messages.
+`hideMessages()` Turns off showing messages for all messages.
 
-`allValid()`: Returns a boolean if all the fields pass validation or not.
+`allValid()` Returns a boolean if all the fields pass validation or not.
 
-`fieldValid(field)`: Checks if a single field is valid or not.
+`fieldValid(field)` Checks if a single field is valid or not.
 
-`purgeFields()`: Empties the validation object for [conditional fields.](#conditional-fields)
+`purgeFields()` Empties the validation object for [conditional fields.](#conditional-fields)
 
-`messageWhenPresent(message, options = {})`: Show a message when the message is set, good for ajax validation errors.
+`messageWhenPresent(message, options = {})` Show a message when the message is set, good for ajax validation errors.
 
-`message(field, inputValue, validations, options = {})`: How you define validation rules and add messages into the form.
+`message(field, inputValue, validations, options = {})` How you define validation rules and add messages into the form.
 
 ## React Native
 
