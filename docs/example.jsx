@@ -111,7 +111,7 @@ class ExampleForm extends React.Component {
             {this.example('ip', this.state.ip, 'ip:127.0.0.1')}
           </div>
 
-          {this.validator.messageAlways('ajax_error', this.state.ajaxError, {element: message => <div className="alert alert-warning" role="alert">{message}</div>})}
+          {this.validator.messageWhenPresent(this.state.ajaxError, {element: message => <div className="alert alert-warning" role="alert">{message}</div>})}
 
           <button className="btn btn-primary" onClick={this.submitForm.bind(this)}>Submit</button>
         </div>
