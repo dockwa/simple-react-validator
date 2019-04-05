@@ -87,7 +87,14 @@ class SimpleReactValidator {
     this.errorMessages = {};
   }
 
+  messageWhenPresent(message, options = {}) {
+    if (!this.isBlank(message) && this.messagesShown) {
+      return this.helpers.element(message, options);
+    }
+  }
+
   messageAlways(field, message, options = {}) {
+    console.warn('The messageAlways() method is deprecated in SimpleReactValidator. Please see the documentation and switch to the messageWhenPresent() method.')
     if (message && this.messagesShown) {
       return this.helpers.element(message, options);
     }

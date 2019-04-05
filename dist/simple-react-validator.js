@@ -90,7 +90,7 @@ function () {
       },
       message: function message(rule, field, options, rules) {
         options.messages = options.messages || {};
-        var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
+        var message = options.messages[rule] || options.messages["default"] || this.parent.messages[rule] || this.parent.messages["default"] || rules[rule].message;
         return message.replace(':attribute', this.humanizeFieldName(field));
       },
       humanizeFieldName: function humanizeFieldName(field) {
@@ -229,7 +229,7 @@ function () {
           return message.replace(':min', params[0]).replace(':max', params[1]).replace(':type', _this.helpers.sizeText(params[2]));
         }
       },
-      boolean: {
+      "boolean": {
         message: 'The :attribute must be a boolean.',
         rule: function rule(val) {
           return val === false || val === true;
@@ -274,7 +274,7 @@ function () {
           return _this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         }
       },
-      in: {
+      "in": {
         message: 'The selected :attribute must be :values.',
         rule: function rule(val, params) {
           return params.indexOf(val) > -1;
@@ -362,7 +362,7 @@ function () {
           return _typeof(val) === _typeof('string');
         }
       },
-      typeof: {
+      "typeof": {
         message: 'The :attribute is not the correct type of :type.',
         rule: function rule(val, params) {
           return _typeof(val) === _typeof(params[0]);
@@ -439,9 +439,19 @@ function () {
       this.errorMessages = {};
     }
   }, {
+    key: "messageWhenPresent",
+    value: function messageWhenPresent(message) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      if (!this.isBlank(message) && this.messagesShown) {
+        return this.helpers.element(message, options);
+      }
+    }
+  }, {
     key: "messageAlways",
     value: function messageAlways(field, message) {
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      console.warn('The messageAlways() method is deprecated in SimpleReactValidator. Please see the documentation and switch to the messageWhenPresent() method.');
 
       if (message && this.messagesShown) {
         return this.helpers.element(message, options);
@@ -493,8 +503,8 @@ function () {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
         } finally {
           if (_didIteratorError) {
