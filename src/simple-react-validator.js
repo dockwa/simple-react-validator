@@ -88,7 +88,7 @@ class SimpleReactValidator {
   }
 
   messageWhenPresent(message, options = {}) {
-    if (!this.isBlank(message) && this.messagesShown) {
+    if (!this.helpers.isBlank(message) && this.messagesShown) {
       return this.helpers.element(message, options);
     }
   }

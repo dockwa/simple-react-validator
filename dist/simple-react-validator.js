@@ -1,4 +1,4 @@
-// Simple React Validator v1.0.6 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.0.7 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -443,7 +443,7 @@ function () {
     value: function messageWhenPresent(message) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      if (!this.isBlank(message) && this.messagesShown) {
+      if (!this.helpers.isBlank(message) && this.messagesShown) {
         return this.helpers.element(message, options);
       }
     }
