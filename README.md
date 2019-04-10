@@ -6,6 +6,7 @@
     <br>
     <a href="https://www.npmjs.com/package/simple-react-validator"><img src="https://img.shields.io/npm/v/simple-react-validator.svg" /></a>
     <a href="https://www.npmjs.com/package/simple-react-validator"><img src="https://img.shields.io/npm/dt/simple-react-validator.svg" /></a>
+    <a href="https://www.jsdelivr.com/package/npm/simple-react-validator"><img src="https://data.jsdelivr.com/v1/package/npm/simple-react-validator/badge?style=rounded" /></a>
     <br>
     <a href="https://www.npmjs.com/package/simple-react-validator"><strong>View on NPM »</strong></a>
   </p>
