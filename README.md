@@ -40,8 +40,10 @@ bower install simple-react-validator --save
 ```
 
 # 3 Easy Steps
-1. Initialize the validator.
-
+1. Import and Initialize the validator.
+```javascript
+import SimpleReactValidator from 'simple-react-validator';
+```
 es5
 ```javascript
 componentWillMount: function() {
