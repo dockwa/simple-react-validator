@@ -22,9 +22,10 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
 # Documentation
 1. [Usage](#usage)
 2. [Setup](#3-easy-steps)
-3. [Rules](#rules)
-4. [Options](#options)
-5. [Custom Validators](#custom-validators)
+3. [MultiLang](#multi-language)
+4. [Rules](#rules)
+5. [Options](#options)
+6. [Custom Validators](#custom-validators)
 
 # Usage
 Open the `example/index.html` file for more usage examples of the library or check out the [Example](https://dockwa.github.io/simple-react-validator)
@@ -168,6 +169,25 @@ render() {
       <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
     </div>
   );
+}
+```
+# Multi Language
+
+Same as before the only difference is that you need to specify the language in the initialize like so.
+1. Import and Initialize the validator.
+```javascript
+import SimpleReactValidator from 'simple-react-validator';
+```
+es5
+```javascript
+componentWillMount: function() {
+  this.validator = new SimpleReactValidator({}, 'fr');
+},
+```
+es6
+```javascript
+constructor() {
+  this.validator = new SimpleReactValidator({}, 'fr');
 }
 ```
 

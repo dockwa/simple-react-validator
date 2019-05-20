@@ -38,6 +38,8 @@ function () {
 
     var _options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
+    var language = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'en';
+
     _classCallCheck(this, SimpleReactValidator);
 
     _defineProperty(this, "helpers", {
@@ -134,16 +136,17 @@ function () {
     this.fields = {};
     this.errorMessages = {};
     this.messagesShown = false;
+    var messages = languageSelector(language);
     this.rules = _objectSpread({
       accepted: {
-        message: 'The :attribute must be accepted.',
+        message: messages.accepted,
         rule: function rule(val) {
           return val === true;
         },
         required: true
       },
       after: {
-        message: 'The :attribute must be after :date.',
+        message: messages.after,
         rule: function rule(val, params) {
           return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day');
         },
@@ -152,7 +155,7 @@ function () {
         }
       },
       after_or_equal: {
-        message: 'The :attribute must be after or on :date.',
+        message: messages.after_or_equal,
         rule: function rule(val, params) {
           return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], 'day');
         },
@@ -161,49 +164,49 @@ function () {
         }
       },
       alpha: {
-        message: 'The :attribute may only contain letters.',
+        message: messages.alpha,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z]*$/i);
         }
       },
       alpha_space: {
-        message: 'The :attribute may only contain letters and spaces.',
+        message: messages.alpha_space,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z\s]*$/i);
         }
       },
       alpha_num: {
-        message: 'The :attribute may only contain letters and numbers.',
+        message: messages.alpha_num,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z0-9]*$/i);
         }
       },
       alpha_num_space: {
-        message: 'The :attribute may only contain letters, numbers, and spaces.',
+        message: messages.alpha_num_space,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z0-9\s]*$/i);
         }
       },
       alpha_num_dash: {
-        message: 'The :attribute may only contain letters, numbers, and dashes.',
+        message: messages.alpha_num_dash,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z0-9_-]*$/i);
         }
       },
       alpha_num_dash_space: {
-        message: 'The :attribute may only contain letters, numbers, dashes, and spaces.',
+        message: messages.alpha_num_dash_space,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z0-9_-\s]*$/i);
         }
       },
       array: {
-        message: 'The :attribute must be an array.',
+        message: messages.array,
         rule: function rule(val) {
           return Array.isArray(val);
         }
       },
       before: {
-        message: 'The :attribute must be before :date.',
+        message: messages.before,
         rule: function rule(val, params) {
           return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isBefore(params[0], 'day');
         },
@@ -212,7 +215,7 @@ function () {
         }
       },
       before_or_equal: {
-        message: 'The :attribute must be before or on :date.',
+        message: messages.before_or_equal,
         rule: function rule(val, params) {
           return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrBefore(params[0], 'day');
         },
@@ -221,7 +224,7 @@ function () {
         }
       },
       between: {
-        message: 'The :attribute must be between :min and :max:type.',
+        message: messages.between,
         rule: function rule(val, params) {
           return _this.helpers.size(val, params[2]) >= parseFloat(params[0]) && _this.helpers.size(val, params[2]) <= parseFloat(params[1]);
         },
@@ -230,37 +233,37 @@ function () {
         }
       },
       "boolean": {
-        message: 'The :attribute must be a boolean.',
+        message: messages["boolean"],
         rule: function rule(val) {
           return val === false || val === true;
         }
       },
       card_exp: {
-        message: 'The :attribute must be a valid expiration date.',
+        message: messages.card_exp,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/);
         }
       },
       card_num: {
-        message: 'The :attribute must be a valid credit card number.',
+        message: messages.card_num,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/);
         }
       },
       currency: {
-        message: 'The :attribute must be a valid currency.',
+        message: messages.currency,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/);
         }
       },
       date: {
-        message: 'The :attribute must be a date.',
+        message: messages.date,
         rule: function rule(val) {
           return _this.helpers.momentInstalled() && moment.isMoment(val);
         }
       },
       date_equals: {
-        message: 'The :attribute must be on :date.',
+        message: messages.date_equals,
         rule: function rule(val, params) {
           return _this.helpers.momentInstalled() && moment.isMoment(val) && val.isSame(params[0], 'day');
         },
@@ -269,13 +272,13 @@ function () {
         }
       },
       email: {
-        message: 'The :attribute must be a valid email address.',
+        message: messages.email,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
         }
       },
       "in": {
-        message: 'The selected :attribute must be :values.',
+        message: messages["in"],
         rule: function rule(val, params) {
           return params.indexOf(val) > -1;
         },
@@ -284,13 +287,13 @@ function () {
         }
       },
       integer: {
-        message: 'The :attribute must be an integer.',
+        message: messages.integer,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^\d*$/);
         }
       },
       max: {
-        message: 'The :attribute may not be greater than :max:type.',
+        message: messages.max,
         rule: function rule(val, params) {
           return _this.helpers.size(val, params[1]) <= parseFloat(params[0]);
         },
@@ -299,7 +302,7 @@ function () {
         }
       },
       min: {
-        message: 'The :attribute must be at least :min:type.',
+        message: messages.min,
         rule: function rule(val, params) {
           return _this.helpers.size(val, params[1]) >= parseFloat(params[0]);
         },
@@ -308,7 +311,7 @@ function () {
         }
       },
       not_in: {
-        message: 'The selected :attribute must not be :values.',
+        message: messages.not_in,
         rule: function rule(val, params) {
           return params.indexOf(val) === -1;
         },
@@ -317,38 +320,38 @@ function () {
         }
       },
       not_regex: {
-        message: 'The :attribute must not match the required pattern.',
+        message: messages.not_regex,
         rule: function rule(val, params) {
           return !_this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0]);
         }
       },
       numeric: {
-        message: 'The :attribute must be a number.',
+        message: messages.numeric,
         rule: function rule(val) {
           return _this.helpers.numeric(val);
         }
       },
       phone: {
-        message: 'The :attribute must be a valid phone number.',
+        message: messages.phone,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/);
         }
       },
       regex: {
-        message: 'The :attribute must match the required pattern.',
+        message: messages.regex,
         rule: function rule(val, params) {
           return _this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0]);
         }
       },
       required: {
-        message: 'The :attribute field is required.',
+        message: messages.required,
         rule: function rule(val) {
           return !_this.helpers.isBlank(val);
         },
         required: true
       },
       size: {
-        message: 'The :attribute must be :size:type.',
+        message: messages.size,
         rule: function rule(val, params) {
           return _this.helpers.size(val, params[1]) == parseFloat(params[0]);
         },
@@ -357,13 +360,13 @@ function () {
         }
       },
       string: {
-        message: 'The :attribute must be a string.',
+        message: messages.string,
         rule: function rule(val) {
           return _typeof(val) === _typeof('string');
         }
       },
       "typeof": {
-        message: 'The :attribute is not the correct type of :type.',
+        message: messages["typeof"],
         rule: function rule(val, params) {
           return _typeof(val) === _typeof(params[0]);
         },
@@ -372,7 +375,7 @@ function () {
         }
       },
       url: {
-        message: 'The :attribute must be a url.',
+        message: messages.url,
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         }
@@ -517,5 +520,86 @@ function () {
 
   return SimpleReactValidator;
 }();
+
+var defaultMessages = {
+  accepted: 'The :attribute must be accepted.',
+  after: 'The :attribute must be after :date.',
+  after_or_equal: 'The :attribute must be after or on :date.',
+  alpha: 'The :attribute may only contain letters.',
+  alpha_space: 'The :attribute may only contain letters and spaces.',
+  alpha_num: 'The :attribute may only contain letters and numbers.',
+  alpha_num_space: 'The :attribute may only contain letters, numbers, and spaces.',
+  alpha_num_dash: 'The :attribute may only contain letters, numbers, and dashes.',
+  alpha_num_dash_space: 'The :attribute may only contain letters, numbers, dashes, and spaces.',
+  array: 'The :attribute must be an array.',
+  before: 'The :attribute must be before :date.',
+  before_or_equal: 'The :attribute must be before or on :date.',
+  between: 'The :attribute must be between :min and :max:type.',
+  "boolean": 'The :attribute must be a boolean.',
+  card_exp: 'The :attribute must be a valid expiration date.',
+  card_num: 'The :attribute must be a valid credit card number.',
+  currency: 'The :attribute must be a valid currency.',
+  date: 'The :attribute must be a date.',
+  date_equals: 'The :attribute must be on :date.',
+  email: 'The :attribute must be a valid email address.',
+  "in": 'The selected :attribute must be :values.',
+  integer: 'The :attribute must be an integer.',
+  max: 'The :attribute may not be greater than :max:type.',
+  min: 'The :attribute must be at least :min:type.',
+  not_in: 'The selected :attribute must not be :values.',
+  not_regex: 'The :attribute must not match the required pattern.',
+  numeric: 'The :attribute must be a number.',
+  phone: 'The :attribute must be a valid phone number.',
+  regex: 'The :attribute must match the required pattern.',
+  required: 'The :attribute field is required.',
+  size: 'The :attribute must be :size:type.',
+  string: 'The :attribute must be a string.',
+  "typeof": 'The :attribute is not the correct type of :type.',
+  url: 'The :attribute must be a url.'
+};
+var frenchMessages = {
+  accepted: 'Le champ :attribute doit être accepté.',
+  after: 'Le champ :attribute doit être après :date.',
+  after_or_equal: 'Le champ :attribute doit correspondre ou bien être après :date.',
+  alpha: 'Le champ :attribute ne peut contenir que des lettres.',
+  alpha_space: 'Le champ :attribute ne peut contenir que des lettres et des espaces.',
+  alpha_num: 'Le champ :attribute ne peut contenir que des lettres et des chiffres.',
+  alpha_num_space: 'Le champ :attribute ne peut contenir que des lettres, chiffres, et espaces.',
+  alpha_num_dash: 'Le champ :attribute ne peut contenir que des lettres, chiffres, et tirets.',
+  alpha_num_dash_space: 'Le champ :attribute ne peut contenir que des lettres, chiffres, tirets, et espaces.',
+  array: 'Le champ :attribute doit êttre un tableau.',
+  before: 'Le champ :attribute doit être avant :date.',
+  before_or_equal: 'Le champ :attribute doit correspondre ou bien être avant  :date.',
+  between: 'Le champ :attribute doit être entre :min et :max:type.',
+  "boolean": 'Le champ :attribute doit être booléen.',
+  card_exp: "Le champ :attribute doit être une date d'expiration valide.",
+  card_num: 'Le champ :attribute doit être un numéro valide de carte de crédit .',
+  currency: 'Le champ :attribute doit être une devise valide.',
+  date: 'Le champ :attribute doit être une date.',
+  date_equals: 'Le champ :attribute doit correspondre à :date.',
+  email: 'Le champ :attribute doit êre une adresse email valide.',
+  "in": 'Le champ selectionné :attribute doit être :values.',
+  integer: 'Le champ :attribute doit être un entier.',
+  max: 'Le champ :attribute ne doit pas dépasser :max:type.',
+  min: 'Le champ :attribute doit au moins être :min:type.',
+  not_in: 'Le champ selectionné :attribute ne doit pas être :values.',
+  not_regex: 'Le champ :attribute ne doit pas correspondre au motif requis.',
+  numeric: 'Le champ :attribute doit être un chiffre.',
+  phone: 'Le champ :attribute doit être un numéro de téléphone valide.',
+  regex: 'Le champ :attribute doit correspondre au motif requis.',
+  required: 'Le champ :attribute est requis.',
+  size: 'Le champ :attribute doit être :size:type.',
+  string: 'Le champ :attribute doit être une chaîne.',
+  "typeof": "Le champ :attribute n'est pas le type correcte de :type.",
+  url: 'Le champ :attribute doit être un url.'
+};
+
+var languageSelector = function languageSelector(language) {
+  if (language === 'fr') {
+    return frenchMessages;
+  }
+
+  return defaultMessages;
+};
 return SimpleReactValidator;
 }));
