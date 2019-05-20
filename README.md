@@ -4,16 +4,17 @@
   <p align="center">
     A simple react and react native form validator inspired by Laravel validation.
     <br>
-    <a href="https://www.npmjs.com/package/simple-react-validator"><img src="https://img.shields.io/npm/v/simple-react-validator.svg" /></a>
-    <a href="https://www.npmjs.com/package/simple-react-validator"><img src="https://img.shields.io/npm/dt/simple-react-validator.svg" /></a>
-    <a href="https://www.jsdelivr.com/package/npm/simple-react-validator"><img src="https://data.jsdelivr.com/v1/package/npm/simple-react-validator/badge?style=rounded" /></a>
+    <a href="https://www.npmjs.com/package/simple-react-validator-multilang"><img src="https://img.shields.io/npm/v/simple-react-validator-multilang.svg" /></a>
+    <a href="https://www.npmjs.com/package/simple-react-validator-multilang"><img src="https://img.shields.io/npm/dt/simple-react-validator-multilang.svg" /></a>
+    <a href="https://www.jsdelivr.com/package/npm/simple-react-validator-multilang"><img src="https://data.jsdelivr.com/v1/package/npm/simple-react-validator-multilang/badge?style=rounded" /></a>
     <br>
-    <a href="https://www.npmjs.com/package/simple-react-validator"><strong>View on NPM »</strong></a>
+    <a href="https://www.npmjs.com/package/simple-react-validator-multilang"><strong>View on NPM »</strong></a>
   </p>
 </p>
 
 [![Powered by Dockwa](https://raw.githubusercontent.com/dockwa/openpixel/dockwa/by-dockwa.png)](https://engineering.dockwa.com/)
-
+with the contribution of 
+[![Powered by eDonec](https://i.imgur.com/nHVYd8b.png)](https://edonec.com/)
 # About
 Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
@@ -32,18 +33,18 @@ Open the `example/index.html` file for more usage examples of the library or che
 
 **npm**
 ```
-npm install simple-react-validator --save
+npm install simple-react-validator-multilang --save
 ```
 
 **bower**
 ```
-bower install simple-react-validator --save
+bower install simple-react-validator-multilang --save
 ```
 
 # 3 Easy Steps
 1. Import and Initialize the validator.
 ```javascript
-import SimpleReactValidator from 'simple-react-validator';
+import SimpleReactValidator from 'simple-react-validator-multilang';
 ```
 es5
 ```javascript
@@ -176,7 +177,7 @@ render() {
 Same as before the only difference is that you need to specify the language in the initialize like so.
 1. Import and Initialize the validator.
 ```javascript
-import SimpleReactValidator from 'simple-react-validator';
+import SimpleReactValidator from 'simple-react-validator-multilang';
 ```
 es5
 ```javascript

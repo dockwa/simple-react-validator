@@ -1,5 +1,5 @@
 {
-  "name": "simple-react-validator",
+  "name": "simple-react-validator-multilang",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
   "version": "1.0.7",
@@ -12,7 +12,7 @@
     "validator",
     "form",
     "form-validator",
-    "simple-react-validator"
+    "simple-react-validator-multilang"
   ],
   "homepage": "https://github.com/stuyam/simple-react-validator",
   "ignore": [

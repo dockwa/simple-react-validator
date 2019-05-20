@@ -1,6 +1,6 @@
 {
-  "name": "simple-react-validator",
-  "version": "1.0.7",
+  "name": "simple-react-validator-multilang",
+  "version": "1.0.0",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
   "dependencies": {},
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dockwa/simple-react-validator.git"
+    "url": "git+https://github.com/nader2560/simple-react-validator"
   },
   "keywords": [
     "react",
@@ -39,7 +39,7 @@
   "author": "Stuart Yamartino",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dockwa/simple-react-validator/issues"
+    "url": "https://github.com/nader2560/simple-react-validator"
   },
-  "homepage": "https://github.com/dockwa/simple-react-validator#readme"
+  "homepage": "https://github.com/nader2560/simple-react-validator#readme"
 }
