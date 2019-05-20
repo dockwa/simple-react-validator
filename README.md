@@ -14,7 +14,7 @@
 
 [![Powered by Dockwa](https://raw.githubusercontent.com/dockwa/openpixel/dockwa/by-dockwa.png)](https://engineering.dockwa.com/)
 with the contribution of 
-[![Powered by eDonec](https://i.imgur.com/nHVYd8b.png)](https://edonec.com/)
+[![Powered by eDonec](https://i.imgur.com/LxTnprG.png)](https://edonec.com/)
 # About
 Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
