@@ -53,7 +53,7 @@ class SimpleReactValidator {
     } else if (typeof navigator === 'object' && navigator.product === 'ReactNative') {
       this.element = message => message;
     } else {
-      this.element = (message, className) => React.createElement('div', {className: (className || this.className || 'srv-validation-message')}, message);
+      this.element = (message, className, id, display) => React.createElement('div', {style: {display: display }, id: id, className: (className || this.className || 'srv-validation-message')}, message);
     }
   }
 
@@ -67,6 +67,14 @@ class SimpleReactValidator {
 
   hideMessages() {
     this.messagesShown = false;
+  }
+
+  showMessage(field, options = {}) {
+      let id = `${field}-validator`
+      let ele = document.getElementById(id)
+      if (ele){
+        ele.style.display = "block"
+      }
   }
 
   allValid() {
@@ -118,9 +126,11 @@ class SimpleReactValidator {
         }
 
         this.errorMessages[field] = message;
-        if (this.messagesShown) {
+
+          let display = this.messagesShown ? 'block' : 'none'
+          options['display'] = display
+          options['id'] = `${field}-validator`
           return this.helpers.element(message, options);
-        }
       }
     }
   }
@@ -196,7 +206,7 @@ class SimpleReactValidator {
 
     element(message, options) {
       var element = options.element || this.parent.element;
-      return element(message, options.className);
+      return element(message, options.className, options.id, options.display);
     },
 
     numeric(val) {
