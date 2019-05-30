@@ -1,7 +1,7 @@
 class SimpleReactValidator {
   constructor(options = {}) {
     this.fields = {};
-    this.visibleFields = options.onBlur || [];
+    this.visibleFields = [];
     this.errorMessages = {};
     this.messagesShown = false;
     this.rules = {
@@ -54,7 +54,7 @@ class SimpleReactValidator {
     } else if (typeof navigator === 'object' && navigator.product === 'ReactNative') {
       this.element = message => message;
     } else {
-      this.element = (message, className, id, display) => React.createElement('div', {style: {display: display }, id: id, className: (className || this.className || 'srv-validation-message')}, message);
+      this.element = (message, className) => React.createElement('div', {className: (className || this.className || 'srv-validation-message')}, message);
     }
   }
 
@@ -71,7 +71,7 @@ class SimpleReactValidator {
   }
 
   showMessage(field, options = {}) {
-    this.visibleFields
+    this.visibleFields.push(field)
   }
 
   allValid() {
@@ -123,7 +123,7 @@ class SimpleReactValidator {
         }
 
         this.errorMessages[field] = message;
-        if (this.messagesShown || this.visibleFields.include(field)) {
+        if (this.messagesShown || this.visibleFields.includes(field)) {
           return this.helpers.element(message, options);
         }
       }
@@ -201,7 +201,7 @@ class SimpleReactValidator {
 
     element(message, options) {
       var element = options.element || this.parent.element;
-      return element(message, options.className, options.id, options.display);
+      return element(message, options.className);
     },
 
     numeric(val) {
