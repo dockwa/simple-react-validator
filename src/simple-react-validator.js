@@ -1,6 +1,7 @@
 class SimpleReactValidator {
   constructor(options = {}) {
     this.fields = {};
+    this.visibleFields = options.onBlur || [];
     this.errorMessages = {};
     this.messagesShown = false;
     this.rules = {
@@ -70,11 +71,7 @@ class SimpleReactValidator {
   }
 
   showMessage(field, options = {}) {
-      let id = `${field}-validator`
-      let ele = document.getElementById(id)
-      if (ele){
-        ele.style.display = "block"
-      }
+    this.visibleFields
   }
 
   allValid() {
@@ -126,11 +123,9 @@ class SimpleReactValidator {
         }
 
         this.errorMessages[field] = message;
-
-          let display = this.messagesShown ? 'block' : 'none'
-          options['display'] = display
-          options['id'] = `${field}-validator`
+        if (this.messagesShown || this.visibleFields.include(field)) {
           return this.helpers.element(message, options);
+        }
       }
     }
   }
