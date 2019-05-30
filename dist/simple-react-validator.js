@@ -99,7 +99,7 @@ function () {
       },
       element: function element(message, options) {
         var element = options.element || this.parent.element;
-        return element(message, options.className, options.id, options.display);
+        return element(message, options.className);
       },
       numeric: function numeric(val) {
         return this.testRegex(val, /^(\d+.?\d*)?$/);
@@ -132,6 +132,7 @@ function () {
     });
 
     this.fields = {};
+    this.visibleFields = _options.onBlur || [];
     this.errorMessages = {};
     this.messagesShown = false;
     this.rules = _objectSpread({
@@ -393,12 +394,8 @@ function () {
         return message;
       };
     } else {
-      this.element = function (message, className, id, display) {
+      this.element = function (message, className) {
         return React.createElement('div', {
-          style: {
-            display: display
-          },
-          id: id,
           className: className || _this.className || 'srv-validation-message'
         }, message);
       };
@@ -424,12 +421,7 @@ function () {
     key: "showMessage",
     value: function showMessage(field) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var id = "".concat(field, "-validator");
-      var ele = document.getElementById(id);
-
-      if (ele) {
-        ele.style.display = "block";
-      }
+      this.visibleFields.push(field);
     }
   }, {
     key: "allValid",
@@ -507,10 +499,10 @@ function () {
             }
 
             this.errorMessages[field] = message;
-            var display = this.messagesShown ? 'block' : 'none';
-            options['display'] = display;
-            options['id'] = "".concat(field, "-validator");
-            return this.helpers.element(message, options);
+
+            if (this.messagesShown || this.visibleFields.includes(field)) {
+              return this.helpers.element(message, options);
+            }
           }
         }
       } catch (err) {
