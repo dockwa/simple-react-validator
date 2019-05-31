@@ -70,8 +70,15 @@ class SimpleReactValidator {
     this.messagesShown = false;
   }
 
-  showMessage(field, options = {}) {
-    this.visibleFields.push(field)
+  showMessageFor(field) {
+    this.visibleFields.push(field);
+  }
+
+  hideMessageFor(field) {
+    const index = this.visibleFields.indexOf(field);
+    if (index > -1) {
+      this.visibleFields.splice(index, 1);
+    }
   }
 
   allValid() {
