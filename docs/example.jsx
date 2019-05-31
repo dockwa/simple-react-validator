@@ -7,6 +7,7 @@ class ExampleForm extends React.Component {
     };
     this.validator = new SimpleReactValidator({
       // element: (message, className) => <div className="invalid-feedback d-block">{message}</div>,
+      autoForceUpdate: this,
       className: 'text-danger',
       messages: {
         email: 'That is not an email.'
@@ -29,7 +30,6 @@ class ExampleForm extends React.Component {
       alert('You submitted the form and stuff!');
     } else {
       this.validator.showMessages();
-      this.forceUpdate();
     }
   }
 
@@ -49,7 +49,7 @@ class ExampleForm extends React.Component {
       <div className="col-sm-6 col-md-4">
         <div className="form-group">
           <label>{name}</label>
-          <input className="form-control" type={type} name={name} value={this.state[name]} onChange={this.handleInputChange.bind(this)} />
+          <input className="form-control" type={type} name={name} value={this.state[name]} onChange={this.handleInputChange.bind(this)} onBlur={this.validator.showMessageFor.bind(null, name)} />
           {this.validator.message(name, value, rules)}
         </div>
       </div>
