@@ -141,9 +141,9 @@ constructor() {
 
 `hideMessages()` Turns off showing messages for all messages.
 
-`showMessageFor(field)` Turns on showing messages for a specific field. Useful for [onBlur.](#onblur).
+`showMessageFor(field)` Turns on showing messages for a specific field. Useful for [onBlur](#onblur).
 
-`hideMessageFor(field)` Turns off showing messages for a specific field. Useful for [onBlur.](#onblur).
+`hideMessageFor(field)` Turns off showing messages for a specific field. Useful for [onBlur](#onblur).
 
 `allValid()` Returns a boolean if all the fields pass validation or not.
 
