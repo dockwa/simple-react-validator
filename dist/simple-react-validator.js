@@ -132,7 +132,7 @@ function () {
     });
 
     this.fields = {};
-    this.visibleFields = _options.onBlur || [];
+    this.visibleFields = [];
     this.errorMessages = {};
     this.messagesShown = false;
     this.rules = _objectSpread({
@@ -418,10 +418,18 @@ function () {
       this.messagesShown = false;
     }
   }, {
-    key: "showMessage",
-    value: function showMessage(field) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    key: "showMessageFor",
+    value: function showMessageFor(field) {
       this.visibleFields.push(field);
+    }
+  }, {
+    key: "hideMessageFor",
+    value: function hideMessageFor(field) {
+      var index = this.visibleFields.indexOf(field);
+
+      if (index > -1) {
+        this.visibleFields.splice(index, 1);
+      }
     }
   }, {
     key: "allValid",
