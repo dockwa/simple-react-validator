@@ -125,7 +125,7 @@ if (this.validator.fieldValid('email')) {
 ```
 
 #### Note: autoForceUpdate
-As of v1.0.8 you can initialize the the constructor with the `autoForceUpdate` option and pass it react instance that is responsible for the state. This will automatically call the `this.forceUpdate()` for you when `showMessages`, `hideMessages`, `showMessageFor`, and `hideMessageFor` are called.
+As of v1.1.0 you can initialize the the constructor with the `autoForceUpdate` option and pass it react instance that is responsible for the state. This will automatically call the `this.forceUpdate()` for you when `showMessages`, `hideMessages`, `showMessageFor`, and `hideMessageFor` are called.
 ```javascript
 constructor() {
   this.validator = new SimpleReactValidator({autoForceUpdate: this});
