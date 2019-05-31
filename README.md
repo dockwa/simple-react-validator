@@ -105,15 +105,16 @@ render() {
 
 3. Check if the validation passes when submitting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
 ```javascript
-submitForm: function() {
+submitForm() {
   if (this.validator.allValid()) {
     alert('You submitted the form and stuff!');
   } else {
     this.validator.showMessages();
     // rerender to show messages for the first time
+    // you can use the autoForceUpdate option to do this automatically`
     this.forceUpdate();
   }
-},
+}
 ```
 
 There is another method you can use to check if a single field is valid or not.
@@ -123,12 +124,26 @@ if (this.validator.fieldValid('email')) {
 }
 ```
 
+#### Note: autoForceUpdate
+As of v1.0.8 you can initialize the the constructor with the `autoForceUpdate` option and pass it react instance that is responsible for the state. This will automatically call the `this.forceUpdate()` for you when `showMessages`, `hideMessages`, `showMessageFor`, and `hideMessageFor` are called.
+```javascript
+constructor() {
+  this.validator = new SimpleReactValidator({autoForceUpdate: this});
+}
+
+
+```
+
 ## Available Public Methods
 `getErrorMessages()` Returns a JS object, key being the field name, value being the error message.
 
 `showMessages()` Turns on showing messages for all messages.
 
 `hideMessages()` Turns off showing messages for all messages.
+
+`showMessageFor(field)` Turns on showing messages for a specific field. Useful for [onBlur.](#onblur).
+
+`hideMessageFor(field)` Turns off showing messages for a specific field. Useful for [onBlur.](#onblur).
 
 `allValid()` Returns a boolean if all the fields pass validation or not.
 
@@ -140,11 +155,24 @@ if (this.validator.fieldValid('email')) {
 
 `message(field, inputValue, validations, options = {})` How you define validation rules and add messages into the form.
 
+## onBlur
+
+You can use the react onBlur action to show individual fields once the input is blurred. Use the `showMesssageFor` or `hideMessageFor` methods.
+
+```jsx
+<div className="form-group">
+  <label>Email</label>
+  <input className="form-control" value={this.state.email} onChange={/* update email */} onBlur={this.validator.showMessageFor.bind(null, 'email')} />
+  {this.validator.message('email', this.state.email, 'required|email')}
+</div>
+
+```
+
 ## React Native
 
 You need to wrap validator with `<Text>` Element.
 
-```javascript
+```jsx
 <Text>
   {this.validator.message('title', this.state.title, 'required|alpha')}
 </Text>
@@ -347,7 +375,7 @@ this.validator = new SimpleReactValidator({
 }
 ```
 4. validators: Accepts an object of custom validators. See [Custom Validators](#customvalidators) for more info on defining custom validators.
-
+5. autoForceUpdate: Accepts a react instance and will automatically be called when messages are shown and hidden automatically. [More on autoForceUpdate]()
 
 
 # Custom Validators
