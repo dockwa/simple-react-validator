@@ -73,12 +73,12 @@ class SimpleReactValidator {
     this.helpers.forceUpdateIfNeeded();
   }
 
-  showMessageFor(field) {
+  showMessageFor = field => {
     this.visibleFields.push(field);
     this.helpers.forceUpdateIfNeeded();
   }
 
-  hideMessageFor(field) {
+  hideMessageFor = field => {
     const index = this.visibleFields.indexOf(field);
     if (index > -1) {
       this.visibleFields.splice(index, 1);

@@ -40,6 +40,22 @@ function () {
 
     _classCallCheck(this, SimpleReactValidator);
 
+    _defineProperty(this, "showMessageFor", function (field) {
+      _this.visibleFields.push(field);
+
+      _this.helpers.forceUpdateIfNeeded();
+    });
+
+    _defineProperty(this, "hideMessageFor", function (field) {
+      var index = _this.visibleFields.indexOf(field);
+
+      if (index > -1) {
+        _this.visibleFields.splice(index, 1);
+      }
+
+      _this.helpers.forceUpdateIfNeeded();
+    });
+
     _defineProperty(this, "helpers", {
       parent: this,
       passes: function passes(rule, value, params, rules) {
@@ -423,23 +439,6 @@ function () {
     key: "hideMessages",
     value: function hideMessages() {
       this.messagesShown = false;
-      this.helpers.forceUpdateIfNeeded();
-    }
-  }, {
-    key: "showMessageFor",
-    value: function showMessageFor(field) {
-      this.visibleFields.push(field);
-      this.helpers.forceUpdateIfNeeded();
-    }
-  }, {
-    key: "hideMessageFor",
-    value: function hideMessageFor(field) {
-      var index = this.visibleFields.indexOf(field);
-
-      if (index > -1) {
-        this.visibleFields.splice(index, 1);
-      }
-
       this.helpers.forceUpdateIfNeeded();
     }
   }, {
