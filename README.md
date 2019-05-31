@@ -375,7 +375,7 @@ this.validator = new SimpleReactValidator({
 }
 ```
 4. validators: Accepts an object of custom validators. See [Custom Validators](#customvalidators) for more info on defining custom validators.
-5. autoForceUpdate: Accepts a react instance and will automatically be called when messages are shown and hidden automatically. [More on autoForceUpdate]()
+5. autoForceUpdate: Accepts a react instance and will automatically be called when messages are shown and hidden automatically. [More on autoForceUpdate](#note-autoforceupdate)
 
 
 # Custom Validators
