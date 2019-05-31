@@ -88,6 +88,11 @@ function () {
       testRegex: function testRegex(value, regex) {
         return value.toString().match(regex) !== null;
       },
+      forceUpdateIfNeeded: function forceUpdateIfNeeded() {
+        if (this.parent.autoForceUpdate) {
+          this.parent.autoForceUpdate.forceUpdate();
+        }
+      },
       message: function message(rule, field, options, rules) {
         options.messages = options.messages || {};
         var message = options.messages[rule] || options.messages["default"] || this.parent.messages[rule] || this.parent.messages["default"] || rules[rule].message;
@@ -381,7 +386,8 @@ function () {
     }, _options.validators || {}); // apply default options
 
     this.messages = _options.messages || {};
-    this.className = _options.className; // apply default element
+    this.className = _options.className;
+    this.autoForceUpdate = _options.autoForceUpdate || false; // apply default element
 
     if (_options.element === false) {
       this.element = function (message) {
@@ -411,16 +417,19 @@ function () {
     key: "showMessages",
     value: function showMessages() {
       this.messagesShown = true;
+      this.helpers.forceUpdateIfNeeded();
     }
   }, {
     key: "hideMessages",
     value: function hideMessages() {
       this.messagesShown = false;
+      this.helpers.forceUpdateIfNeeded();
     }
   }, {
     key: "showMessageFor",
     value: function showMessageFor(field) {
       this.visibleFields.push(field);
+      this.helpers.forceUpdateIfNeeded();
     }
   }, {
     key: "hideMessageFor",
@@ -430,6 +439,8 @@ function () {
       if (index > -1) {
         this.visibleFields.splice(index, 1);
       }
+
+      this.helpers.forceUpdateIfNeeded();
     }
   }, {
     key: "allValid",

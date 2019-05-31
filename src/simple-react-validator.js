@@ -45,6 +45,7 @@ class SimpleReactValidator {
     // apply default options
     this.messages = options.messages || {};
     this.className = options.className;
+    this.autoForceUpdate = options.autoForceUpdate || false;
 
     // apply default element
     if (options.element === false) {
@@ -64,14 +65,17 @@ class SimpleReactValidator {
 
   showMessages() {
     this.messagesShown = true;
+    this.helpers.forceUpdateIfNeeded();
   }
 
   hideMessages() {
     this.messagesShown = false;
+    this.helpers.forceUpdateIfNeeded();
   }
 
   showMessageFor(field) {
     this.visibleFields.push(field);
+    this.helpers.forceUpdateIfNeeded();
   }
 
   hideMessageFor(field) {
@@ -79,6 +83,7 @@ class SimpleReactValidator {
     if (index > -1) {
       this.visibleFields.splice(index, 1);
     }
+    this.helpers.forceUpdateIfNeeded();
   }
 
   allValid() {
@@ -193,6 +198,12 @@ class SimpleReactValidator {
 
     testRegex(value, regex) {
       return value.toString().match(regex) !== null;
+    },
+
+    forceUpdateIfNeeded() {
+      if (this.parent.autoForceUpdate) {
+        this.parent.autoForceUpdate.forceUpdate();
+      }
     },
 
     message(rule, field, options, rules) {
