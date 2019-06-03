@@ -162,7 +162,7 @@ You can use the react onBlur action to show individual fields once the input is 
 ```jsx
 <div className="form-group">
   <label>Email</label>
-  <input className="form-control" value={this.state.email} onChange={/* update email */} onBlur={this.validator.showMessageFor.bind(null, 'email')} />
+  <input className="form-control" value={this.state.email} onChange={/* update email */} onBlur={() => this.validator.showMessageFor('email')} />
   {this.validator.message('email', this.state.email, 'required|email')}
 </div>
 

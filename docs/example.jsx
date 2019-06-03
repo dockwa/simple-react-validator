@@ -10,7 +10,7 @@ class ExampleForm extends React.Component {
       autoForceUpdate: this,
       className: 'text-danger',
       messages: {
-        email: 'That is not an email.'
+        email: 'That is not an email.',
         // default: "Womp! That's not right!"
       },
       validators: {
@@ -49,7 +49,7 @@ class ExampleForm extends React.Component {
       <div className="col-sm-6 col-md-4">
         <div className="form-group">
           <label>{name}</label>
-          <input className="form-control" type={type} name={name} value={this.state[name]} onChange={this.handleInputChange.bind(this)} onBlur={this.validator.showMessageFor.bind(null, name)} />
+          <input className="form-control" type={type} name={name} value={this.state[name]} onChange={this.handleInputChange.bind(this)} onBlur={() => this.validator.showMessageFor(name)} />
           {this.validator.message(name, value, rules)}
         </div>
       </div>
