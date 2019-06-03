@@ -160,9 +160,9 @@ constructor() {
 You can use the react onBlur action to show individual fields once the input is blurred. Use the `showMesssageFor` or `hideMessageFor` methods.
 
 ```jsx
-<div className="form-group">
+<div>
   <label>Email</label>
-  <input className="form-control" value={this.state.email} onChange={/* update email */} onBlur={() => this.validator.showMessageFor('email')} />
+  <input value={this.state.email} onChange={/* update email */} onBlur={() => this.validator.showMessageFor('email')} />
   {this.validator.message('email', this.state.email, 'required|email')}
 </div>
 
