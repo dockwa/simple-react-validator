@@ -87,14 +87,24 @@ function () {
                   return _context.abrupt("return", true);
 
                 case 5:
-                  _context.next = 7;
+                  console.log(value);
+                  _context.t0 = console;
+                  _context.next = 9;
                   return rules[rule].rule(value, params, this.parent);
 
-                case 7:
-                  _context.t0 = _context.sent;
-                  return _context.abrupt("return", _context.t0 !== false);
-
                 case 9:
+                  _context.t1 = _context.sent;
+
+                  _context.t0.log.call(_context.t0, _context.t1);
+
+                  _context.next = 13;
+                  return rules[rule].rule(value, params, this.parent);
+
+                case 13:
+                  _context.t2 = _context.sent;
+                  return _context.abrupt("return", _context.t2 !== false);
+
+                case 15:
                 case "end":
                   return _context.stop();
               }
@@ -522,131 +532,72 @@ function () {
     }
   }, {
     key: "message",
-    value: function () {
-      var _message = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(field, inputValue, validations) {
-        var options,
-            rules,
-            _iteratorNormalCompletion,
-            _didIteratorError,
-            _iteratorError,
-            _iterator,
-            _step,
-            validation,
-            _this$helpers$normali,
-            _this$helpers$normali2,
-            value,
-            rule,
-            params,
-            _message2,
-            _args2 = arguments;
+    value: function message(field, inputValue, validations) {
+      var _this2 = this;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                options = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : {};
-                this.errorMessages[field] = null;
-                this.fields[field] = true;
+      var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      this.errorMessages[field] = null;
+      this.fields[field] = true;
 
-                if (!Array.isArray(validations)) {
-                  validations = validations.split('|');
-                }
-
-                rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
-                _context2.prev = 8;
-                _iterator = validations[Symbol.iterator]();
-
-              case 10:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context2.next = 25;
-                  break;
-                }
-
-                validation = _step.value;
-                _this$helpers$normali = this.helpers.normalizeValues(inputValue, validation), _this$helpers$normali2 = _slicedToArray(_this$helpers$normali, 3), value = _this$helpers$normali2[0], rule = _this$helpers$normali2[1], params = _this$helpers$normali2[2];
-                _context2.next = 15;
-                return this.helpers.passes(rule, value, params, rules);
-
-              case 15:
-                if (_context2.sent) {
-                  _context2.next = 22;
-                  break;
-                }
-
-                this.fields[field] = false;
-                _message2 = this.helpers.message(rule, field, options, rules);
-
-                if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-                  _message2 = rules[rule].messageReplace(_message2, params);
-                }
-
-                this.errorMessages[field] = _message2;
-
-                if (!(this.messagesShown || this.visibleFields.includes(field))) {
-                  _context2.next = 22;
-                  break;
-                }
-
-                return _context2.abrupt("return", this.helpers.element(_message2, options));
-
-              case 22:
-                _iteratorNormalCompletion = true;
-                _context2.next = 10;
-                break;
-
-              case 25:
-                _context2.next = 31;
-                break;
-
-              case 27:
-                _context2.prev = 27;
-                _context2.t0 = _context2["catch"](8);
-                _didIteratorError = true;
-                _iteratorError = _context2.t0;
-
-              case 31:
-                _context2.prev = 31;
-                _context2.prev = 32;
-
-                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                  _iterator["return"]();
-                }
-
-              case 34:
-                _context2.prev = 34;
-
-                if (!_didIteratorError) {
-                  _context2.next = 37;
-                  break;
-                }
-
-                throw _iteratorError;
-
-              case 37:
-                return _context2.finish(34);
-
-              case 38:
-                return _context2.finish(31);
-
-              case 39:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this, [[8, 27, 31, 39], [32,, 34, 38]]);
-      }));
-
-      function message(_x5, _x6, _x7) {
-        return _message.apply(this, arguments);
+      if (!Array.isArray(validations)) {
+        validations = validations.split('|');
       }
 
-      return message;
-    }()
+      var rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var validation = _step.value;
+
+          var _this2$helpers$normal = _this2.helpers.normalizeValues(inputValue, validation),
+              _this2$helpers$normal2 = _slicedToArray(_this2$helpers$normal, 3),
+              value = _this2$helpers$normal2[0],
+              rule = _this2$helpers$normal2[1],
+              params = _this2$helpers$normal2[2];
+
+          _this2.helpers.passes(rule, value, params, rules).then(function (res) {
+            console.log('in message ', res);
+
+            if (!res) {
+              console.log(field);
+              _this2.fields[field] = false;
+
+              var message = _this2.helpers.message(rule, field, options, rules);
+
+              if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+                message = rules[rule].messageReplace(message, params);
+              }
+
+              _this2.errorMessages[field] = message;
+
+              if (_this2.messagesShown || _this2.visibleFields.includes(field)) {
+                return _this2.helpers.element(message, options);
+              }
+            }
+          });
+        };
+
+        for (var _iterator = validations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
   }]);
 
   return SimpleReactValidator;

@@ -117,7 +117,7 @@ class SimpleReactValidator {
     }
   }
 
-  async message(field, inputValue, validations, options = {}) {
+  message(field, inputValue, validations, options = {}) {
     this.errorMessages[field] = null;
     this.fields[field] = true;
     if (!Array.isArray(validations)) {
@@ -127,7 +127,11 @@ class SimpleReactValidator {
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
 
-      if (!(await this.helpers.passes(rule, value, params, rules))) {
+      this.helpers.passes(rule, value, params, rules)
+      .then(res => {
+        console.log('in message ', res)
+        if(!res) {
+          console.log(field)
         this.fields[field] = false;
         let message = this.helpers.message(rule, field, options, rules);
 
@@ -139,8 +143,8 @@ class SimpleReactValidator {
         if (this.messagesShown || this.visibleFields.includes(field)) {
           return this.helpers.element(message, options);
         }
-      }
-    }
+      }})
+     }
   }
 
   helpers = {
@@ -154,6 +158,8 @@ class SimpleReactValidator {
       if (!this.isRequired(rule, rules) && this.isBlank(value)) {
         return true;
       }
+      console.log(value)
+      console.log(await rules[rule].rule(value, params, this.parent))
       return (await rules[rule].rule(value, params, this.parent)) !== false;
     },
 
