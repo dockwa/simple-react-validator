@@ -22,6 +22,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -58,18 +62,52 @@ function () {
 
     _defineProperty(this, "helpers", {
       parent: this,
-      passes: function passes(rule, value, params, rules) {
-        if (!rules.hasOwnProperty(rule)) {
-          console.error("Rule Not Found: There is no rule with the name ".concat(rule, "."));
-          return true;
+      passes: function () {
+        var _passes = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee(rule, value, params, rules) {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (rules.hasOwnProperty(rule)) {
+                    _context.next = 3;
+                    break;
+                  }
+
+                  console.error("Rule Not Found: There is no rule with the name ".concat(rule, "."));
+                  return _context.abrupt("return", true);
+
+                case 3:
+                  if (!(!this.isRequired(rule, rules) && this.isBlank(value))) {
+                    _context.next = 5;
+                    break;
+                  }
+
+                  return _context.abrupt("return", true);
+
+                case 5:
+                  _context.next = 7;
+                  return rules[rule].rule(value, params, this.parent);
+
+                case 7:
+                  _context.t0 = _context.sent;
+                  return _context.abrupt("return", _context.t0 !== false);
+
+                case 9:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, this);
+        }));
+
+        function passes(_x, _x2, _x3, _x4) {
+          return _passes.apply(this, arguments);
         }
 
-        if (!this.isRequired(rule, rules) && this.isBlank(value)) {
-          return true;
-        }
-
-        return rules[rule].rule(value, params, this.parent) !== false;
-      },
+        return passes;
+      }(),
       isRequired: function isRequired(rule, rules) {
         return rules[rule].hasOwnProperty('required') && rules[rule].required;
       },
@@ -484,60 +522,131 @@ function () {
     }
   }, {
     key: "message",
-    value: function message(field, inputValue, validations) {
-      var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      this.errorMessages[field] = null;
-      this.fields[field] = true;
+    value: function () {
+      var _message = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(field, inputValue, validations) {
+        var options,
+            rules,
+            _iteratorNormalCompletion,
+            _didIteratorError,
+            _iteratorError,
+            _iterator,
+            _step,
+            validation,
+            _this$helpers$normali,
+            _this$helpers$normali2,
+            value,
+            rule,
+            params,
+            _message2,
+            _args2 = arguments;
 
-      if (!Array.isArray(validations)) {
-        validations = validations.split('|');
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                options = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : {};
+                this.errorMessages[field] = null;
+                this.fields[field] = true;
+
+                if (!Array.isArray(validations)) {
+                  validations = validations.split('|');
+                }
+
+                rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context2.prev = 8;
+                _iterator = validations[Symbol.iterator]();
+
+              case 10:
+                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                  _context2.next = 25;
+                  break;
+                }
+
+                validation = _step.value;
+                _this$helpers$normali = this.helpers.normalizeValues(inputValue, validation), _this$helpers$normali2 = _slicedToArray(_this$helpers$normali, 3), value = _this$helpers$normali2[0], rule = _this$helpers$normali2[1], params = _this$helpers$normali2[2];
+                _context2.next = 15;
+                return this.helpers.passes(rule, value, params, rules);
+
+              case 15:
+                if (_context2.sent) {
+                  _context2.next = 22;
+                  break;
+                }
+
+                this.fields[field] = false;
+                _message2 = this.helpers.message(rule, field, options, rules);
+
+                if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+                  _message2 = rules[rule].messageReplace(_message2, params);
+                }
+
+                this.errorMessages[field] = _message2;
+
+                if (!(this.messagesShown || this.visibleFields.includes(field))) {
+                  _context2.next = 22;
+                  break;
+                }
+
+                return _context2.abrupt("return", this.helpers.element(_message2, options));
+
+              case 22:
+                _iteratorNormalCompletion = true;
+                _context2.next = 10;
+                break;
+
+              case 25:
+                _context2.next = 31;
+                break;
+
+              case 27:
+                _context2.prev = 27;
+                _context2.t0 = _context2["catch"](8);
+                _didIteratorError = true;
+                _iteratorError = _context2.t0;
+
+              case 31:
+                _context2.prev = 31;
+                _context2.prev = 32;
+
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
+                }
+
+              case 34:
+                _context2.prev = 34;
+
+                if (!_didIteratorError) {
+                  _context2.next = 37;
+                  break;
+                }
+
+                throw _iteratorError;
+
+              case 37:
+                return _context2.finish(34);
+
+              case 38:
+                return _context2.finish(31);
+
+              case 39:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[8, 27, 31, 39], [32,, 34, 38]]);
+      }));
+
+      function message(_x5, _x6, _x7) {
+        return _message.apply(this, arguments);
       }
 
-      var rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = validations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var validation = _step.value;
-
-          var _this$helpers$normali = this.helpers.normalizeValues(inputValue, validation),
-              _this$helpers$normali2 = _slicedToArray(_this$helpers$normali, 3),
-              value = _this$helpers$normali2[0],
-              rule = _this$helpers$normali2[1],
-              params = _this$helpers$normali2[2];
-
-          if (!this.helpers.passes(rule, value, params, rules)) {
-            this.fields[field] = false;
-            var message = this.helpers.message(rule, field, options, rules);
-
-            if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-              message = rules[rule].messageReplace(message, params);
-            }
-
-            this.errorMessages[field] = message;
-
-            if (this.messagesShown || this.visibleFields.includes(field)) {
-              return this.helpers.element(message, options);
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-    }
+      return message;
+    }()
   }]);
 
   return SimpleReactValidator;
