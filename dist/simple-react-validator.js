@@ -87,24 +87,14 @@ function () {
                   return _context.abrupt("return", true);
 
                 case 5:
-                  console.log(value);
-                  _context.t0 = console;
-                  _context.next = 9;
+                  _context.next = 7;
                   return rules[rule].rule(value, params, this.parent);
+
+                case 7:
+                  _context.t0 = _context.sent;
+                  return _context.abrupt("return", _context.t0 !== false);
 
                 case 9:
-                  _context.t1 = _context.sent;
-
-                  _context.t0.log.call(_context.t0, _context.t1);
-
-                  _context.next = 13;
-                  return rules[rule].rule(value, params, this.parent);
-
-                case 13:
-                  _context.t2 = _context.sent;
-                  return _context.abrupt("return", _context.t2 !== false);
-
-                case 15:
                 case "end":
                   return _context.stop();
               }
@@ -480,6 +470,7 @@ function () {
   }, {
     key: "showMessages",
     value: function showMessages() {
+      console.log(this.errorMessages);
       this.messagesShown = true;
       this.helpers.forceUpdateIfNeeded();
     }
@@ -532,68 +523,78 @@ function () {
     }
   }, {
     key: "message",
-    value: function message(field, inputValue, validations) {
+    value: function message(field) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      console.log('message all error messages ', this.errorMessages);
+
+      if (this.messagesShown || this.visibleFields.includes(field)) {
+        var message = this.errorMessages[field];
+        console.log('message ', message);
+        return this.helpers.element(message, options);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(field, inputValue, validations) {
       var _this2 = this;
 
       var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      this.errorMessages[field] = null;
-      this.fields[field] = true;
 
-      if (!Array.isArray(validations)) {
-        validations = validations.split('|');
-      }
+      if (!this.messagesShown) {
+        this.errorMessages[field] = null;
+        this.fields[field] = true;
 
-      var rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        var _loop = function _loop() {
-          var validation = _step.value;
-
-          var _this2$helpers$normal = _this2.helpers.normalizeValues(inputValue, validation),
-              _this2$helpers$normal2 = _slicedToArray(_this2$helpers$normal, 3),
-              value = _this2$helpers$normal2[0],
-              rule = _this2$helpers$normal2[1],
-              params = _this2$helpers$normal2[2];
-
-          _this2.helpers.passes(rule, value, params, rules).then(function (res) {
-            console.log('in message ', res);
-
-            if (!res) {
-              console.log(field);
-              _this2.fields[field] = false;
-
-              var message = _this2.helpers.message(rule, field, options, rules);
-
-              if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-                message = rules[rule].messageReplace(message, params);
-              }
-
-              _this2.errorMessages[field] = message;
-
-              if (_this2.messagesShown || _this2.visibleFields.includes(field)) {
-                return _this2.helpers.element(message, options);
-              }
-            }
-          });
-        };
-
-        for (var _iterator = validations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          _loop();
+        if (!Array.isArray(validations)) {
+          validations = validations.split('|');
         }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
+
+        var rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
         try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
+          var _loop = function _loop() {
+            var validation = _step.value;
+
+            var _this2$helpers$normal = _this2.helpers.normalizeValues(inputValue, validation),
+                _this2$helpers$normal2 = _slicedToArray(_this2$helpers$normal, 3),
+                value = _this2$helpers$normal2[0],
+                rule = _this2$helpers$normal2[1],
+                params = _this2$helpers$normal2[2];
+
+            _this2.helpers.passes(rule, value, params, rules).then(function (res) {
+              //console.log('in message ', res)
+              if (!res) {
+                //console.log(field)
+                _this2.fields[field] = false;
+
+                var message = _this2.helpers.message(rule, field, options, rules);
+
+                if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+                  message = rules[rule].messageReplace(message, params);
+                }
+
+                _this2.errorMessages[field] = message;
+              }
+            });
+          };
+
+          for (var _iterator = validations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            _loop();
           }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
         } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
           }
         }
       }
