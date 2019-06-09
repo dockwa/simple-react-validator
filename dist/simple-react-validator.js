@@ -22,6 +22,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -58,18 +62,52 @@ function () {
 
     _defineProperty(this, "helpers", {
       parent: this,
-      passes: function passes(rule, value, params, rules) {
-        if (!rules.hasOwnProperty(rule)) {
-          console.error("Rule Not Found: There is no rule with the name ".concat(rule, "."));
-          return true;
+      passes: function () {
+        var _passes = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee(rule, value, params, rules) {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (rules.hasOwnProperty(rule)) {
+                    _context.next = 3;
+                    break;
+                  }
+
+                  console.error("Rule Not Found: There is no rule with the name ".concat(rule, "."));
+                  return _context.abrupt("return", true);
+
+                case 3:
+                  if (!(!this.isRequired(rule, rules) && this.isBlank(value))) {
+                    _context.next = 5;
+                    break;
+                  }
+
+                  return _context.abrupt("return", true);
+
+                case 5:
+                  _context.next = 7;
+                  return rules[rule].rule(value, params, this.parent);
+
+                case 7:
+                  _context.t0 = _context.sent;
+                  return _context.abrupt("return", _context.t0 !== false);
+
+                case 9:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, this);
+        }));
+
+        function passes(_x, _x2, _x3, _x4) {
+          return _passes.apply(this, arguments);
         }
 
-        if (!this.isRequired(rule, rules) && this.isBlank(value)) {
-          return true;
-        }
-
-        return rules[rule].rule(value, params, this.parent) !== false;
-      },
+        return passes;
+      }(),
       isRequired: function isRequired(rule, rules) {
         return rules[rule].hasOwnProperty('required') && rules[rule].required;
       },
@@ -432,6 +470,7 @@ function () {
   }, {
     key: "showMessages",
     value: function showMessages() {
+      console.log(this.errorMessages);
       this.messagesShown = true;
       this.helpers.forceUpdateIfNeeded();
     }
@@ -484,60 +523,78 @@ function () {
     }
   }, {
     key: "message",
-    value: function message(field, inputValue, validations) {
-      var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      this.errorMessages[field] = null;
-      this.fields[field] = true;
+    value: function message(field) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      if (!Array.isArray(validations)) {
-        validations = validations.split('|');
-      }
-
-      var rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = validations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var validation = _step.value;
-
-          var _this$helpers$normali = this.helpers.normalizeValues(inputValue, validation),
-              _this$helpers$normali2 = _slicedToArray(_this$helpers$normali, 3),
-              value = _this$helpers$normali2[0],
-              rule = _this$helpers$normali2[1],
-              params = _this$helpers$normali2[2];
-
-          if (!this.helpers.passes(rule, value, params, rules)) {
-            this.fields[field] = false;
-            var message = this.helpers.message(rule, field, options, rules);
-
-            if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-              message = rules[rule].messageReplace(message, params);
-            }
-
-            this.errorMessages[field] = message;
-
-            if (this.messagesShown || this.visibleFields.includes(field)) {
-              return this.helpers.element(message, options);
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+      if (this.messagesShown || this.visibleFields.includes(field)) {
+        var message = this.errorMessages[field];
+        console.log('message ', message);
+        return this.helpers.element(message, options);
       }
     }
+  }, {
+    key: "validate",
+    value: function () {
+      var _validate = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(field, inputValue, validations) {
+        var _this2 = this;
+
+        var options,
+            rules,
+            _args2 = arguments;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                options = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : {};
+
+                if (!Array.isArray(validations)) {
+                  validations = validations.split('|');
+                }
+
+                rules = options.validators ? _objectSpread({}, this.rules, options.validators) : this.rules;
+                return _context2.abrupt("return", Promise.all(validations.map(function (validation) {
+                  var _this2$helpers$normal = _this2.helpers.normalizeValues(inputValue, validation),
+                      _this2$helpers$normal2 = _slicedToArray(_this2$helpers$normal, 3),
+                      value = _this2$helpers$normal2[0],
+                      rule = _this2$helpers$normal2[1],
+                      params = _this2$helpers$normal2[2];
+
+                  return _this2.helpers.passes(rule, value, params, rules).then(function (res) {
+                    _this2.errorMessages[field] = null;
+                    _this2.fields[field] = true;
+
+                    if (!res) {
+                      _this2.fields[field] = false;
+
+                      var message = _this2.helpers.message(rule, field, options, rules);
+
+                      if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+                        message = rules[rule].messageReplace(message, params);
+                      }
+
+                      _this2.errorMessages[field] = message;
+                    }
+
+                    return res;
+                  });
+                })));
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function validate(_x5, _x6, _x7) {
+        return _validate.apply(this, arguments);
+      }
+
+      return validate;
+    }()
   }]);
 
   return SimpleReactValidator;
