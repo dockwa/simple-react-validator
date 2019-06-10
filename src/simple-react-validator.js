@@ -359,5 +359,5 @@ const messageMerger = (customLanguage) => {
       typeof               : customLanguage.typeof               ||          englishMessages.typeof              ,
       url                  : customLanguage.url                  ||          englishMessages.url                 ,
   }
-  return customLanguage;
+  return customMessages;
 }
