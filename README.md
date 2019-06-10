@@ -173,6 +173,8 @@ render() {
 }
 ```
 # Multi Language
+To support multi language this package has two methods.
+## using predifined languages
 
 Same as before the only difference is that you need to specify the language in the initialize like so.
 1. Import and Initialize the validator.
@@ -192,6 +194,67 @@ constructor() {
 }
 ```
 
+current available laguages are :
+**** fr for french
+**** en for english
+## using custom language
+
+to use a custom language all you need to do is to create an object that contains the messages that you will use and then call it when initializing like follows
+1. Import and Initialize the validator.
+```javascript
+import SimpleReactValidator from 'simple-react-validator-multilang';
+```
+
+create the object,
+
+PS: you don't have to fill all the fields the un filled fields will default to english
+PSS: the ``` :attribute ``` is a key word that will be replaced with the field name that you will attribute on the call of the method validator.message()
+```javascript 
+const customMessages = {
+  accepted             :'The :attribute must be accepted.',
+  after                :'The :attribute must be after :date.',
+  after_or_equal       :'The :attribute must be after or on :date.',
+  alpha                :'The :attribute may only contain letters.',
+  alpha_space          :'The :attribute may only contain letters and spaces.',
+  alpha_num            :'The :attribute may only contain letters and numbers.',
+  alpha_num_space      :'The :attribute may only contain letters, numbers, and spaces.',
+  alpha_num_dash       :'The :attribute may only contain letters, numbers, and dashes.',
+  alpha_num_dash_space :'The :attribute may only contain letters, numbers, dashes, and spaces.',
+  array                :'The :attribute must be an array.',
+  before               :'The :attribute must be before :date.',
+  before_or_equal      :'The :attribute must be before or on :date.',
+  between              :'The :attribute must be between :min and :max:type.',
+  boolean              :'The :attribute must be a boolean.',
+  card_exp             :'The :attribute must be a valid expiration date.',
+  card_num             :'The :attribute must be a valid credit card number.',
+  currency             :'The :attribute must be a valid currency.',
+  date                 :'The :attribute must be a date.',
+  date_equals          :'The :attribute must be on :date.',
+  email                :'The :attribute must be a valid email address.',
+  in                   :'The selected :attribute must be :values.',
+  integer              :'The :attribute must be an integer.',
+  max                  :'The :attribute may not be greater than :max:type.',
+  min                  :'The :attribute must be at least :min:type.',
+  not_in               :'The selected :attribute must not be :values.',
+  not_regex            :'The :attribute must not match the required pattern.',
+  numeric              :'The :attribute must be a number.',
+  phone                :'The :attribute must be a valid phone number.',
+  regex                :'The :attribute must match the required pattern.',
+  required             :'The :attribute field is required.',
+  size                 :'The :attribute must be :size:type.',
+  string               :'The :attribute must be a string.',
+  typeof               :'The :attribute is not the correct type of :type.',
+  url                  :'The :attribute must be a url.',
+}
+```
+and finally initilize the class and pass the created object like so
+```javascript 
+
+componentWillMount: function() {
+  this.validator = new SimpleReactValidator({}, 'custom', customMessages);
+},
+
+```
 # Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`. You can apply the rules via an array like `['require', {max: 20, min: 120}]` or `['require', {in: ['stu', 'stuyam']}]`. This is necessary for things like the regex validator where you may be using pipes or commas in the regex and would conflict with the rule string.
 

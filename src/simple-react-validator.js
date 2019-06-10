@@ -1,9 +1,18 @@
 class SimpleReactValidator {
-  constructor(options = {}, language = 'en') {
+  constructor(options = {}, language = 'en', languageConstructor) {
     this.fields = {};
     this.errorMessages = {};
     this.messagesShown = false;
-    const messages= languageSelector(language);
+    let messages= null;
+    if( language='custom' ){
+      if(typeof languageConstructor === "object"){
+        messages= messageMerger(languageConstructor)
+      } else{
+        messages= languageSelector('en');
+      }
+    }else{
+      messages= languageSelector(language);
+    }
     this.rules = {
       accepted             : {message: messages.accepted             ,        rule: val => val === true, required: true},
       after                : {message: messages.after                ,        rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
@@ -311,4 +320,44 @@ if( language === 'fr'){
     return frenchMessages
 }
 return defaultMessages
+}
+const messageMerger = (customLanguage) => {
+  const englishMessages = defaultMessages;
+  const customMessages = {
+      accepted             : customLanguage.accepted             ||          englishMessages.accepted            ,
+      after                : customLanguage.after                ||          englishMessages.after               ,
+      after_or_equal       : customLanguage.after_or_equal       ||          englishMessages.after_or_equal      ,
+      alpha                : customLanguage.alpha                ||          englishMessages.alpha               ,
+      alpha_space          : customLanguage.alpha_space          ||          englishMessages.alpha_space         ,
+      alpha_num            : customLanguage.alpha_num            ||          englishMessages.alpha_num           ,
+      alpha_num_space      : customLanguage.alpha_num_space      ||          englishMessages.alpha_num_space     ,
+      alpha_num_dash       : customLanguage.alpha_num_dash       ||          englishMessages.alpha_num_dash      ,
+      alpha_num_dash_space : customLanguage.alpha_num_dash_space ||          englishMessages.alpha_num_dash_space,
+      array                : customLanguage.array                ||          englishMessages.array               ,
+      before               : customLanguage.before               ||          englishMessages.before              ,
+      before_or_equal      : customLanguage.before_or_equal      ||          englishMessages.before_or_equal     ,
+      between              : customLanguage.between              ||          englishMessages.between             ,
+      boolean              : customLanguage.boolean              ||          englishMessages.boolean             ,
+      card_exp             : customLanguage.card_exp             ||          englishMessages.card_exp            ,
+      card_num             : customLanguage.card_num             ||          englishMessages.card_num            ,
+      currency             : customLanguage.currency             ||          englishMessages.currency            ,
+      date                 : customLanguage.date                 ||          englishMessages.date                ,
+      date_equals          : customLanguage.date_equals          ||          englishMessages.date_equals         ,
+      email                : customLanguage.email                ||          englishMessages.email               ,
+      in                   : customLanguage.in                   ||          englishMessages.in                  ,
+      integer              : customLanguage.integer              ||          englishMessages.integer             ,
+      max                  : customLanguage.max                  ||          englishMessages.max                 ,
+      min                  : customLanguage.min                  ||          englishMessages.min                 ,
+      not_in               : customLanguage.not_in               ||          englishMessages.not_in              ,
+      not_regex            : customLanguage.not_regex            ||          englishMessages.not_regex           ,
+      numeric              : customLanguage.numeric              ||          englishMessages.numeric             ,
+      phone                : customLanguage.phone                ||          englishMessages.phone               ,
+      regex                : customLanguage.regex                ||          englishMessages.regex               ,
+      required             : customLanguage.required             ||          englishMessages.required            ,
+      size                 : customLanguage.size                 ||          englishMessages.size                ,
+      string               : customLanguage.string               ||          englishMessages.string              ,
+      typeof               : customLanguage.typeof               ||          englishMessages.typeof              ,
+      url                  : customLanguage.url                  ||          englishMessages.url                 ,
+  }
+  return customLanguage;
 }
