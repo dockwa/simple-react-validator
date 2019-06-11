@@ -1,4 +1,10 @@
 class SimpleReactValidator {
+  static locales = [];
+
+  static addLocale(lang, messages) {
+    this.locales[lang] = messages;
+  }
+
   constructor(options = {}) {
     this.fields = {};
     this.visibleFields = [];
@@ -41,6 +47,12 @@ class SimpleReactValidator {
       url                  : {message: 'The :attribute must be a url.',                                         rule: val => this.helpers.testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i)},
       ...(options.validators || {}),
     };
+
+    // apply languages
+    const locale = options.locale || {};
+    Object.keys(this.rules).forEach(function (key) {
+      this.rules[key].message = locale[key] || this.rules[key].message
+    });
 
     // apply default options
     this.messages = options.messages || {};

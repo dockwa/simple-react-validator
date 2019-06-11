@@ -33,6 +33,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var SimpleReactValidator =
 /*#__PURE__*/
 function () {
+  _createClass(SimpleReactValidator, null, [{
+    key: "addLocale",
+    value: function addLocale(lang, messages) {
+      this.locales[lang] = messages;
+    }
+  }]);
+
   function SimpleReactValidator() {
     var _this = this;
 
@@ -399,7 +406,12 @@ function () {
           return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         }
       }
-    }, _options.validators || {}); // apply default options
+    }, _options.validators || {}); // apply languages
+
+    var locale = _options.locale || {};
+    Object.keys(this.rules).forEach(function (key) {
+      this.rules[key].message = locale[key] || this.rules[key].message;
+    }); // apply default options
 
     this.messages = _options.messages || {};
     this.className = _options.className;
@@ -542,5 +554,7 @@ function () {
 
   return SimpleReactValidator;
 }();
+
+_defineProperty(SimpleReactValidator, "locales", []);
 return SimpleReactValidator;
 }));
