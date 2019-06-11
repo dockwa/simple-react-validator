@@ -388,7 +388,7 @@ Accepts an object of custom validators. See [Custom Validators](#customvalidator
 #### 5. autoForceUpdate:
 Accepts a react instance and will automatically be called when messages are shown and hidden automatically. [More on autoForceUpdate](#note-autoforceupdate)
 #### 6. locale:
-Accepts a string with the localized messages of your choice. **For this to work, the correct language file also needs to be loaded into your front end.** [Current Supported Languages](https://github.com/dockwa/simple-react-validator/tree/multi-lang-support/src/locale)
+Accepts a string with the localized messages of your choice. **For this to work, the correct language file also needs to be loaded into your front end.** [Current Supported Languages](https://github.com/dockwa/simple-react-validator/tree/master/src/locale)
 ```jsx
 // sets french default validation messages.
 this.validator = new SimpleReactValidator({locale: 'fr'});
