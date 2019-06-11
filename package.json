@@ -3,6 +3,7 @@
   "version": "1.2.0",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
+  "types": "src/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.2.0",
