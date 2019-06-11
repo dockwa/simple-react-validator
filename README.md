@@ -393,6 +393,15 @@ Accepts a string with the localized messages of your choice. **For this to work,
 // sets french default validation messages.
 this.validator = new SimpleReactValidator({locale: 'fr'});
 ```
+You can apply custom messages with the [messages]() option. However you can also apply a custom language that you can later select with the `addLocale` class method.
+```jsx
+SimpleReactValidator.addLocale('klingon', {
+  accepted: 'Hab SoSlI’ Quch!',
+  email: 'Heghlu’meH QaQ jajvam'
+});
+...
+this.validator = new SimpleReactValidator({locale: 'klingon'});
+```
 
 
 # Custom Validators
