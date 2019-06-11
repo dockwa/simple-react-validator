@@ -84,7 +84,7 @@ gulp.task('build-locales', function() {
   }))
   .pipe(inject.prepend(HEADER_COMMENT))
   .pipe(rename({ extname: '.min.js' }))
-  .pipe(gulp.dest('./dist/local/'));
+  .pipe(gulp.dest('./dist/locale/'));
 });
 
 gulp.task('watch', function() {
