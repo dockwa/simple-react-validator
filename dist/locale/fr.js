@@ -47,5 +47,5 @@ var fr = {
   url: 'Le champ :attribute doit être un url.'
 };
 SimpleReactValidator.addLocale('fr', fr);
-return SimpleReactValidatorLocaleFr;
+return fr;
 }));

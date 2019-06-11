@@ -50,10 +50,10 @@ class SimpleReactValidator {
 
     // apply language
     if (!SimpleReactValidator.locales.hasOwnProperty(options.locale)) {
-      console.warn('Language file not found. Make sure the correct locale is being loaded.')
+      console.warn('Locale not found! Make sure it is spelled correctly and the locale file is loaded.');
     }
     const locale = SimpleReactValidator.locales[options.locale] || {};
-    Object.keys(this.rules).forEach(function (key) {
+    Object.keys(this.rules).forEach((key) => {
       this.rules[key].message = locale[key] || this.rules[key].message
     });
 
