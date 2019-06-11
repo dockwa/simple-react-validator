@@ -7,7 +7,7 @@ class ExampleForm extends React.Component {
     };
     this.validator = new SimpleReactValidator({
       // element: (message, className) => <div className="invalid-feedback d-block">{message}</div>,
-      locale: 'en'
+      locale: 'fr',
       autoForceUpdate: this,
       className: 'text-danger',
       messages: {

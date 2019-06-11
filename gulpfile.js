@@ -57,7 +57,7 @@ gulp.task('build-locales', function() {
   .pipe(babel())
   .pipe(umd({
     exports: function(file) {
-      return `SimpleReactValidatorLocale${capitalizeFilename(file)}`;
+      return path.basename(file.path, '.js');
     },
     namespace: function(file) {
       return `SimpleReactValidatorLocale${capitalizeFilename(file)}`;
