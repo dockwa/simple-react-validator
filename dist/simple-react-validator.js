@@ -559,6 +559,8 @@ function () {
   return SimpleReactValidator;
 }();
 
+_defineProperty(SimpleReactValidator, "version", '1.2.0');
+
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}
 });
