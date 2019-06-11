@@ -406,9 +406,13 @@ function () {
           return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         }
       }
-    }, _options.validators || {}); // apply languages
+    }, _options.validators || {}); // apply language
 
-    var locale = _options.locale || {};
+    if (!SimpleReactValidator.locales.hasOwnProperty(_options.locale)) {
+      console.warn('Language file not found. Make sure the correct locale is being loaded.');
+    }
+
+    var locale = SimpleReactValidator.locales[_options.locale] || {};
     Object.keys(this.rules).forEach(function (key) {
       this.rules[key].message = locale[key] || this.rules[key].message;
     }); // apply default options
@@ -555,6 +559,8 @@ function () {
   return SimpleReactValidator;
 }();
 
-_defineProperty(SimpleReactValidator, "locales", []);
+_defineProperty(SimpleReactValidator, "locales", {
+  'en': {}
+});
 return SimpleReactValidator;
 }));

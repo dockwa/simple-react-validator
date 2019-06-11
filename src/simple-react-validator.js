@@ -1,5 +1,5 @@
 class SimpleReactValidator {
-  static locales = [];
+  static locales = {'en': {}};
 
   static addLocale(lang, messages) {
     this.locales[lang] = messages;
@@ -48,8 +48,11 @@ class SimpleReactValidator {
       ...(options.validators || {}),
     };
 
-    // apply languages
-    const locale = options.locale || {};
+    // apply language
+    if (!SimpleReactValidator.locales.hasOwnProperty(options.locale)) {
+      console.warn('Language file not found. Make sure the correct locale is being loaded.')
+    }
+    const locale = SimpleReactValidator.locales[options.locale] || {};
     Object.keys(this.rules).forEach(function (key) {
       this.rules[key].message = locale[key] || this.rules[key].message
     });
