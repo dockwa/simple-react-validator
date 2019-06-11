@@ -57,10 +57,10 @@ gulp.task('build-locales', function() {
   .pipe(babel())
   .pipe(umd({
     exports: function(file) {
-      return path.basename(file.path, '.js');
+      return capitalizeFilename(file, false);
     },
     namespace: function(file) {
-      return `SimpleReactValidatorLocale${capitalizeFilename(file)}`;
+      return `SimpleReactValidatorLocale${capitalizeFilename(file, true)}`;
     },
     dependencies: function() {
       return [
@@ -93,6 +93,6 @@ gulp.task('watch', function() {
 
 gulp.task('dist', ['build', 'build-locales']);
 
-function capitalizeFilename(file) {
-  return camelCase(path.basename(file.path, '.js'), {pascalCase: true});
+function capitalizeFilename(file, pascalCase) {
+  return camelCase(path.basename(file.path, '.js'), {pascalCase: pascalCase});
 }
