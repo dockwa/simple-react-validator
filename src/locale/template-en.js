@@ -10,7 +10,7 @@ If you don't have a translation for a line, comment out that line
 and move on. It is smart enough to fall back to the default English
 and hopefully someone else will contribute to fill in the gaps later!
 /**********************************************/
-const en = {
+const templateEn = {
   accepted             : 'The :attribute must be accepted.',
   after                : 'The :attribute must be after :date.',
   after_or_equal       : 'The :attribute must be after or on :date.',
@@ -46,4 +46,4 @@ const en = {
   typeof               : 'The :attribute is not the correct type of :type.',
   url                  : 'The :attribute must be a url.',
 }
-SimpleReactValidator.addLocale('en', en);
+SimpleReactValidator.addLocale('en', templateEn);
