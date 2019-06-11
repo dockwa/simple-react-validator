@@ -9,6 +9,8 @@ of these messages: https://github.com/caouecs/Laravel-lang/tree/master/src
 If you don't have a translation for a line, comment out that line
 and move on. It is smart enough to fall back to the default English
 and hopefully someone else will contribute to fill in the gaps later!
+
+Note: the "const" variable name will be the camelCase filename.
 /**********************************************/
 const templateEn = {
   accepted             : 'The :attribute must be accepted.',
