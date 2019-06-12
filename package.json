@@ -1,14 +1,16 @@
 {
   "name": "simple-react-validator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
+  "types": "src/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.2.0",
     "@babel/plugin-proposal-class-properties": "^7.2.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
+    "camelcase": "^5.3.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^8.0.0",
     "gulp-inject-string": "^1.1.1",
@@ -16,7 +18,8 @@
     "gulp-uglify": "^3.0.1",
     "gulp-umd": "^0.2.1",
     "gulp-util": "^3.0.8",
-    "natives": "^1.1.6"
+    "natives": "^1.1.6",
+    "path": "^0.12.7"
   },
   "scripts": {
     "gulp": "./node_modules/.bin/gulp",

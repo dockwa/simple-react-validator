@@ -24,6 +24,12 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
 2. [Setup](#3-easy-steps)
 3. [Rules](#rules)
 4. [Options](#options)
+    1. [Element](#1-element)
+    2. [Class Name](#2-classname)
+    3. [Messages](#3-messages)
+    4. [Validators](#4-validators)
+    5. [Auto Force Update](#5-autoforceupdate)
+    6. [Localization](#6-locale)
 5. [Custom Validators](#custom-validators)
 
 # Usage
@@ -352,7 +358,8 @@ Must be a valid url. Ex. https://dockwa.com or dockwa.com
 
 # Options
 The Simple React Validator can receive an options object when initialized or as the fourth parameter when defining a validator. There are 4 options you can provide.
-1. element: Accepts a block where you can return the default element that you want to wrap the message from a validator message. The default element is `<div className="srv-validation-message">{message}</div>`. If you are using React Native the default will be just the message the gets returned. You can also set `element: false` to just return a message.
+#### 1. element:
+Accepts a block where you can return the default element that you want to wrap the message from a validator message. The default element is `<div className="srv-validation-message">{message}</div>`. If you are using React Native the default will be just the message the gets returned. You can also set `element: false` to just return a message.
   * **Takes 2 params**
   * message: The message coming from the validator.
   * className (optional): Will optionally be provided so you can change the className on a per validation basis.
@@ -361,10 +368,12 @@ this.validator = new SimpleReactValidator({
   element: message => <div>{message}</div>
   // OR
   element: (message, className) => <div className={className}>{message}</div>
-}
+})
 ```
-2. className: String of classes to be passed into an element, default is `srv-validation-message` and can be overriden.
-3. messages: Accepts an object to override validation messages. It also accepts a default which will override all messages.
+#### 2. className:
+String of classes to be passed into an element, default is `srv-validation-message` and can be overriden.
+#### 3. messages:
+Accepts an object to override validation messages. It also accepts a default which will override all messages.
 ```jsx
 this.validator = new SimpleReactValidator({
   messages: {
@@ -372,10 +381,27 @@ this.validator = new SimpleReactValidator({
     // OR
     default: 'Validation has failed!'  // will override all messages
   },
-}
+})
 ```
-4. validators: Accepts an object of custom validators. See [Custom Validators](#customvalidators) for more info on defining custom validators.
-5. autoForceUpdate: Accepts a react instance and will automatically be called when messages are shown and hidden automatically. [More on autoForceUpdate](#note-autoforceupdate)
+#### 4. validators:
+Accepts an object of custom validators. See [Custom Validators](#customvalidators) for more info on defining custom validators.
+#### 5. autoForceUpdate:
+Accepts a react instance and will automatically be called when messages are shown and hidden automatically. [More on autoForceUpdate](#note-autoforceupdate)
+#### 6. locale:
+Accepts a string with the localized messages of your choice. **For this to work, the correct language file also needs to be loaded into your front end.** [Current Supported Languages](https://github.com/dockwa/simple-react-validator/tree/master/src/locale). To contribute to translating the project use [this file as a template.](https://github.com/dockwa/simple-react-validator/blob/master/src/locale/template-en.js)
+```jsx
+// sets french default validation messages.
+this.validator = new SimpleReactValidator({locale: 'fr'});
+```
+You can apply custom messages with the [messages](#3-messages) option. However you can also apply a custom language that you can later select with the `addLocale` class method.
+```jsx
+SimpleReactValidator.addLocale('klingon', {
+  accepted: 'Hab SoSlI’ Quch!',
+  email: 'Heghlu’meH QaQ jajvam'
+});
+...
+this.validator = new SimpleReactValidator({locale: 'klingon'});
+```
 
 
 # Custom Validators

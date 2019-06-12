@@ -1,4 +1,4 @@
-// Simple React Validator v1.1.0 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.2.0 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -33,6 +33,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var SimpleReactValidator =
 /*#__PURE__*/
 function () {
+  _createClass(SimpleReactValidator, null, [{
+    key: "addLocale",
+    value: function addLocale(lang, messages) {
+      this.locales[lang] = messages;
+    }
+  }]);
+
   function SimpleReactValidator() {
     var _this = this;
 
@@ -399,7 +406,16 @@ function () {
           return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
         }
       }
-    }, _options.validators || {}); // apply default options
+    }, _options.validators || {}); // apply language
+
+    if (!SimpleReactValidator.locales.hasOwnProperty(_options.locale)) {
+      console.warn('Locale not found! Make sure it is spelled correctly and the locale file is loaded.');
+    }
+
+    var locale = SimpleReactValidator.locales[_options.locale] || {};
+    Object.keys(this.rules).forEach(function (key) {
+      _this.rules[key].message = locale[key] || _this.rules[key].message;
+    }); // apply default options
 
     this.messages = _options.messages || {};
     this.className = _options.className;
@@ -542,5 +558,11 @@ function () {
 
   return SimpleReactValidator;
 }();
+
+_defineProperty(SimpleReactValidator, "version", '1.2.0');
+
+_defineProperty(SimpleReactValidator, "locales", {
+  'en': {}
+});
 return SimpleReactValidator;
 }));
