@@ -119,7 +119,7 @@ class SimpleReactValidator {
 
     this.currentAsyncValidator = Object.keys(this.asyncValidators)[0];
     const validator = this.asyncValidators[this.currentAsyncValidator];
-    validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
+    validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
   }
 
   pass(completion) {
@@ -130,7 +130,7 @@ class SimpleReactValidator {
     } else {
       this.currentAsyncValidator = keys[index+1];
       const validator = this.asyncValidators[this.currentAsyncValidator];
-      validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
+      validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
     }
   }
 
@@ -224,7 +224,7 @@ class SimpleReactValidator {
     },
 
     isAsync(rule, rules) {
-      return rules[rule].hasOwnProperty('async') && rules[rule].async === true;
+      return rules[rule].hasOwnProperty('asyncRule');
     },
 
     normalizeValues(value, validation) {

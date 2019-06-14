@@ -9,9 +9,8 @@ class ExampleAsyncForm extends React.Component {
       className: 'text-danger',
       validators: {
         unique: {
-          async: true,
           message: 'Not a unique email.',
-          rule: function(val, params, validator, completion) {
+          asyncRule: function(val, params, validator, completion) {
             setTimeout(() => validator.fail(completion), 1000);
           }
         }

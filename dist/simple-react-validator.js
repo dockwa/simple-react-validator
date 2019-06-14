@@ -84,7 +84,7 @@ function () {
         return typeof value === 'undefined' || value === null || value === '';
       },
       isAsync: function isAsync(rule, rules) {
-        return rules[rule].hasOwnProperty('async') && rules[rule].async === true;
+        return rules[rule].hasOwnProperty('asyncRule');
       },
       normalizeValues: function normalizeValues(value, validation) {
         return [this.valueOrEmptyString(value), this.getValidation(validation), this.getOptions(validation)];
@@ -480,7 +480,7 @@ function () {
       if (Object.keys(this.asyncValidators).length === 0) return completion.pass();
       this.currentAsyncValidator = Object.keys(this.asyncValidators)[0];
       var validator = this.asyncValidators[this.currentAsyncValidator];
-      validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
+      validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
     }
   }, {
     key: "pass",
@@ -493,7 +493,7 @@ function () {
       } else {
         this.currentAsyncValidator = keys[index + 1];
         var validator = this.asyncValidators[this.currentAsyncValidator];
-        validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
+        validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
       }
     }
   }, {
