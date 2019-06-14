@@ -83,6 +83,9 @@ function () {
       isBlank: function isBlank(value) {
         return typeof value === 'undefined' || value === null || value === '';
       },
+      isAsync: function isAsync(rule, rules) {
+        return rules[rule].hasOwnProperty('async') && rules[rule].async === true;
+      },
       normalizeValues: function normalizeValues(value, validation) {
         return [this.valueOrEmptyString(value), this.getValidation(validation), this.getOptions(validation)];
       },
@@ -162,6 +165,7 @@ function () {
     this.fields = {};
     this.visibleFields = [];
     this.errorMessages = {};
+    this.asyncValidators = {};
     this.messagesShown = false;
     this.rules = _objectSpread({
       accepted: {
@@ -469,6 +473,37 @@ function () {
       return true;
     }
   }, {
+    key: "asyncValid",
+    value: function asyncValid(completion) {
+      this.failedAsyncValidator = null;
+      if (!this.allValid()) return completion.fail();
+      if (Object.keys(this.asyncValidators).length === 0) return completion.pass();
+      this.currentAsyncValidator = Object.keys(this.asyncValidators)[0];
+      var validator = this.asyncValidators[this.currentAsyncValidator];
+      validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
+    }
+  }, {
+    key: "pass",
+    value: function pass(completion) {
+      var keys = Object.keys(this.asyncValidators);
+      var index = keys.indexOf(this.currentAsyncValidator);
+
+      if (index >= keys.length - 1) {
+        return completion.pass();
+      } else {
+        this.currentAsyncValidator = keys[index + 1];
+        var validator = this.asyncValidators[this.currentAsyncValidator];
+        validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
+      }
+    }
+  }, {
+    key: "fail",
+    value: function fail(completion, message) {
+      var validator = this.asyncValidators[this.currentAsyncValidator];
+      this.failedAsyncValidator = this.currentAsyncValidator;
+      completion.fail();
+    }
+  }, {
     key: "fieldValid",
     value: function fieldValid(field) {
       return this.fields.hasOwnProperty(field) && this.fields[field] === true;
@@ -524,19 +559,19 @@ function () {
               rule = _this$helpers$normali2[1],
               params = _this$helpers$normali2[2];
 
-          if (!this.helpers.passes(rule, value, params, rules)) {
-            this.fields[field] = false;
-            var message = this.helpers.message(rule, field, options, rules);
+          if (this.helpers.isAsync(rule, rules)) {
+            this.asyncValidators["".concat(field, ":").concat(rule)] = {
+              value: value,
+              rule: rule,
+              params: params,
+              field: field,
+              options: options,
+              rules: rules
+            };
+          }
 
-            if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-              message = rules[rule].messageReplace(message, params);
-            }
-
-            this.errorMessages[field] = message;
-
-            if (this.messagesShown || this.visibleFields.includes(field)) {
-              return this.helpers.element(message, options);
-            }
+          if (!this.helpers.passes(rule, value, params, rules) || this.helpers.isAsync(rule, rules) && this.failedAsyncValidator == "".concat(field, ":").concat(rule)) {
+            return this.fieldFailure(field, rule, rules, options, params);
           }
         }
       } catch (err) {
@@ -552,6 +587,22 @@ function () {
             throw _iteratorError;
           }
         }
+      }
+    }
+  }, {
+    key: "fieldFailure",
+    value: function fieldFailure(field, rule, rules, options, params) {
+      this.fields[field] = false;
+      var message = this.helpers.message(rule, field, options, rules);
+
+      if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+        message = rules[rule].messageReplace(message, params);
+      }
+
+      this.errorMessages[field] = message;
+
+      if (this.messagesShown) {
+        return this.helpers.element(message, options);
       }
     }
   }]);

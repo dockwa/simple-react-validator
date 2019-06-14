@@ -10,6 +10,7 @@ class SimpleReactValidator {
     this.fields = {};
     this.visibleFields = [];
     this.errorMessages = {};
+    this.asyncValidators = {};
     this.messagesShown = false;
     this.rules = {
       accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => val === true, required: true},
@@ -112,32 +113,30 @@ class SimpleReactValidator {
   }
 
   asyncValid(completion) {
-    if (!this.allValid()) {
-      return completion.fail();
-    }
-    if (Object.keys(this.asyncValidators).length === 0 ) {
-      // call immediately because there are no async validators
-      return completion.pass();
-    }
-    this.asyncValidatorKey = Object.keys(this.asyncValidators)[0];
-    const validator = this.asyncValidators[this.asyncValidatorKey];
-    validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
+    this.failedAsyncValidator = null;
+    if (!this.allValid()) return completion.fail();
+    if (Object.keys(this.asyncValidators).length === 0 ) return completion.pass();
+
+    this.currentAsyncValidator = Object.keys(this.asyncValidators)[0];
+    const validator = this.asyncValidators[this.currentAsyncValidator];
+    validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
   }
 
   pass(completion) {
-    const index = Object.keys(this.asyncValidators).indexOf(this.asyncValidatorKey);
-    if (index >= Object.keys(this.asyncValidators).length >= Object.keys(this.asyncValidators).length - 1) {
+    const keys = Object.keys(this.asyncValidators);
+    const index = keys.indexOf(this.currentAsyncValidator);
+    if (index >= keys.length - 1) {
       return completion.pass();
     } else {
-      const nextKey = Object.keys(this.asyncValidators)[index+1];
-      const validator = this.asyncValidators[nextKey];
-      validator.asyncRule(validator.value, validator.params, this, completion);
+      this.currentAsyncValidator = keys[index+1];
+      const validator = this.asyncValidators[this.currentAsyncValidator];
+      validator.rules[validator.rule].rule(validator.value, validator.params, this, completion);
     }
   }
 
   fail(completion, message) {
-    const validator = this.asyncValidators[this.asyncValidatorKey];
-    this.fieldFailure(validator.field, validator.rule, validator.rules, validator.options, validator.params);
+    const validator = this.asyncValidators[this.currentAsyncValidator];
+    this.failedAsyncValidator = this.currentAsyncValidator;
     completion.fail();
   }
 
@@ -172,19 +171,33 @@ class SimpleReactValidator {
     var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
-      if (!this.helpers.passes(rule, value, params, rules)) {
-        this.fields[field] = false;
-        let message = this.helpers.message(rule, field, options, rules);
-
-        if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-          message = rules[rule].messageReplace(message, params);
-        }
-
-        this.errorMessages[field] = message;
-        if (this.messagesShown || this.visibleFields.includes(field)) {
-          return this.helpers.element(message, options);
-        }
+      if (this.helpers.isAsync(rule, rules)) {
+        this.asyncValidators[`${field}:${rule}`] = {
+          value: value,
+          rule: rule,
+          params: params,
+          field: field,
+          options: options,
+          rules: rules
+        };
       }
+      if (!this.helpers.passes(rule, value, params, rules) || (this.helpers.isAsync(rule, rules) && this.failedAsyncValidator == `${field}:${rule}`)) {
+        return this.fieldFailure(field, rule, rules, options, params);
+      }
+    }
+  }
+
+  fieldFailure(field, rule, rules, options, params) {
+    this.fields[field] = false;
+    let message = this.helpers.message(rule, field, options, rules);
+
+    if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+      message = rules[rule].messageReplace(message, params);
+    }
+
+    this.errorMessages[field] = message;
+    if (this.messagesShown) {
+      return this.helpers.element(message, options);
     }
   }
 
@@ -208,6 +221,10 @@ class SimpleReactValidator {
 
     isBlank(value) {
       return typeof(value) === 'undefined' || value === null || value === '';
+    },
+
+    isAsync(rule, rules) {
+      return rules[rule].hasOwnProperty('async') && rules[rule].async === true;
     },
 
     normalizeValues(value, validation) {
