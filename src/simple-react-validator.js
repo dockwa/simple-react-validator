@@ -111,6 +111,36 @@ class SimpleReactValidator {
     return true;
   }
 
+  asyncValid(completion) {
+    if (!this.allValid()) {
+      return completion.fail();
+    }
+    if (Object.keys(this.asyncValidators).length === 0 ) {
+      // call immediately because there are no async validators
+      return completion.pass();
+    }
+    this.asyncValidatorKey = Object.keys(this.asyncValidators)[0];
+    const validator = this.asyncValidators[this.asyncValidatorKey];
+    validator.rules[validator.rule].asyncRule(validator.value, validator.params, this, completion);
+  }
+
+  pass(completion) {
+    const index = Object.keys(this.asyncValidators).indexOf(this.asyncValidatorKey);
+    if (index >= Object.keys(this.asyncValidators).length >= Object.keys(this.asyncValidators).length - 1) {
+      return completion.pass();
+    } else {
+      const nextKey = Object.keys(this.asyncValidators)[index+1];
+      const validator = this.asyncValidators[nextKey];
+      validator.asyncRule(validator.value, validator.params, this, completion);
+    }
+  }
+
+  fail(completion, message) {
+    const validator = this.asyncValidators[this.asyncValidatorKey];
+    this.fieldFailure(validator.field, validator.rule, validator.rules, validator.options, validator.params);
+    completion.fail();
+  }
+
   fieldValid(field) {
     return this.fields.hasOwnProperty(field) && this.fields[field] === true;
   }
