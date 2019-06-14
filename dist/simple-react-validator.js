@@ -498,7 +498,7 @@ function () {
     }
   }, {
     key: "fail",
-    value: function fail(completion, message) {
+    value: function fail(completion) {
       var validator = this.asyncValidators[this.currentAsyncValidator];
       this.failedAsyncValidator = this.currentAsyncValidator;
       completion.fail();

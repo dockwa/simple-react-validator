@@ -134,7 +134,7 @@ class SimpleReactValidator {
     }
   }
 
-  fail(completion, message) {
+  fail(completion) {
     const validator = this.asyncValidators[this.currentAsyncValidator];
     this.failedAsyncValidator = this.currentAsyncValidator;
     completion.fail();
