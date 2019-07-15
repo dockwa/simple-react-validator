@@ -66,3 +66,5 @@ declare class SimpleReactValidator {
   message(field: string, inputValue: any, validations: any, options: IObject): any;
   helpers: IHelpers;
 }
+
+export default SimpleReactValidator;
