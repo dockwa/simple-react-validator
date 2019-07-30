@@ -1,4 +1,4 @@
-// Simple React Validator v1.2.1 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.2.2 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -83,7 +83,7 @@ function () {
         return rules[rule].hasOwnProperty('required') && rules[rule].required;
       },
       isBlank: function isBlank(value) {
-        return typeof value === 'undefined' || value === null || this.testRegex(val, /^[\s]*$/);
+        return typeof value === 'undefined' || value === null || this.testRegex(value, /^[\s]*$/);
       },
       normalizeValues: function normalizeValues(value, validation) {
         return [this.valueOrEmptyString(value), this.getValidation(validation), this.getOptions(validation)];

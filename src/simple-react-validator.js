@@ -177,7 +177,7 @@ class SimpleReactValidator {
     },
 
     isBlank(value) {
-      return typeof(value) === 'undefined' || value === null || this.testRegex(val, /^[\s]*$/);
+      return typeof(value) === 'undefined' || value === null || this.testRegex(value, /^[\s]*$/);
     },
 
     normalizeValues(value, validation) {
