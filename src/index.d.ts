@@ -3,6 +3,7 @@ interface IObject {
 }
 
 interface IOptions {
+  validators?: IRules;
   messages?: any;
   className?: any;
   autoForceUpdate?: any;
