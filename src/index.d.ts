@@ -42,7 +42,7 @@ interface IHelpers {
 }
 
 declare class SimpleReactValidator {
-  constructor(options: IOptions);
+  constructor(options?: IOptions);
   fields: IObject;
   visibleFields: any[];
   errorMessages: IObject;
@@ -62,9 +62,9 @@ declare class SimpleReactValidator {
   allValid(): boolean;
   fieldValid(field: string): boolean;
   purgeFields(): void;
-  messageWhenPresent(message: any, options: IObject): any;
-  messageAlways(field: string, message: any, options: IObject): any;
-  message(field: string, inputValue: any, validations: any, options: IObject): any;
+  messageWhenPresent(message: any, options?: IObject): any;
+  messageAlways(field: string, message: any, options?: IObject): any;
+  message(field: string, inputValue: any, validations: any, options?: IObject): any;
   helpers: IHelpers;
 }
 
