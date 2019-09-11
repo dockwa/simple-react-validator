@@ -1,4 +1,4 @@
-// Simple React Validator v1.2.3 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.2.4 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -14,7 +14,7 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -50,7 +50,9 @@ function () {
     _classCallCheck(this, SimpleReactValidator);
 
     _defineProperty(this, "showMessageFor", function (field) {
-      _this.visibleFields.push(field);
+      if (!_this.visibleFields.includes(field)) {
+        _this.visibleFields.push(field);
+      }
 
       _this.helpers.forceUpdateIfNeeded();
     });
@@ -308,7 +310,7 @@ function () {
       "in": {
         message: 'The selected :attribute must be :values.',
         rule: function rule(val, params) {
-          return params.indexOf(val) > -1;
+          return params.includes(val);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':values', _this.helpers.toSentence(params));
@@ -341,7 +343,7 @@ function () {
       not_in: {
         message: 'The selected :attribute must not be :values.',
         rule: function rule(val, params) {
-          return params.indexOf(val) === -1;
+          return !params.includes(val);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':values', _this.helpers.toSentence(params));
@@ -561,7 +563,7 @@ function () {
   return SimpleReactValidator;
 }();
 
-_defineProperty(SimpleReactValidator, "version", '1.2.0');
+_defineProperty(SimpleReactValidator, "version", '1.2.4');
 
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}

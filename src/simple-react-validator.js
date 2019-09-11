@@ -1,5 +1,5 @@
 class SimpleReactValidator {
-  static version = '1.2.0';
+  static version = '1.2.4';
   static locales = {'en': {}};
 
   static addLocale(lang, messages) {
@@ -32,11 +32,11 @@ class SimpleReactValidator {
       date                 : {message: 'The :attribute must be a date.',                                        rule: val => this.helpers.momentInstalled() && moment.isMoment(val)},
       date_equals          : {message: 'The :attribute must be on :date.',                                      rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSame(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       email                : {message: 'The :attribute must be a valid email address.',                         rule: val => this.helpers.testRegex(val,/^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)},
-      in                   : {message: 'The selected :attribute must be :values.',                              rule: (val, params) => params.indexOf(val) > -1, messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
+      in                   : {message: 'The selected :attribute must be :values.',                              rule: (val, params) => params.includes(val), messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
       integer              : {message: 'The :attribute must be an integer.',                                    rule: val => this.helpers.testRegex(val,/^\d*$/)},
       max                  : {message: 'The :attribute may not be greater than :max:type.',                     rule: (val, params) => this.helpers.size(val, params[1]) <= parseFloat(params[0]), messageReplace: (message, params) => message.replace(':max', params[0]).replace(':type', this.helpers.sizeText(params[1]))},
       min                  : {message: 'The :attribute must be at least :min:type.',                            rule: (val, params) => this.helpers.size(val, params[1]) >= parseFloat(params[0]), messageReplace: (message, params) => message.replace(':min', params[0]).replace(':type', this.helpers.sizeText(params[1]))},
-      not_in               : {message: 'The selected :attribute must not be :values.',                          rule: (val, params) => params.indexOf(val) === -1, messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
+      not_in               : {message: 'The selected :attribute must not be :values.',                          rule: (val, params) => !params.includes(val), messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
       not_regex            : {message: 'The :attribute must not match the required pattern.',                   rule: (val, params) => !this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0])},
       numeric              : {message: 'The :attribute must be a number.',                                      rule: val => this.helpers.numeric(val)},
       phone                : {message: 'The :attribute must be a valid phone number.',                          rule: val => this.helpers.testRegex(val,/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/)},
@@ -90,7 +90,9 @@ class SimpleReactValidator {
   }
 
   showMessageFor = field => {
-    this.visibleFields.push(field);
+    if (!this.visibleFields.includes(field)) {
+      this.visibleFields.push(field);
+    }
     this.helpers.forceUpdateIfNeeded();
   }
 
