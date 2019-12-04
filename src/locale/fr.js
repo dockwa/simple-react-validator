@@ -1,3 +1,4 @@
+// French
 const fr = {
   accepted             : 'Le champ :attribute doit être accepté.',
   after                : 'Le champ :attribute doit être après :date.',

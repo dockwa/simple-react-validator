@@ -1,3 +1,4 @@
+// Persian
 const fa = {
   accepted            : ':attribute مورد قبول قرار نگرفت',
   after               : ':attribute باید تاریخی بعد از :date باشد.',

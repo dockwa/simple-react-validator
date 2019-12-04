@@ -1,4 +1,4 @@
-// Simple React Validator v1.2.5 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.3.0 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['simple-react-validator'], factory);
@@ -24,6 +24,7 @@ and hopefully someone else will contribute to fill in the gaps later!
 
 Note: the "const" variable name will be the camelCase filename.
 /**********************************************/
+// English
 var templateEn = {
   accepted: 'The :attribute must be accepted.',
   after: 'The :attribute must be after :date.',

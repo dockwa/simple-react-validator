@@ -1,4 +1,4 @@
-// Simple React Validator v1.2.5 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.3.0 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['simple-react-validator'], factory);
@@ -10,6 +10,7 @@
 }(this, function(SimpleReactValidator) {
 "use strict";
 
+// French
 var fr = {
   accepted: 'Le champ :attribute doit être accepté.',
   after: 'Le champ :attribute doit être après :date.',

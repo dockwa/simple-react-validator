@@ -1,3 +1,4 @@
+// Serbian
 const sr = {
   accepted             : 'Polje :attribute mora biti prihvaćeno.',
   after                : 'Polje :attribute mora biti nakon :date.',

@@ -12,6 +12,7 @@ and hopefully someone else will contribute to fill in the gaps later!
 
 Note: the "const" variable name will be the camelCase filename.
 /**********************************************/
+// English
 const templateEn = {
   accepted             : 'The :attribute must be accepted.',
   after                : 'The :attribute must be after :date.',

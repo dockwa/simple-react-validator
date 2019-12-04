@@ -1,3 +1,4 @@
+// Spanish
 const es = {
   accepted             : ':attribute debe ser aceptado.',
   after                : ':attribute debe ser una fecha posterior a :date.',
