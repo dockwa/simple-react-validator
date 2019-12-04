@@ -1,5 +1,5 @@
 class SimpleReactValidator {
-  static version = '1.3.0';
+  static version = '1.3.1';
   static locales = {'en': {}};
 
   static addLocale(lang, messages) {

@@ -1,4 +1,4 @@
-// Simple React Validator v1.3.0 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.3.1 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -364,7 +364,7 @@ function () {
       phone: {
         message: 'The :attribute must be a valid phone number.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)$/) || !_this.helpers.testRegex(/^\b(\d)\1{8,}\b$/);
+          return _this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)$/) && !_this.helpers.testRegex(/^\b(\d)\1{8,}\b$/);
         }
       },
       regex: {
@@ -563,7 +563,7 @@ function () {
   return SimpleReactValidator;
 }();
 
-_defineProperty(SimpleReactValidator, "version", '1.3.0');
+_defineProperty(SimpleReactValidator, "version", '1.3.1');
 
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}
