@@ -1,4 +1,4 @@
-const template = {
+const fa = {
   accepted            : ':attribute مورد قبول قرار نگرفت',
   after               : ':attribute باید تاریخی بعد از :date باشد.',
   after_or_equal      : ':attribute باید تاریخی برابر یا بعد از :date باشد.',
@@ -34,4 +34,4 @@ const template = {
   typeof              : ":attribute نوع صحیح :type نوع نیست.",
   url                 : ":attribute باید یک آدرس اینترنتی باشد.",
 };
-SimpleReactValidator.addLocale('fa', template);
+SimpleReactValidator.addLocale('fa', fa);

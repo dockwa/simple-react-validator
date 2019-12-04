@@ -1,5 +1,5 @@
 class SimpleReactValidator {
-  static version = '1.2.4';
+  static version = '1.2.5';
   static locales = {'en': {}};
 
   static addLocale(lang, messages) {
@@ -50,7 +50,7 @@ class SimpleReactValidator {
     };
 
     // apply language
-    if (!SimpleReactValidator.locales.hasOwnProperty(options.locale)) {
+    if (options.locale && !SimpleReactValidator.locales.hasOwnProperty(options.locale)) {
       console.warn('Locale not found! Make sure it is spelled correctly and the locale file is loaded.');
     }
     const locale = SimpleReactValidator.locales[options.locale] || {};
