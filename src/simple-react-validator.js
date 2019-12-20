@@ -135,6 +135,20 @@ class SimpleReactValidator {
     }
   }
 
+  check(inputValue, validations, options = {}) {
+    if (!Array.isArray(validations)) {
+      validations = validations.split('|');
+    }
+    var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
+    for (let validation of validations) {
+      let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
+      if (!this.helpers.passes(rule, value, params, rules)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   message(field, inputValue, validations, options = {}) {
     this.errorMessages[field] = null;
     this.fields[field] = true;

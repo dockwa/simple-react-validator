@@ -58,6 +58,9 @@ class ExampleForm extends React.Component {
   }
 
   render() {
+    console.log(this.validator.check('thing', 'required|phone'))
+    console.log(this.validator.check('8025086177', 'required|phone'))
+
     return (
       <div className="container card my-4">
         <div className="card-body">
