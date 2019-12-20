@@ -159,7 +159,9 @@ constructor() {
 
 `messageWhenPresent(message, options = {})` Show a message when the message is set, good for ajax validation errors.
 
-`message(field, inputValue, validations, options = {})` How you define validation rules and add messages into the form.
+`check(value, validations)` A simple way of checking a value against a built in validation rule. Does not add to the validator, just gives a true / false return value.
+
+`message(field, value, validations, options = {})` How you define validation rules and add messages into the form.
 
 ## onBlur
 
