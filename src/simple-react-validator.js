@@ -45,7 +45,7 @@ class SimpleReactValidator {
       size                 : {message: 'The :attribute must be :size:type.',                                    rule: (val, params) => this.helpers.size(val, params[1]) == parseFloat(params[0]), messageReplace: (message, params) => message.replace(':size', params[0]).replace(':type', this.helpers.sizeText(params[1]))},
       string               : {message: 'The :attribute must be a string.',                                      rule: val => typeof(val) === typeof('string')},
       typeof               : {message: 'The :attribute is not the correct type of :type.',                      rule: (val, params) => typeof(val) === typeof(params[0]), messageReplace: (message, params) => message.replace(':type', typeof(params[0]))},
-      url                  : {message: 'The :attribute must be a url.',                                         rule: val => this.helpers.testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i)},
+      url                  : {message: 'The :attribute must be a url.',                                         rule: val => this.helpers.testRegex(val,/^https?:\/\/[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{2,6}\b([-a-z0-9()@:%_\+.~#?&//=]*)$/i)},
       ...(options.validators || {}),
     };
 
@@ -133,6 +133,20 @@ class SimpleReactValidator {
     if (message && this.messagesShown) {
       return this.helpers.element(message, options);
     }
+  }
+
+  check(inputValue, validations, options = {}) {
+    if (!Array.isArray(validations)) {
+      validations = validations.split('|');
+    }
+    var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
+    for (let validation of validations) {
+      let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
+      if (!this.helpers.passes(rule, value, params, rules)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   message(field, inputValue, validations, options = {}) {

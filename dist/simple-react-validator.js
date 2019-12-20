@@ -1,4 +1,4 @@
-// Simple React Validator v1.3.2 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.4.0 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -407,7 +407,7 @@ function () {
       url: {
         message: 'The :attribute must be a url.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
+          return _this.helpers.testRegex(val, /^https?:\/\/[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{2,6}\b([-a-z0-9()@:%_\+.~#?&//=]*)$/i);
         }
       }
     }, _options.validators || {}); // apply language
@@ -503,11 +503,9 @@ function () {
       }
     }
   }, {
-    key: "message",
-    value: function message(field, inputValue, validations) {
-      var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      this.errorMessages[field] = null;
-      this.fields[field] = true;
+    key: "check",
+    value: function check(inputValue, validations) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
       if (!Array.isArray(validations)) {
         validations = validations.split('|');
@@ -529,6 +527,53 @@ function () {
               params = _this$helpers$normali2[2];
 
           if (!this.helpers.passes(rule, value, params, rules)) {
+            return false;
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return true;
+    }
+  }, {
+    key: "message",
+    value: function message(field, inputValue, validations) {
+      var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      this.errorMessages[field] = null;
+      this.fields[field] = true;
+
+      if (!Array.isArray(validations)) {
+        validations = validations.split('|');
+      }
+
+      var rules = options.validators ? _objectSpread({}, this.rules, {}, options.validators) : this.rules;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = validations[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var validation = _step2.value;
+
+          var _this$helpers$normali3 = this.helpers.normalizeValues(inputValue, validation),
+              _this$helpers$normali4 = _slicedToArray(_this$helpers$normali3, 3),
+              value = _this$helpers$normali4[0],
+              rule = _this$helpers$normali4[1],
+              params = _this$helpers$normali4[2];
+
+          if (!this.helpers.passes(rule, value, params, rules)) {
             this.fields[field] = false;
             var message = this.helpers.message(rule, field, options, rules);
 
@@ -544,16 +589,16 @@ function () {
           }
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
+          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+            _iterator2["return"]();
           }
         } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
+          if (_didIteratorError2) {
+            throw _iteratorError2;
           }
         }
       }
