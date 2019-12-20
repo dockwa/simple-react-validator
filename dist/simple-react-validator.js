@@ -1,4 +1,4 @@
-// Simple React Validator v1.3.2 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.3.3 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -407,7 +407,7 @@ function () {
       url: {
         message: 'The :attribute must be a url.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i);
+          return _this.helpers.testRegex(val, /^https?:\/\/[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{2,6}\b([-a-z0-9()@:%_\+.~#?&//=]*)$/i);
         }
       }
     }, _options.validators || {}); // apply language
