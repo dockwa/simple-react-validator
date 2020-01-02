@@ -1,4 +1,5 @@
-const templateEn = {
+// Indonesian
+SimpleReactValidator.addLocale('id', {
   accepted             : ':attribute harus diterima.',
   after                : ':attribute harus lebih dari :date.',
   after_or_equal       : ':attribute harus lebih dari atau sama dengan :date.',
@@ -33,5 +34,4 @@ const templateEn = {
   string               : ':attribute harus berupa string.',
   typeof               : ':attribute tida cocok dengan tiipe :type.',
   url                  : ':attribute harus berupa url.',
-}
-SimpleReactValidator.addLocale('id', templateEn);
+});

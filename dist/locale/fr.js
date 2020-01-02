@@ -1,4 +1,4 @@
-// Simple React Validator v1.4.0 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.4.1 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['simple-react-validator'], factory);
@@ -11,7 +11,7 @@
 "use strict";
 
 // French
-var fr = {
+SimpleReactValidator.addLocale('fr', {
   accepted: 'Le champ :attribute doit être accepté.',
   after: 'Le champ :attribute doit être après :date.',
   after_or_equal: 'Le champ :attribute doit correspondre ou bien être après :date.',
@@ -46,7 +46,6 @@ var fr = {
   string: 'Le champ :attribute doit être une chaîne.',
   "typeof": "Le champ :attribute n'est pas le type correcte de :type.",
   url: 'Le champ :attribute doit être un url.'
-};
-SimpleReactValidator.addLocale('fr', fr);
-return fr;
+});
+return null;
 }));

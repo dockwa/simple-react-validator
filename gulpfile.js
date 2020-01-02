@@ -13,7 +13,7 @@ var uglify         = require('gulp-uglify');
 var babel          = require('gulp-babel');
 var path           = require('path');
 var camelCase      = require('camelcase');
-var HEADER_COMMENT = '// Simple React Validator v1.4.0 | Created By Dockwa | MIT License | 2017 - Present\n';
+var HEADER_COMMENT = '// Simple React Validator v1.4.1 | Created By Dockwa | MIT License | 2017 - Present\n';
 
 var gutil = require('gulp-util');
 
@@ -57,10 +57,10 @@ gulp.task('build-locales', function() {
   .pipe(babel())
   .pipe(umd({
     exports: function(file) {
-      return capitalizeFilename(file, false);
+      return 'null';
     },
     namespace: function(file) {
-      return `SimpleReactValidatorLocale${capitalizeFilename(file, true)}`;
+      return `SimpleReactValidatorLocale${capitalizeFilename(file)}`;
     },
     dependencies: function() {
       return [
@@ -93,6 +93,6 @@ gulp.task('watch', function() {
 
 gulp.task('dist', ['build', 'build-locales']);
 
-function capitalizeFilename(file, pascalCase) {
-  return camelCase(path.basename(file.path, '.js'), {pascalCase: pascalCase});
+function capitalizeFilename(file) {
+  return camelCase(path.basename(file.path, '.js'), {pascalCase: true});
 }

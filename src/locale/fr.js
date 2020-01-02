@@ -1,5 +1,5 @@
 // French
-const fr = {
+SimpleReactValidator.addLocale('fr', {
   accepted             : 'Le champ :attribute doit être accepté.',
   after                : 'Le champ :attribute doit être après :date.',
   after_or_equal       : 'Le champ :attribute doit correspondre ou bien être après :date.',
@@ -34,5 +34,4 @@ const fr = {
   string               : 'Le champ :attribute doit être une chaîne.',
   typeof               : "Le champ :attribute n'est pas le type correcte de :type.",
   url                  : 'Le champ :attribute doit être un url.',
-}
-SimpleReactValidator.addLocale('fr', fr);
+});

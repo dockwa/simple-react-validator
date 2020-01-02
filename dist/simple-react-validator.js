@@ -1,4 +1,4 @@
-// Simple React Validator v1.4.0 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.4.1 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -608,7 +608,7 @@ function () {
   return SimpleReactValidator;
 }();
 
-_defineProperty(SimpleReactValidator, "version", '1.3.2');
+_defineProperty(SimpleReactValidator, "version", '1.4.1');
 
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}

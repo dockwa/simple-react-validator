@@ -1,5 +1,5 @@
 // Serbian
-const sr = {
+SimpleReactValidator.addLocale('sr', {
   accepted             : 'Polje :attribute mora biti prihvaćeno.',
   after                : 'Polje :attribute mora biti nakon :date.',
   after_or_equal       : 'Polje :attribute mora biti nakon ili na :date.',
@@ -34,5 +34,4 @@ const sr = {
   string               : 'Polje :attribute mora biti niska.',
   typeof               : 'Polje :attribute nije ispravan tip :type.',
   url                  : 'Polje :attribute mora biti URL.',
-}
-SimpleReactValidator.addLocale('sr', sr);
+});

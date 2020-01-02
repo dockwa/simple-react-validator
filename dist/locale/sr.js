@@ -1,4 +1,4 @@
-// Simple React Validator v1.4.0 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.4.1 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['simple-react-validator'], factory);
@@ -11,7 +11,7 @@
 "use strict";
 
 // Serbian
-var sr = {
+SimpleReactValidator.addLocale('sr', {
   accepted: 'Polje :attribute mora biti prihvaćeno.',
   after: 'Polje :attribute mora biti nakon :date.',
   after_or_equal: 'Polje :attribute mora biti nakon ili na :date.',
@@ -46,7 +46,6 @@ var sr = {
   string: 'Polje :attribute mora biti niska.',
   "typeof": 'Polje :attribute nije ispravan tip :type.',
   url: 'Polje :attribute mora biti URL.'
-};
-SimpleReactValidator.addLocale('sr', sr);
-return sr;
+});
+return null;
 }));

@@ -1,5 +1,5 @@
 // Spanish
-const es = {
+SimpleReactValidator.addLocale('es', {
   accepted             : ':attribute debe ser aceptado.',
   after                : ':attribute debe ser una fecha posterior a :date.',
   after_or_equal       : ':attribute debe ser una fecha posterior o igual a :date.',
@@ -34,5 +34,4 @@ const es = {
   string               : 'El campo :attribute debe ser una cadena de caracteres.',
   // typeof               : 'The :attribute is not the correct type of :type.',
   url                  : 'El formato :attribute es inválido.',
-}
-SimpleReactValidator.addLocale('es', es);
+});
