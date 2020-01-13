@@ -1,5 +1,5 @@
-// Serbian
-SimpleReactValidator.addLocale("sr", {
+// Slovenian
+SimpleReactValidator.addLocale("sl", {
   accepted: "Polje :attribute mora biti izbrano.",
   after: "Polje :attribute mora biti večje od :date.",
   after_or_equal: "Polje :attribute mora biti večje ali enako :date.",
@@ -14,7 +14,7 @@ SimpleReactValidator.addLocale("sr", {
     "Polje :attribute lahko vsebuje samo črke, številke, vezaje in presledke.",
   array: "Polje :attribute mora biti niz.",
   before: "Polje :attribute mora biti manjše od :date.",
-  before_or_equal: "Polje :attribute mora biti manjše ali enak :date.",
+  before_or_equal: "Polje :attribute mora biti manjše ali enako :date.",
   between: "Polje :attribute mora biti med :min in :max:type.",
   boolean: "Polje :attribute mora biti logična spremenljivka.",
   card_exp:
