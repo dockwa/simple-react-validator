@@ -1,14 +1,14 @@
 // Turkish
-const tr = {
+SimpleReactValidator.addLocale('tr', {
     accepted             : ':attribute onaylanmalıdır.',
     after                : ':attribute :date tarihinden sonra olmalıdır.',
     after_or_equal       : ':attribute :date tarihinde veya sonra olmalıdır.',
     alpha                : ':attribute sadece harf içerebilir.',
-    alpha_space          : ':attribute sadece harf, ve " " içerebilir.',
+    alpha_space          : ':attribute sadece harf, ve boşluk karakteri içerebilir.',
     alpha_num            : ':attribute sadece harf, ve rakam içerebilir.',
-    alpha_num_space      : ':attribute sadece harf, rakam, ve " " karakteri içerebilir.',
-    alpha_num_dash       : ':attribute sadece harf, rakam, ve "-" karakteri içerebilir.',
-    alpha_num_dash_space : ':attribute sadece harf, rakam, "-", ve " " karakteri içerebilir.',
+    alpha_num_space      : ':attribute sadece harf, rakam, ve boşluk karakteri içerebilir.',
+    alpha_num_dash       : ':attribute sadece harf, rakam, ve tire karakteri içerebilir.',
+    alpha_num_dash_space : ':attribute sadece harf, rakam, tire, ve boşluk karakteri içerebilir.',
     array                : ':attribute dizi tipinde olmalıdır.',
     before               : ':attribute :date tarihinden önce olmalıdır.',
     before_or_equal      : ':attribute :date tarihinde veya daha önce olmalıdır.',
@@ -34,6 +34,6 @@ const tr = {
     string               : ':attribute karakter dizisi olmalıdır.',
     typeof               : ':attribute :type tipinde olmalıdır.',
     url                  : ':attribute url olmalıdır.',
-  }
-  SimpleReactValidator.addLocale('tr', tr);
+  });
+  
   
