@@ -1,4 +1,4 @@
-// Simple React Validator v1.4.2 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.4.3 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -133,9 +133,6 @@ function () {
         var element = options.element || this.parent.element;
         return element(message, options.className);
       },
-      numeric: function numeric(val) {
-        return this.testRegex(val, /^(\d+.?\d*)?$/);
-      },
       momentInstalled: function momentInstalled() {
         if (!window || !window.moment) {
           console.warn('Date validators require using momentjs https://momentjs.com and moment objects.');
@@ -170,9 +167,7 @@ function () {
     this.rules = _objectSpread({
       accepted: {
         message: 'The :attribute must be accepted.',
-        rule: function rule(val) {
-          return val === true;
-        },
+        rule: function rule(val) {},
         required: true
       },
       after: {
@@ -358,7 +353,7 @@ function () {
       numeric: {
         message: 'The :attribute must be a number.',
         rule: function rule(val) {
-          return _this.helpers.numeric(val);
+          return _this.helpers.testRegex(val, /^\-?\d*\.?\d+$/);
         }
       },
       phone: {
@@ -608,7 +603,7 @@ function () {
   return SimpleReactValidator;
 }();
 
-_defineProperty(SimpleReactValidator, "version", '1.4.1');
+_defineProperty(SimpleReactValidator, "version", '1.4.3');
 
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}
