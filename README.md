@@ -331,6 +331,8 @@ Must NOT match a regex.
 
 #### numeric
 Must be a number of any type.
+<br />Positive numbers: "numeric|min:0,num"
+<br />Negative numbers "numeric|max:0,num"
 
 #### phone
 Must be a valid phone number format. Ex. (508) 555-1234 or 5085551234

@@ -12,7 +12,7 @@ class SimpleReactValidator {
     this.errorMessages = {};
     this.messagesShown = false;
     this.rules = {
-      accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => val === true, required: true},
+      accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => {}, required: true},
       after                : {message: 'The :attribute must be after :date.',                                   rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       after_or_equal       : {message: 'The :attribute must be after or on :date.',                             rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       alpha                : {message: 'The :attribute may only contain letters.',                              rule: val => this.helpers.testRegex(val,/^[A-Z]*$/i)},
@@ -38,7 +38,7 @@ class SimpleReactValidator {
       min                  : {message: 'The :attribute must be at least :min:type.',                            rule: (val, params) => this.helpers.size(val, params[1]) >= parseFloat(params[0]), messageReplace: (message, params) => message.replace(':min', params[0]).replace(':type', this.helpers.sizeText(params[1]))},
       not_in               : {message: 'The selected :attribute must not be :values.',                          rule: (val, params) => !params.includes(val), messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
       not_regex            : {message: 'The :attribute must not match the required pattern.',                   rule: (val, params) => !this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0])},
-      numeric              : {message: 'The :attribute must be a number.',                                      rule: val => this.helpers.numeric(val)},
+      numeric              : {message: 'The :attribute must be a number.',                                      rule: val => this.helpers.testRegex(val,/^\-?\d*\.?\d+$/)},
       phone                : {message: 'The :attribute must be a valid phone number.',                          rule: val => this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)$/) && !this.helpers.testRegex(val, /^\b(\d)\1{8,}\b$/)},
       regex                : {message: 'The :attribute must match the required pattern.',                       rule: (val, params) => this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0])},
       required             : {message: 'The :attribute field is required.',                                     rule: val => !this.helpers.isBlank(val), required: true },
@@ -252,10 +252,6 @@ class SimpleReactValidator {
     element(message, options) {
       var element = options.element || this.parent.element;
       return element(message, options.className);
-    },
-
-    numeric(val) {
-      return this.testRegex(val,/^(\d+.?\d*)?$/);
     },
 
     momentInstalled() {
