@@ -17,8 +17,8 @@ var HEADER_COMMENT = '// Simple React Validator v1.4.1 | Created By Dockwa | MIT
 
 var gutil = require('gulp-util');
 
-gulp.task('build', function() {
-  gulp.src('./src/simple-react-validator.js')
+function build() {
+  return gulp.src('./src/simple-react-validator.js')
   .pipe(babel())
   .pipe(umd({
     exports: function() {
@@ -50,10 +50,10 @@ gulp.task('build', function() {
   .pipe(inject.prepend(HEADER_COMMENT))
   .pipe(rename({ extname: '.min.js' }))
   .pipe(gulp.dest('./dist/'));
-});
+}
 
-gulp.task('build-locales', function() {
-  gulp.src('./src/locale/*')
+function buildLocales() {
+  return gulp.src('./src/locale/*')
   .pipe(babel())
   .pipe(umd({
     exports: function(file) {
@@ -85,13 +85,19 @@ gulp.task('build-locales', function() {
   .pipe(inject.prepend(HEADER_COMMENT))
   .pipe(rename({ extname: '.min.js' }))
   .pipe(gulp.dest('./dist/locale/min/'));
-});
+}
 
-gulp.task('watch', function() {
-  gulp.watch(['src/*'], ['build', 'build-locales']);
-});
+function watch() {
+  gulp.watch('src/*', build);
+  gulp.watch('src/*', buildLocales);
+}
 
-gulp.task('dist', ['build', 'build-locales']);
+var dist = gulp.series(build, buildLocales)
+
+exports.build = build;
+exports.buildLocales = buildLocales;
+exports.watch = watch;
+exports.dist = dist;
 
 function capitalizeFilename(file) {
   return camelCase(path.basename(file.path, '.js'), {pascalCase: true});
