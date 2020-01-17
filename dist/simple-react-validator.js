@@ -1,4 +1,4 @@
-// Simple React Validator v1.4.3 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.4.4 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -167,7 +167,9 @@ function () {
     this.rules = _objectSpread({
       accepted: {
         message: 'The :attribute must be accepted.',
-        rule: function rule(val) {},
+        rule: function rule(val) {
+          return val === true;
+        },
         required: true
       },
       after: {
@@ -603,7 +605,7 @@ function () {
   return SimpleReactValidator;
 }();
 
-_defineProperty(SimpleReactValidator, "version", '1.4.3');
+_defineProperty(SimpleReactValidator, "version", '1.4.4');
 
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}

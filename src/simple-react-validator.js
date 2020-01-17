@@ -1,5 +1,5 @@
 class SimpleReactValidator {
-  static version = '1.4.3';
+  static version = '1.4.4';
   static locales = {'en': {}};
 
   static addLocale(lang, messages) {
@@ -12,7 +12,7 @@ class SimpleReactValidator {
     this.errorMessages = {};
     this.messagesShown = false;
     this.rules = {
-      accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => {}, required: true},
+      accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => val === true, required: true},
       after                : {message: 'The :attribute must be after :date.',                                   rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       after_or_equal       : {message: 'The :attribute must be after or on :date.',                             rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       alpha                : {message: 'The :attribute may only contain letters.',                              rule: val => this.helpers.testRegex(val,/^[A-Z]*$/i)},
