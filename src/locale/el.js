@@ -1,4 +1,4 @@
-// Spanish
+// Greek
 SimpleReactValidator.addLocale('el', {
   accepted             : 'Πρέπει να αποδεχετείτε το πεδίο :attribute',
   after                : 'Η ημ/νία :attribute πρέπει να είναι μετά από :date.',
