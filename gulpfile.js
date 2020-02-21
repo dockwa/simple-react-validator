@@ -13,7 +13,7 @@ var uglify         = require('gulp-uglify');
 var babel          = require('gulp-babel');
 var path           = require('path');
 var camelCase      = require('camelcase');
-var HEADER_COMMENT = '// Simple React Validator v1.4.4 | Created By Dockwa | MIT License | 2017 - Present\n';
+var HEADER_COMMENT = '// Simple React Validator v1.4.5 | Created By Dockwa | MIT License | 2017 - Present\n';
 
 var gutil = require('gulp-util');
 
