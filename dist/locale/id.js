@@ -1,4 +1,4 @@
-// Simple React Validator v1.4.5 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.4.6 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['simple-react-validator'], factory);
@@ -36,7 +36,7 @@ SimpleReactValidator.addLocale('id', {
   integer: ':attribute harus berupa integer.',
   max: ':attribute harus kurang dari :max:type.',
   min: ':attribute harus lebih dari :min:type.',
-  not_in: ':attribute terpilih tidak boleh sama dngan :values.',
+  not_in: ':attribute terpilih tidak boleh sama dengan :values.',
   not_regex: ':attribute tidak boleh cocok dengan pola yang ditentukan.',
   numeric: ':attribute harus berupa angka.',
   phone: ':attribute harus berupa nomor ponsel yang valid.',
@@ -44,7 +44,7 @@ SimpleReactValidator.addLocale('id', {
   required: ':attribute tidak boleh kosong.',
   size: ':attribute harus :size:type.',
   string: ':attribute harus berupa string.',
-  "typeof": ':attribute tida cocok dengan tiipe :type.',
+  "typeof": ':attribute tidak cocok dengan tipe :type.',
   url: ':attribute harus berupa url.'
 });
 return null;
