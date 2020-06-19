@@ -175,6 +175,23 @@ You can use the react onBlur action to show individual fields once the input is 
 </div>
 
 ```
+## Using with React SFC's and Hooks
+
+SimpleReactValidator is a class but if you instantiate a class in a stateless React component it will do this on every render (losing any message information that may have been added). 
+
+To ensure that React treate SimpleReactValidator as a singleton:
+```
+
+const [address, setAddress] = useState()
+  const simpleValidator = useRef(new SimpleReactValidator())
+
+  <Input
+    name="name"
+    value={companyInformation.name}
+    onChange={handleInputChange}
+    onBlur={simpleValidator.current.showMessageFor('name')} />
+  {simpleValidator.current.message('name', companyInformation.name, 'required')}
+```
 
 ## React Native
 
@@ -185,6 +202,8 @@ You need to wrap validator with `<Text>` Element.
   {this.validator.message('title', this.state.title, 'required|alpha')}
 </Text>
 ```
+
+For more detail see [issue:97](https://github.com/dockwa/simple-react-validator/issues/97)
 
 ## Conditional Fields
 
