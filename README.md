@@ -206,7 +206,7 @@ render() {
 
 SimpleReactValidator is a class but if you instantiate a class in a stateless React component it will do this on every render (losing any message information that may have been added). 
 
-To ensure that React treate SimpleReactValidator as a singleton:
+useRef: instructing React to treat SimpleReactValidator as a singleton:
 ```
   const simpleValidator = useRef(new SimpleReactValidator())
 
