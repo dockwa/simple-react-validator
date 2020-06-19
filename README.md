@@ -22,6 +22,10 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
 # Documentation
 1. [Usage](#usage)
 2. [Setup](#3-easy-steps)
+   1. [Public Methods](#1-available-public-methods)
+   2. [onBlur](#2-onBlur)
+   3. [React SFC's and Hooks](#3-Using-with-React-Hooks)
+   4. [React Native](#4-React-Native)
 3. [Rules](#rules)
 4. [Options](#options)
     1. [Element](#1-element)
@@ -175,7 +179,7 @@ You can use the react onBlur action to show individual fields once the input is 
 </div>
 
 ```
-## Using with React SFC's and Hooks
+## Using with React Hooks
 
 SimpleReactValidator is a class but if you instantiate a class in a stateless React component it will do this on every render (losing any message information that may have been added). 
 
