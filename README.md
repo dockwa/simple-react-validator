@@ -181,8 +181,6 @@ SimpleReactValidator is a class but if you instantiate a class in a stateless Re
 
 To ensure that React treate SimpleReactValidator as a singleton:
 ```
-
-const [address, setAddress] = useState()
   const simpleValidator = useRef(new SimpleReactValidator())
 
   <Input
