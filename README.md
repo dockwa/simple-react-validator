@@ -92,7 +92,7 @@ render() {
         <input className="form-control" value={this.state.email} onChange={this.setEmail} />
 
         {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('email', this.state.email, 'required|email', 'text-danger')}
+        {this.validator.message('email', this.state.email, 'required|email', { className: 'text-danger' })}
 
       </div>
       <div className="form-group">
