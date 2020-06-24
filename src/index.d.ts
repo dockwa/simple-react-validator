@@ -49,10 +49,10 @@ declare class SimpleReactValidator {
   messagesShown: boolean;
   rules: IRules;
 
-  messages: IOptions.messages;
-  className: IOptions.className;
-  autoForceUpdate: IOptions.autoForceUpdate;
-  element: IOptions.element;
+  messages: IOptions["messages"];
+  className: IOptions["className"];
+  autoForceUpdate: IOptions["autoForceUpdate"];
+  element: IOptions["element"];
 
   getErrorMessages(): IObject;
   showMessages(): void;
