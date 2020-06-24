@@ -22,6 +22,11 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
 # Documentation
 1. [Usage](#usage)
 2. [Setup](#3-easy-steps)
+   1. [Public Methods](#1-available-public-methods)
+   2. [onBlur](#2-onBlur)
+   3. [Conditional Fields](#4-Conditional-Fields)
+   4. [React SFC's and Hooks](#4-React-Hooks)
+   5. [React Native](#5-React-Native)
 3. [Rules](#rules)
 4. [Options](#options)
     1. [Element](#1-element)
@@ -140,7 +145,7 @@ constructor() {
 
 ```
 
-## Available Public Methods
+#### 1. Available Public Methods
 `getErrorMessages()` Returns a JS object, key being the field name, value being the error message.
 
 `showMessages()` Turns on showing messages for all messages.
@@ -163,7 +168,7 @@ constructor() {
 
 `message(field, value, validations, options = {})` How you define validation rules and add messages into the form.
 
-## onBlur
+#### 2. onBlur
 
 You can use the react onBlur action to show individual fields once the input is blurred. Use the `showMesssageFor` or `hideMessageFor` methods.
 
@@ -176,17 +181,7 @@ You can use the react onBlur action to show individual fields once the input is 
 
 ```
 
-## React Native
-
-You need to wrap validator with `<Text>` Element.
-
-```jsx
-<Text>
-  {this.validator.message('title', this.state.title, 'required|alpha')}
-</Text>
-```
-
-## Conditional Fields
+#### 3. Conditional Fields
 
 A field is added to validator via the above `message` method. But sometimes you want to conditionally add and remove validation as the form is completed. For this you can use the `purgeFields` method to clear all validator before each render so only the fields added during that render are validated.
 
@@ -206,6 +201,34 @@ render() {
   );
 }
 ```
+
+#### 4. React Hooks
+
+SimpleReactValidator is a class but if you instantiate a class in a stateless React component it will do this on every render (losing any message information that may have been added). 
+
+useRef: instruct React to treat SimpleReactValidator as a singleton:
+```
+  const simpleValidator = useRef(new SimpleReactValidator())
+
+  <Input
+    name="name"
+    value={companyInformation.name}
+    onChange={handleInputChange}
+    onBlur={simpleValidator.current.showMessageFor('name')} />
+  {simpleValidator.current.message('name', companyInformation.name, 'required')}
+```
+
+#### 5. React Native
+
+You need to wrap validator with `<Text>` Element.
+
+```jsx
+<Text>
+  {this.validator.message('title', this.state.title, 'required|alpha')}
+</Text>
+```
+
+For more detail see [issue:97](https://github.com/dockwa/simple-react-validator/issues/97)
 
 # Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`. You can apply the rules via an array like `['required', {max: 20, min: 120}]` or `['required', {in: ['stu', 'stuyam']}]`. This is necessary for things like the regex validator where you may be using pipes or commas in the regex and would conflict with the rule string.
