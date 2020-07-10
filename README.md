@@ -207,16 +207,17 @@ render() {
 SimpleReactValidator is a class but if you instantiate a class in a stateless React component it will do this on every render (losing any message information that may have been added). 
 
 useRef: instruct React to treat SimpleReactValidator as a singleton:
-```
-  const simpleValidator = useRef(new SimpleReactValidator())
+```jsx
+const simpleValidator = useRef(new SimpleReactValidator())
 
-  <Input
-    name="name"
-    value={companyInformation.name}
-    onChange={handleInputChange}
-    onBlur={simpleValidator.current.showMessageFor('name')} />
-  {simpleValidator.current.message('name', companyInformation.name, 'required')}
+<Input
+  name="name"
+  value={companyInformation.name}
+  onChange={handleInputChange}
+  onBlur={simpleValidator.current.showMessageFor('name')} />
+{simpleValidator.current.message('name', companyInformation.name, 'required')}
 ```
+For more detail see [issue: #97](https://github.com/dockwa/simple-react-validator/issues/97)
 
 #### 5. React Native
 
@@ -227,8 +228,6 @@ You need to wrap validator with `<Text>` Element.
   {this.validator.message('title', this.state.title, 'required|alpha')}
 </Text>
 ```
-
-For more detail see [issue:97](https://github.com/dockwa/simple-react-validator/issues/97)
 
 # Rules
 This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`. You can apply the rules via an array like `['required', {max: 20, min: 120}]` or `['required', {in: ['stu', 'stuyam']}]`. This is necessary for things like the regex validator where you may be using pipes or commas in the regex and would conflict with the rule string.
