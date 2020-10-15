@@ -2,7 +2,7 @@
   "name": "simple-react-validator",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "authors": [
     "Stuart Yamartino"
   ],
