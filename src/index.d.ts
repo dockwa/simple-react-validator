@@ -64,6 +64,7 @@ declare class SimpleReactValidator {
   purgeFields(): void;
   messageWhenPresent(message: any, options?: IObject): any;
   messageAlways(field: string, message: any, options?: IObject): any;
+  check(inputValue: any, validations: any, options?: IObject): boolean;
   message(field: string, inputValue: any, validations: any, options?: IObject): any;
   helpers: IHelpers;
 }
