@@ -230,7 +230,7 @@ You need to wrap validator with `<Text>` Element.
 ```
 
 # Rules
-This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`. You can apply the rules via an array like `['required', {max: 20, min: 120}]` or `['required', {in: ['stu', 'stuyam']}]`. This is necessary for things like the regex validator where you may be using pipes or commas in the regex and would conflict with the rule string.
+This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`. You can apply the rules via an array like `['required', {max: 20}, {min: 120}]` or `['required', {in: ['stu', 'stuyam']}]`. This is necessary for things like the regex validator where you may be using pipes or commas in the regex and would conflict with the rule string.
 
 * <a href="#accepted">Accepted</a>
 * <a href="#afterdate">After</a>
