@@ -105,7 +105,7 @@ render() {
         <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
 
         {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('review', this.state.review, 'required|min:20|max:120'})}
+        {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
 
       </div>
       <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
