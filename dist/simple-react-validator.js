@@ -1,4 +1,4 @@
-// Simple React Validator v1.5.1 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.6.0 | Created By Dockwa | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -320,7 +320,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       integer: {
         message: 'The :attribute must be an integer.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^\d*$/);
+          return _this.helpers.testRegex(val, /^\-?\d*$/);
         }
       },
       max: {
