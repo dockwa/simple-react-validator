@@ -214,7 +214,7 @@ const simpleValidator = useRef(new SimpleReactValidator())
   name="name"
   value={companyInformation.name}
   onChange={handleInputChange}
-  onBlur={simpleValidator.current.showMessageFor('name')} />
+  onBlur={()=>simpleValidator.current.showMessageFor('name')} />
 {simpleValidator.current.message('name', companyInformation.name, 'required')}
 ```
 For more detail see [issue: #97](https://github.com/dockwa/simple-react-validator/issues/97)
