@@ -28,7 +28,7 @@ class SimpleReactValidator {
       boolean              : {message: 'The :attribute must be a boolean.',                                     rule: val => val === false || val === true},
       card_exp             : {message: 'The :attribute must be a valid expiration date.',                       rule: val => this.helpers.testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/)},
       card_num             : {message: 'The :attribute must be a valid credit card number.',                    rule: val => this.helpers.testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/)},
-      currency             : {message: 'The :attribute must be a valid currency.',                              rule: val => this.helpers.testRegex(val,/^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/)},
+      currency             : {message: 'The :attribute must be a valid currency.',                              rule: val => this.helpers.testRegex(val,/^[\$£€¥]?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/)},
       date                 : {message: 'The :attribute must be a date.',                                        rule: val => this.helpers.momentInstalled() && moment.isMoment(val)},
       date_equals          : {message: 'The :attribute must be on :date.',                                      rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSame(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       email                : {message: 'The :attribute must be a valid email address.',                         rule: val => this.helpers.testRegex(val,/^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)},
