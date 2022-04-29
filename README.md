@@ -316,7 +316,7 @@ Must be a valid credit card expiration date. Ex. 10/18 or 10/2018
 Must be a valid credit card number. Ex. 4242424242424242 or 4242 4242 4242 4242
 
 #### currency
-Must be a valid currency. Dollar signs and commas are optional. Ex. 4.25, $3000 or $3,245,525.12
+Must be a valid currency. Currency symbols ($, £, €, ¥) and commas are optional. Ex. 4.25, $3000 or £3,245,525.12
 
 #### date
 Must be a date type <a href="https://momentjs.com/">momentjs</a> date.
