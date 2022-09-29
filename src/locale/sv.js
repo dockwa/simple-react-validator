@@ -1,3 +1,4 @@
+ SimpleReactValidator.addLocale('el', {
   accepted             : 'Fält :attribut måste accepteras.',
   after                : 'Fält :attribut måste vara efter :date.',
   after_or_equal       : 'Fält :attribut måste matcha eller vara efter :date.',
@@ -32,3 +33,4 @@
   string               : 'Fält :attribut måste vara en sträng.',
   typeof               : "Fält :attribut är inte den korrekta typen av :type.",
   url                  : 'Fält :attribut måste vara en url.',
+});
