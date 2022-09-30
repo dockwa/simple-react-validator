@@ -1,5 +1,5 @@
  // Swedish
- SimpleReactValidator.addLocale('el', {
+ SimpleReactValidator.addLocale('sv', {
   accepted             : 'Fält :attribut måste accepteras.',
   after                : 'Fält :attribut måste vara efter :date.',
   after_or_equal       : 'Fält :attribut måste matcha eller vara efter :date.',
