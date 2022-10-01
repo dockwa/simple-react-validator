@@ -113,6 +113,10 @@ class ExampleForm extends React.Component {
             {this.example('typeof', this.state.typeof, [{typeof: 'string'}] )}
             {this.example('url')}
             {this.example('ip', this.state.ip, 'ip:127.0.0.1')}
+            {this.example('camelCase', this.state.camelCase, 'regex:^A*$')}
+            {this.example('camelCaseID', this.state.camelCaseID, 'regex:^A*$')}
+            {this.example('PascalCase', this.state.PascalCase, 'regex:^A*$')}
+            {this.example('PascalCaseID', this.state.PascalCaseID, 'regex:^A*$')}
           </div>
 
           {this.validator.messageWhenPresent(this.state.ajaxError, {element: message => <div className="alert alert-warning" role="alert">{message}</div>})}
