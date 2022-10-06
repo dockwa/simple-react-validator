@@ -13,9 +13,9 @@ var uglify         = require('gulp-uglify');
 var babel          = require('gulp-babel');
 var path           = require('path');
 var camelCase      = require('camelcase');
-var HEADER_COMMENT = '// Simple React Validator v1.6.1 | Created By Dockwa | MIT License | 2017 - Present\n';
+var gutil          = require('gulp-util');
+var HEADER_COMMENT = '// Simple React Validator v1.6.2 | Created By Dockwa | MIT License | 2017 - Present\n';
 
-var gutil = require('gulp-util');
 
 function build() {
   return gulp.src('./src/simple-react-validator.js')
