@@ -25,7 +25,7 @@
   max                  : 'Fält :attribute får inte överstiga :max:type.',
   min                  : 'Fält :attribute måste åtminstone vara :min:type.',
   not_in               : 'Fält vald :attribute får inte vara :values.',
-  not_regex            : 'Fält :attributete får inte matcha det obligatoriska mönstret.',
+  not_regex            : 'Fält :attribute får inte matcha det obligatoriska mönstret.',
   numeric              : 'Fält :attribute måste vara ett nummer.',
   phone                : 'Fält :attribute måste vara ett giltigt telefonnummer.',
   regex                : 'Fält :attribute måste matcha det obligatoriska mönstret.',
@@ -33,5 +33,5 @@
   size                 : 'Fält :attribute måste vara :size:type.',
   string               : 'Fält :attribute måste vara en sträng.',
   typeof               : "Fält :attribute är inte den korrekta typen av :type.",
-  url                  : 'Fält :attribute måste vara en url.',
+  url                  : 'Fält :import { api, locale } from '../../index'; måste vara en url.',
 });
