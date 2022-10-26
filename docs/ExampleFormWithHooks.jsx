@@ -48,11 +48,11 @@ function ExampleFormWithHooks() {
   const [formState, setFormState] = useState(initialFormState)
 
   const submitForm = () => {
-    if( this.validator.allValid() ){
-      alert('You submitted the form and stuff!');
-    } else {
-      this.validator.showMessages();
-    }
+    // if( this.validator.allValid() ){
+    //   alert('You submitted the form and stuff!');
+    // } else {
+    //   this.validator.showMessages();
+    // }
   }
 
   const handleInputChange = (event) => {
