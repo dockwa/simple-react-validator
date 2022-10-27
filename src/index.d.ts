@@ -17,6 +17,8 @@ interface IRules {
   [key: IRule | string]: {
     message: string;
     rule: (val: any, params?: any) => boolean;
+    messageReplace?: (message: string, params?: any) => string;
+    required?: boolean;
   }
 }
 
