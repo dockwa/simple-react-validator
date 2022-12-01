@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as moment from 'moment'
+import SimpleReactValidator from '../src/simple-react-validator'
 
 function ExampleFormWithHooks() {
 
@@ -44,15 +45,16 @@ function ExampleFormWithHooks() {
     PascalCaseID: ''
   }
 
-  const [ajaxError, setAjaxError] = useState('There was a server error the prevented the form from submitting.')
   const [formState, setFormState] = useState(initialFormState)
+  const validator = new SimpleReactValidator()
+
 
   const submitForm = () => {
-    // if( this.validator.allValid() ){
-    //   alert('You submitted the form and stuff!');
-    // } else {
-    //   this.validator.showMessages();
-    // }
+    if( validator.allValid() ){
+      alert('You submitted the form and stuff!');
+    } else {
+      validator.showMessages()
+    }
   }
 
   const handleInputChange = (event) => {
@@ -77,9 +79,9 @@ function ExampleFormWithHooks() {
                  name={name}
                  value={formState[name]}
                  onChange={handleInputChange}
-                //  onBlur={() => this.validator.showMessageFor(name)}
+                 onBlur={() => validator.showMessageFor(name)}
                  />
-          {/* {this.validator.message(name, value, rules)} */}
+          {validator.message(name, value, rules)}
         </div>
       </div>
     );
@@ -99,7 +101,7 @@ function ExampleFormWithHooks() {
                 <input type="checkbox" name="accepted" className="form-check-input" checked={formState.accepted} onChange={handleInputChange} />
                 <span>accepted</span>
               </label>
-              {/* {this.validator.message('checkbox', this.state.accepted, 'accepted')} */}
+              {validator.message('checkbox', this.state.accepted, 'accepted')}
             </div>
           </div>
 
@@ -142,8 +144,6 @@ function ExampleFormWithHooks() {
           {example('PascalCase', formState.PascalCase, 'regex:^A*$')}
           {example('PascalCaseID', formState.PascalCaseID, 'regex:^A*$')}
         </div>
-
-        {/* {this.validator.messageWhenPresent(ajaxError, {element: message => <div className="alert alert-warning" role="alert">{message}</div>})} */}
 
         <button className="btn btn-primary" onClick={submitForm}>Submit</button>
       </div>
