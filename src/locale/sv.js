@@ -20,7 +20,7 @@
   date                 : 'Fält :attribute måste vara ett datum.',
   date_equals          : 'Fält :attribute måste matcha :date.',
   email                : 'Fält :attribute måste vara en giltig e-postadress.',
-  in                   : 'Fält valt: attribute måste vara :values.',
+  in                   : 'Fält valt :attribute måste vara :values.',
   integer              : 'Fält :attribute måste vara ett heltal.',
   max                  : 'Fält :attribute får inte överstiga :max:type.',
   min                  : 'Fält :attribute måste åtminstone vara :min:type.',
