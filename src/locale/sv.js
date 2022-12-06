@@ -33,5 +33,5 @@
   size                 : 'Fält :attribute måste vara :size:type.',
   string               : 'Fält :attribute måste vara en sträng.',
   typeof               : "Fält :attribute är inte den korrekta typen av :type.",
-  url                  : 'Fält :måste vara en url.',
+  url                  : 'Fält :attribute måste vara en url.',
 });
